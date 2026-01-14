@@ -2,537 +2,459 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HydroShine • Carwash & Detailing</title>
-  <meta name="description" content="HydroShine • Carwash & Detailing a domicilio en Puerto Rico. Citas por WhatsApp." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HydroShine • Detailing & Carwash</title>
+  <meta name="description" content="Detailing & carwash premium en Puerto Rico. Reserva por WhatsApp." />
 
   <style>
     :root{
-      --navy:#0B1F3B;
-      --aqua:#00C2D1;
-      --aqua2:#22D3EE;
-      --bg:#FFFFFF;
-      --text:#111827;
-      --muted:#6B7280;
-      --line:#E6EBF2;
-      --soft:#F3FBFD;
-      --shadow:0 18px 55px rgba(2,6,23,.10);
+      --bg:#0B1220;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.10);
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.70);
+      --line:rgba(255,255,255,.12);
+      --shine:#2EE8FF;
+      --shine2:#7C4DFF;
+      --accent:#00D1FF;
+      --accent2:#6D5CFF;
+      --ok:#22C55E;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
       --r:18px;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --max:1100px;
     }
+
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text)}
-    a{color:inherit;text-decoration:none}
-    .bubbles{
-      position:fixed;inset:0;pointer-events:none;z-index:-1;
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       background:
-        radial-gradient(240px 240px at 10% 10%, rgba(0,194,209,.09), transparent 60%),
-        radial-gradient(240px 240px at 90% 20%, rgba(34,211,238,.08), transparent 60%),
-        radial-gradient(260px 260px at 40% 110%, rgba(0,194,209,.06), transparent 60%);
+        radial-gradient(900px 600px at 20% 10%, rgba(46,232,255,.16), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(124,77,255,.14), transparent 55%),
+        radial-gradient(900px 600px at 50% 100%, rgba(0,209,255,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
     }
-    .wrap{max-width:1100px;margin:0 auto;padding:18px 14px 60px}
+
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 18px}
 
     /* Topbar */
     .topbar{
-      position:sticky;top:0;z-index:50;
+      position:sticky; top:0; z-index:40;
       backdrop-filter: blur(10px);
-      background: rgba(255,255,255,.78);
-      border-bottom:1px solid rgba(230,235,242,.8);
+      background: rgba(11,18,32,.55);
+      border-bottom:1px solid var(--line);
     }
     .topbar .inner{
-      max-width:1100px;margin:0 auto;
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:12px 14px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
     }
-    .brand{display:flex;align-items:center;gap:12px;min-width:0}
-    .brand img{height:32px;width:auto;display:block}
-    .brand .t b{display:block;font-size:14px;letter-spacing:.2px}
-    .brand .t span{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
-    .nav a{font-size:12px;color:var(--muted);font-weight:600}
-    .nav a:hover{color:var(--navy)}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      padding:10px 14px;border-radius:999px;
+    .brand{
+      display:flex; align-items:center; gap:12px; min-width: 220px;
+    }
+    .mark{
+      width:40px;height:40px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(46,232,255,.95), rgba(124,77,255,.95));
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+      position:relative; overflow:hidden;
+    }
+    .mark:after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: linear-gradient(120deg, transparent 0 35%, rgba(255,255,255,.35) 50%, transparent 65% 100%);
+      transform: rotate(8deg);
+      animation: sweep 3.6s linear infinite;
+      opacity:.75;
+    }
+    @keyframes sweep{
+      0%{transform:translateX(-50%) rotate(8deg)}
+      100%{transform:translateX(50%) rotate(8deg)}
+    }
+    .brand h1{margin:0; font-size:16px; letter-spacing:.4px}
+    .brand p{margin:2px 0 0; font-size:12px; color:var(--muted)}
+
+    .nav{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .pill{
       border:1px solid var(--line);
-      background:#fff;
-      font-weight:800;font-size:13px;
+      background: rgba(255,255,255,.04);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:11px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:650;
+      box-shadow: 0 10px 30px rgba(0,0,0,.20);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
       cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
     }
+    .btn:hover{transform:translateY(-1px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.20)}
     .btn.primary{
-      border-color: transparent;
-      background: linear-gradient(180deg, var(--aqua2), var(--aqua));
-      color:#06212a;
-      box-shadow: 0 12px 26px rgba(0,194,209,.22);
+      border:0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#08121f;
     }
-    .btn.primary:hover{filter:saturate(1.05) brightness(1.02)}
-    .btn.ghost{
-      border-color: rgba(11,31,59,.18);
-      background: rgba(255,255,255,.75);
-    }
+    .btn.primary:hover{transform:translateY(-1px)}
+    .btn svg{width:18px;height:18px}
 
     /* Hero */
     .hero{
-      margin-top:16px;border-radius:26px;overflow:hidden;
-      border:1px solid var(--line);box-shadow:var(--shadow);
-      background:
-        linear-gradient(90deg, rgba(11,31,59,.84), rgba(11,31,59,.35)),
-        url("hero.jpg");
-      background-size: cover;
-      background-position: center;
+      padding:46px 0 26px;
     }
-    .hero .in{
-      padding:38px 22px;
+    .heroGrid{
       display:grid;
-      grid-template-columns: 1.25fr .75fr;
+      grid-template-columns: 1.15fr .85fr;
       gap:18px;
-      align-items:end;
+      align-items:stretch;
     }
-    @media (max-width: 900px){ .hero .in{grid-template-columns:1fr;padding:28px 18px} }
-    .kicker{
-      display:inline-flex;gap:10px;align-items:center;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.18);
-      color:#e6faff;
-      padding:8px 12px;border-radius:999px;
-      font-size:12px;font-weight:800;
-      width:fit-content;
-    }
-    .hero h1{
-      margin:12px 0 0;color:#fff;font-size:38px;letter-spacing:.2px;line-height:1.05;
-    }
-    @media (max-width: 520px){ .hero h1{font-size:30px} }
-    .hero p{
-      margin:10px 0 0;color: rgba(255,255,255,.86);
-      font-size:14px;line-height:1.45;max-width:58ch;
-    }
-    .hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-    .trust{margin-top:16px;display:grid;gap:10px}
-    .trust .chip{
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.18);
-      border-radius: 16px;
-      padding:12px 14px;
-      color:#e9fbff;
-      font-size:13px;
-      line-height:1.35;
-    }
-    .trust .chip b{color:#fff}
 
-    /* Cards / sections */
-    .section{margin-top:18px}
     .card{
       border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border-radius: var(--r);
-      background:#fff;
       box-shadow: var(--shadow);
-      overflow:hidden;
     }
-    .card-h{
-      padding:14px 16px;border-bottom:1px solid var(--line);
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      background: linear-gradient(180deg, #fff, #f7feff);
-    }
-    .card-h b{font-size:13px}
-    .pill{
-      font-size:12px;font-weight:900;color:#064e5a;
-      background: rgba(0,194,209,.14);
-      border:1px solid rgba(0,194,209,.25);
-      padding:7px 10px;border-radius:999px;white-space:nowrap;
-    }
-    .card-b{padding:14px 16px}
 
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    @media (max-width: 900px){.grid3{grid-template-columns:1fr}}
-    .feature{
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-      background: #fff;
-    }
-    .feature .ic{
-      width:38px;height:38px;border-radius:12px;
-      display:grid;place-items:center;
-      background: rgba(0,194,209,.14);
-      border:1px solid rgba(0,194,209,.18);
-      font-weight:900;
-      margin-bottom:10px;
-    }
-    .feature b{display:block;font-size:14px}
-    .feature p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
-
-    .packages{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    @media (max-width: 900px){.packages{grid-template-columns:1fr}}
-    .pkg{
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:16px;
-      background:#fff;
+    .heroLeft{
+      padding:26px;
       position:relative;
       overflow:hidden;
     }
-    .pkg.best{
-      border-color: rgba(0,194,209,.35);
-      background: linear-gradient(180deg, rgba(0,194,209,.10), #fff 50%);
+    .heroLeft:before{
+      content:"";
+      position:absolute; inset:-50%;
+      background:
+        radial-gradient(400px 250px at 20% 20%, rgba(46,232,255,.22), transparent 60%),
+        radial-gradient(420px 260px at 80% 10%, rgba(124,77,255,.18), transparent 60%);
+      filter: blur(2px);
+      pointer-events:none;
     }
-    .pkg .tag{
-      position:absolute;top:12px;right:12px;
-      font-size:11px;font-weight:900;
-      color:#064e5a;
-      background: rgba(0,194,209,.16);
-      border:1px solid rgba(0,194,209,.24);
-      padding:6px 10px;border-radius:999px;
-    }
-    .pkg h3{margin:0;font-size:16px}
-    .pkg .sub{margin:6px 0 0;color:var(--muted);font-size:13px}
-    .pkg ul{margin:12px 0 0;padding-left:18px;color:#334155;font-size:13px;line-height:1.55}
-    .pkg .foot{margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-    .price{font-weight:900;color:var(--navy)}
-    .small{font-size:12px;color:var(--muted)}
-
-    .chips{display:flex;flex-wrap:wrap;gap:10px}
-    .chip2{
-      border:1px solid var(--line);
+    .heroLeft > *{position:relative}
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
       border-radius:999px;
-      padding:9px 12px;
+      background: rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      color:var(--muted);
       font-size:13px;
-      background:#fff;
-      cursor:pointer;
-      user-select:none;
     }
-    .chip2.active{
-      border-color: rgba(0,194,209,.45);
-      box-shadow:0 0 0 4px rgba(0,194,209,.12);
-      background: rgba(0,194,209,.08);
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background: var(--ok);
+      box-shadow: 0 0 0 6px rgba(34,197,94,.14);
+    }
+    .heroLeft h2{
+      margin:14px 0 10px;
+      font-size:40px;
+      line-height:1.06;
+      letter-spacing:-.6px;
+    }
+    .heroLeft p{
+      margin:0 0 18px;
+      font-size:15px;
+      color:var(--muted);
+      line-height:1.55;
+      max-width: 52ch;
+    }
+    .heroActions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:6px;
     }
 
-    .ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width: 900px){.ba{grid-template-columns:1fr}}
-    .imgbox{
-      border:1px solid var(--line);
-      border-radius:16px;
-      overflow:hidden;
-      background:#f8fafc;
-      min-height: 240px;
-      position:relative;
+    .heroRight{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
     }
-    .imgbox img{width:100%;height:100%;object-fit:cover;display:block}
-    .imgbox .label{
-      position:absolute;left:12px;top:12px;
-      font-size:12px;font-weight:900;
-      color:#06212a;
-      background: rgba(255,255,255,.85);
-      border:1px solid rgba(230,235,242,.9);
-      padding:7px 10px;border-radius:999px;
-    }
-    .note{margin:10px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
-
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    @media (max-width: 900px){.steps{grid-template-columns:1fr}}
-    .step{
-      border:1px solid var(--line);
-      border-radius:16px;
+    .mini{
       padding:14px;
-      background:#fff;
-    }
-    .step b{display:block}
-    .step p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
-
-    .footer{
-      margin-top:18px;
-      padding:14px 16px;
+      border-radius:14px;
       border:1px solid var(--line);
-      border-radius: var(--r);
-      background: linear-gradient(180deg, #fff, #f7feff);
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      flex-wrap:wrap;
+      background: rgba(255,255,255,.04);
     }
-    .footer .left{color:var(--muted);font-size:12px}
-    .footer .right{display:flex;gap:10px;flex-wrap:wrap}
+    .mini h3{margin:0 0 8px; font-size:13px; color:rgba(234,240,255,.85); letter-spacing:.3px}
+    .mini ul{margin:0; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.55}
+    .mini li{margin:6px 0}
+
+    /* Gallery */
+    .section{
+      padding:18px 0 10px;
+    }
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:12px; margin: 6px 0 12px;
+    }
+    .sectionHead h3{margin:0; font-size:16px}
+    .sectionHead p{margin:0; color:var(--muted); font-size:13px}
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:12px;
+    }
+    .shot{
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      position:relative;
+      min-height: 220px;
+      box-shadow: 0 16px 50px rgba(0,0,0,.35);
+    }
+    .shot img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+      transition: transform .25s ease;
+    }
+    .shot:hover img{transform: scale(1.06)}
+    .shot:after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,.55));
+      pointer-events:none;
+    }
+    .cap{
+      position:absolute; left:14px; right:14px; bottom:12px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      color: rgba(234,240,255,.95);
+      font-size:13px;
+    }
+    .tag{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color: rgba(234,240,255,.85);
+      white-space:nowrap;
+    }
+
+    .shot.a{grid-column: span 7; min-height: 320px;}
+    .shot.b{grid-column: span 5; min-height: 320px;}
+    .shot.c{grid-column: span 12; min-height: 320px;}
+
+    /* Services */
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .svc{
+      padding:16px;
+      border-radius: 16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+    .svc h4{margin:0 0 6px; font-size:14px}
+    .svc p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
+
+    /* Footer */
+    footer{
+      padding:24px 0 44px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .footbar{
+      margin-top:14px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      border-top:1px solid var(--line);
+      padding-top:16px;
+    }
+
+    /* WhatsApp floating */
+    .waFloat{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      z-index:60;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .heroGrid{grid-template-columns: 1fr}
+      .brand{min-width:auto}
+      .shot.a,.shot.b,.shot.c{grid-column: span 12; min-height: 260px;}
+      .grid3{grid-template-columns: 1fr}
+      .heroLeft h2{font-size:34px}
+    }
   </style>
 </head>
 
 <body>
-  <div class="bubbles"></div>
-
-  <!-- TOPBAR -->
   <div class="topbar">
-    <div class="inner">
-      <div class="brand">
-        <img src="logo.png" alt="HydroShine" onerror="this.style.display='none'">
-        <div class="t">
-          <b>HydroShine</b>
-          <span>Carwash & Detailing • Puerto Rico</span>
+    <div class="wrap">
+      <div class="inner">
+        <div class="brand">
+          <div class="mark" aria-hidden="true"></div>
+          <div>
+            <h1>HydroShine</h1>
+            <p>Detailing & Carwash • Puerto Rico</p>
+          </div>
         </div>
-      </div>
 
-      <div class="nav">
-        <a href="#servicios">Servicios</a>
-        <a href="#antes">Antes/Después</a>
-        <a href="#cobertura">Cobertura</a>
-        <a href="#reservar" class="btn primary" id="ctaTop">Reservar</a>
+        <div class="nav">
+          <span class="pill">Servicio premium</span>
+          <a class="btn" href="#galeria">Galería</a>
+          <a class="btn" href="#servicios">Servicios</a>
+          <a class="btn primary" id="ctaTop" href="https://wa.me/17874005116?text=Hola%20HydroShine%2C%20quiero%20una%20cita%20para%20detailing%20%F0%9F%9A%97%F0%9F%92%A6" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 12.1c0 4.4-3.6 7.9-8 7.9-1.4 0-2.8-.4-4-1l-4 1 1.1-3.8C4.4 15.9 4 14 4 12.1 4 7.7 7.6 4.2 12 4.2s8 3.5 8 7.9Z" stroke="currentColor" stroke-width="1.6" opacity=".9"/>
+              <path d="M9.2 9.5c.2-.5.4-.5.6-.5h.5c.2 0 .4.1.5.3l.7 1.6c.1.2.1.4 0 .6l-.4.6c-.1.1-.1.3 0 .4.4.8 1.3 1.6 2.1 2 .2.1.3.1.4 0l.6-.4c.2-.1.4-.1.6 0l1.5.7c.2.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.5.2-1.6.3-2.8-.3-1.2-.6-2.7-1.9-3.7-3.5-1-1.6-.7-2.6-.4-3.1Z" fill="currentColor"/>
+            </svg>
+            WhatsApp
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="wrap">
-    <!-- HERO -->
-    <section class="hero" id="reservar">
-      <div class="in">
-        <div>
-          <div class="kicker">🚿 Servicio industrial • Acabado showroom</div>
-          <h1>Carwash & Detailing<br/>a domicilio en PR</h1>
-          <p>Interior + exterior con productos pro y detalle real. Envíanos 4 fotos y te confirmamos paquete + horario rápido.</p>
-          <div class="cta">
-            <button class="btn primary" id="btnBook">Reservar por WhatsApp</button>
-            <button class="btn ghost" id="btnPhotos">Enviar fotos (diagnóstico)</button>
-          </div>
-          <p class="note" style="color:rgba(255,255,255,.78);margin-top:12px">
-            Fotos recomendadas — <b>frente</b>, <b>asientos</b>, <b>alfombras</b>, <b>baúl</b>.
+  <main class="wrap">
+    <section class="hero">
+      <div class="heroGrid">
+        <div class="card heroLeft">
+          <div class="kicker"><span class="dot"></span> Reservas rápidas por WhatsApp</div>
+          <h2>Brillo real.<br/>Cuidado premium.</h2>
+          <p>
+            Detailing y carwash con enfoque en acabados, protección y estética.
+            Ideal para autos de diario y también para “showroom vibe”.
           </p>
-        </div>
 
-        <div class="trust">
-          <div class="chip"><b>Foam Wash</b><br>Espuma activa y lavado seguro.</div>
-          <div class="chip"><b>A Domicilio</b><br>Llegamos a tu casa/ubicación.</div>
-          <div class="chip"><b>Resultado Visible</b><br>Acabado limpio y profesional.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FEATURES -->
-    <section class="section card" id="servicios">
-      <div class="card-h">
-        <b>¿Qué hacemos?</b>
-        <span class="pill">Rápido • Limpio • Pro</span>
-      </div>
-      <div class="card-b">
-        <div class="grid3">
-          <div class="feature">
-            <div class="ic">🫧</div>
-            <b>Foam Wash</b>
-            <p>Lavado con espuma y secado cuidadoso. Detalle en rines y áreas clave.</p>
-          </div>
-          <div class="feature">
-            <div class="ic">💎</div>
-            <b>Acabado Premium</b>
-            <p>Brillo real. Limpieza interior con enfoque en detalles visibles y olor fresco.</p>
-          </div>
-          <div class="feature">
-            <div class="ic">🚚</div>
-            <b>Servicio a domicilio</b>
-            <p>Coordinación simple por WhatsApp. Te confirmamos horario rápido.</p>
+          <div class="heroActions">
+            <a class="btn primary" href="https://wa.me/17874005116?text=Hola%20HydroShine%2C%20quiero%20cotizar%20un%20servicio%20%F0%9F%9A%97%F0%9F%92%A6" target="_blank" rel="noopener">
+              Cotizar por WhatsApp
+            </a>
+            <a class="btn" href="#galeria">Ver resultados</a>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- PACKAGES -->
-    <section class="section card">
-      <div class="card-h">
-        <b>Paquetes</b>
-        <span class="pill">Elige rápido</span>
-      </div>
-      <div class="card-b">
-        <div class="packages">
-          <div class="pkg">
-            <h3>Express Wash</h3>
-            <div class="sub">Exterior rápido y limpio.</div>
+        <div class="card heroRight">
+          <div class="mini">
+            <h3>Lo que hacemos</h3>
             <ul>
-              <li>Foam wash + rinse</li>
-              <li>Secado + cristales</li>
-              <li>Rines (básico)</li>
+              <li>Lavado premium / deep clean</li>
+              <li>Detailing interior + exterior</li>
+              <li>Protección y acabado brillante</li>
             </ul>
-            <div class="foot">
-              <div>
-                <div class="price">Desde $—</div>
-                <div class="small">Ideal semanal</div>
-              </div>
-              <button class="btn" data-pkg="Express Wash">Reservar</button>
-            </div>
           </div>
-
-          <div class="pkg best">
-            <div class="tag">Best Seller</div>
-            <h3>Full Clean</h3>
-            <div class="sub">Interior + exterior balanceado.</div>
+          <div class="mini">
+            <h3>Cómo reservas</h3>
             <ul>
-              <li>Exterior completo + cristales</li>
-              <li>Aspirado + wipe down interior</li>
-              <li>Detalles claves (puertas / console)</li>
+              <li>Escribes por WhatsApp</li>
+              <li>Envías fotos + modelo del auto</li>
+              <li>Te damos precio y cita</li>
             </ul>
-            <div class="foot">
-              <div>
-                <div class="price">Desde $—</div>
-                <div class="small">El más pedido</div>
-              </div>
-              <button class="btn primary" data-pkg="Full Clean">Reservar</button>
-            </div>
           </div>
-
-          <div class="pkg">
-            <h3>Showroom Detail</h3>
-            <div class="sub">Deep clean + acabado premium.</div>
+          <div class="mini">
+            <h3>Contacto</h3>
             <ul>
-              <li>Deep interior (según condición)</li>
-              <li>Exterior premium + detalles</li>
-              <li>Protección (spray) opcional</li>
+              <li>WhatsApp: (787) 400-5116</li>
+              <li>Puerto Rico</li>
             </ul>
-            <div class="foot">
-              <div>
-                <div class="price">Desde $—</div>
-                <div class="small">Resultado top</div>
-              </div>
-              <button class="btn" data-pkg="Showroom Detail">Reservar</button>
-            </div>
           </div>
-        </div>
-
-        <p class="note" style="margin-top:10px">
-          *El precio exacto depende de tamaño/condición. Envíanos fotos y te confirmamos.
-        </p>
-      </div>
-    </section>
-
-    <!-- ADD-ONS -->
-    <section class="section card">
-      <div class="card-h">
-        <b>Add-ons (extras)</b>
-        <span class="pill">Opcional</span>
-      </div>
-      <div class="card-b">
-        <div class="chips" id="chips">
-          <div class="chip2" data-addon="Pet hair removal">Pet Hair</div>
-          <div class="chip2" data-addon="Stain treatment">Manchas</div>
-          <div class="chip2" data-addon="Odor treatment">Olor</div>
-          <div class="chip2" data-addon="Seat shampoo">Shampoo asientos</div>
-          <div class="chip2" data-addon="Engine bay">Engine bay</div>
-          <div class="chip2" data-addon="Headlight restore">Luces</div>
-          <div class="chip2" data-addon="Ceramic spray (3–6 meses)">Ceramic spray</div>
-        </div>
-
-        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
-          <button class="btn" id="btnSendAddons">Enviar selección por WhatsApp</button>
-        </div>
-
-        <p class="note">Selecciona extras si aplican. Te confirmamos el costo con fotos.</p>
-      </div>
-    </section>
-
-    <!-- BEFORE/AFTER -->
-    <section class="section card" id="antes">
-      <div class="card-h">
-        <b>Antes / Después</b>
-        <span class="pill">Resultados</span>
-      </div>
-      <div class="card-b">
-        <div class="ba">
-          <div class="imgbox">
-            <span class="label">Antes</span>
-            <img src="before.jpg" alt="Antes" onerror="this.style.display='none'">
-          </div>
-          <div class="imgbox">
-            <span class="label">Después</span>
-            <img src="after.jpg" alt="Después" onerror="this.style.display='none'">
-          </div>
-        </div>
-        <p class="note">Usa fotos reales tuyas: 1 caso brutal vende más que una galería grande.</p>
-      </div>
-    </section>
-
-    <!-- COVERAGE -->
-    <section class="section card" id="cobertura">
-      <div class="card-h">
-        <b>Cobertura & Reservas</b>
-        <span class="pill">3 pasos</span>
-      </div>
-      <div class="card-b">
-        <div class="steps">
-          <div class="step">
-            <b>1) Envíanos 4 fotos</b>
-            <p>Frente, asientos, alfombras, baúl (y el pueblo).</p>
-          </div>
-          <div class="step">
-            <b>2) Te recomendamos paquete</b>
-            <p>Confirmamos servicio y rango según condición.</p>
-          </div>
-          <div class="step">
-            <b>3) Coordinamos cita</b>
-            <p>Horario rápido y servicio a domicilio.</p>
-          </div>
-        </div>
-
-        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
-          <button class="btn primary" id="btnBook2">Reservar por WhatsApp</button>
-          <button class="btn" id="btnPhotos2">Enviar fotos</button>
         </div>
       </div>
     </section>
 
-    <div class="footer">
-      <div class="left">© <span id="year"></span> HydroShine • Carwash & Detailing • PR</div>
-      <div class="right">
-        <a class="btn" href="#reservar">Arriba</a>
-        <button class="btn primary" id="ctaBottom">WhatsApp</button>
+    <section class="section" id="galeria">
+      <div class="sectionHead">
+        <div>
+          <h3>Galería</h3>
+          <p>Fotos reales • resultados y ambiente</p>
+        </div>
+        <span class="pill">HydroShine vibe</span>
       </div>
-    </div>
+
+      <div class="gallery">
+        <div class="shot a">
+          <img src="IMG_0787.jpeg" alt="HydroShine foto 1">
+          <div class="cap">
+            <span>Exterior • brillo</span>
+            <span class="tag">Premium wash</span>
+          </div>
+        </div>
+
+        <div class="shot b">
+          <img src="IMG_0788.jpeg" alt="HydroShine foto 2">
+          <div class="cap">
+            <span>Detail • acabado</span>
+            <span class="tag">Detailing</span>
+          </div>
+        </div>
+
+        <div class="shot c">
+          <img src="IMG_0789.jpeg" alt="HydroShine foto 3">
+          <div class="cap">
+            <span>Ambiente • setup</span>
+            <span class="tag">Carwash</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicios">
+      <div class="sectionHead">
+        <div>
+          <h3>Servicios</h3>
+          <p>Simple, claro y directo</p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="svc">
+          <h4>Lavado Premium</h4>
+          <p>Lavado completo con enfoque en detalle y brillo final. Ideal para mantenimiento.</p>
+        </div>
+        <div class="svc">
+          <h4>Detailing Interior</h4>
+          <p>Limpieza profunda: asientos, alfombras, paneles y áreas difíciles.</p>
+        </div>
+        <div class="svc">
+          <h4>Detailing Exterior</h4>
+          <p>Descontaminado + acabado para elevar el look y proteger la pintura.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footbar">
+        <div>© <span id="y"></span> HydroShine</div>
+        <div>Reserva por WhatsApp: (787) 400-5116</div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="waFloat">
+    <a class="btn primary" href="https://wa.me/17874005116?text=Hola%20HydroShine%2C%20quiero%20una%20cita%20%F0%9F%9A%97%F0%9F%92%A6" target="_blank" rel="noopener" aria-label="Reservar por WhatsApp">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M20 12.1c0 4.4-3.6 7.9-8 7.9-1.4 0-2.8-.4-4-1l-4 1 1.1-3.8C4.4 15.9 4 14 4 12.1 4 7.7 7.6 4.2 12 4.2s8 3.5 8 7.9Z" stroke="currentColor" stroke-width="1.6" opacity=".9"/>
+        <path d="M9.2 9.5c.2-.5.4-.5.6-.5h.5c.2 0 .4.1.5.3l.7 1.6c.1.2.1.4 0 .6l-.4.6c-.1.1-.1.3 0 .4.4.8 1.3 1.6 2.1 2 .2.1.3.1.4 0l.6-.4c.2-.1.4-.1.6 0l1.5.7c.2.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.5.2-1.6.3-2.8-.3-1.2-.6-2.7-1.9-3.7-3.5-1-1.6-.7-2.6-.4-3.1Z" fill="currentColor"/>
+      </svg>
+      Reservar
+    </a>
   </div>
 
   <script>
-    const WA_NUMBER = "17874005116"; // +1 787 400 5116
-    const BRAND = "HydroShine";
-
-    const enc = encodeURIComponent;
-    const waLink = (text) => `https://wa.me/${WA_NUMBER}?text=${enc(text)}`;
-    const openWA = (text) => window.open(waLink(text), "_blank");
-
-    function bookMessage(pkg="Full Clean"){
-      return `Hola, quiero reservar con ${BRAND}.\n\n` +
-             `• Paquete: ${pkg}\n` +
-             `• Ubicación/pueblo: \n` +
-             `• Vehículo (sedán/SUV/pickup): \n` +
-             `• Fecha/hora preferida: \n\n` +
-             `¿Disponibilidad esta semana?`;
-    }
-    function photosMessage(){
-      return `Hola, quiero una cotización con ${BRAND}.\n\n` +
-             `Voy a enviarte 4 fotos:\n` +
-             `1) Frente\n2) Asientos\n3) Alfombras\n4) Baúl\n\n` +
-             `Ubicación/pueblo: \nVehículo: \nCita preferida: `;
-    }
-
-    document.getElementById("ctaTop").addEventListener("click", (e)=>{e.preventDefault(); openWA(bookMessage("Full Clean"));});
-    document.getElementById("btnBook").addEventListener("click", ()=> openWA(bookMessage("Full Clean")));
-    document.getElementById("btnBook2").addEventListener("click", ()=> openWA(bookMessage("Full Clean")));
-    document.getElementById("ctaBottom").addEventListener("click", ()=> openWA(bookMessage("Full Clean")));
-    document.getElementById("btnPhotos").addEventListener("click", ()=> openWA(photosMessage()));
-    document.getElementById("btnPhotos2").addEventListener("click", ()=> openWA(photosMessage()));
-
-    document.querySelectorAll("[data-pkg]").forEach(btn=>{
-      btn.addEventListener("click", ()=> openWA(bookMessage(btn.getAttribute("data-pkg"))));
-    });
-
-    const selected = new Set();
-    document.getElementById("chips").addEventListener("click", (e)=>{
-      const el = e.target.closest(".chip2");
-      if(!el) return;
-      const addon = el.getAttribute("data-addon");
-      el.classList.toggle("active");
-      if(selected.has(addon)) selected.delete(addon); else selected.add(addon);
-    });
-
-    document.getElementById("btnSendAddons").addEventListener("click", ()=>{
-      const list = [...selected];
-      const text =
-        `Hola, quiero reservar con ${BRAND}.\n\n` +
-        `Extras seleccionados:\n` +
-        (list.length ? list.map(a=>`• ${a}`).join("\n") : "• Ninguno por ahora") +
-        `\n\nUbicación/pueblo: \nVehículo: \nCita preferida: `;
-      openWA(text);
-    });
-
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("y").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
