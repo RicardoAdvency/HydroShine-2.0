@@ -3,132 +3,227 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ADVENCY — Auto OS</title>
-  <meta name="description" content="Advency Auto OS: sistema de leads + diagnóstico + atribución para vendedores de autos en PR." />
+  <title>Home Power Sun Energy — Precalificación Solar</title>
+  <meta name="description" content="Precalifica para energía solar en Puerto Rico. Evaluación rápida con tu factura LUMA." />
+
+  <!--
+    ✅ INSTRUCCIONES RÁPIDAS (1 minuto):
+    1) Guarda tus imágenes en la misma carpeta que este HTML y renómbralas así:
+       - homepower-logo.png
+       - hero-solar-roof.jpg
+       - solar-night-house.jpg
+    2) Si tus nombres son diferentes, cambia los src en el HTML.
+  -->
+
   <style>
     :root{
-      --bg:#070B14;        /* negro azulado */
-      --panel:#0B1224;     /* panel */
-      --ink:#EAF2FF;       /* texto */
-      --muted:#A9B7D0;     /* texto suave */
-      --line:#1B2742;      /* líneas */
-      --accent:#00B4D8;    /* celeste Advency */
-      --accent2:#0A1F44;   /* navy Advency */
-      --max:1080px;
+      /* Minimal / Agency (sin bordes redondos) */
+      --bg:#0A0C10;
+      --panel:#0F1218;
+      --ink:#FFFFFF;
+      --muted:rgba(255,255,255,.72);
+      --line:rgba(255,255,255,.12);
+
+      /* Acento (logo Home Power: dorado) */
+      --accent:#F5A400;
+      --accent-soft:rgba(245,164,0,.14);
+
+      --max:1120px;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      background:
-        radial-gradient(900px 500px at 80% -10%, rgba(0,180,216,.12), transparent 55%),
-        radial-gradient(900px 500px at 15% 0%, rgba(10,31,68,.35), transparent 60%),
-        linear-gradient(180deg, var(--bg), #050812);
-      color:var(--ink);
       font-family:var(--sans);
-      letter-spacing:.2px;
+      color:var(--ink);
+      background:
+        radial-gradient(900px 520px at 70% -10%, var(--accent-soft), transparent 55%),
+        linear-gradient(180deg, var(--bg), #07080B);
+      letter-spacing:.15px;
     }
 
-    /* Layout */
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 72px;}
-    .nav{
-      position:sticky; top:0; z-index:50;
-      background:linear-gradient(180deg, rgba(7,11,20,.92), rgba(7,11,20,.70));
+    a{color:inherit; text-decoration:none}
+    .container{max-width:var(--max); margin:0 auto; padding:0 20px}
+
+    /* Top bar */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(10,12,16,.78);
       backdrop-filter: blur(10px);
       border-bottom:1px solid var(--line);
     }
-    .nav-inner{
-      max-width:var(--max); margin:0 auto;
-      padding:14px 18px;
-      display:flex; align-items:center; justify-content:space-between; gap:18px;
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:14px 0;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:800; text-transform:uppercase; letter-spacing:1.6px;
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:220px;
     }
-    .mark{
-      width:10px; height:10px; background:var(--accent);
-      display:inline-block;
+    .logo img{
+      height:34px;
+      width:auto;
+      display:block;
     }
-    .nav a{
-      color:var(--muted); text-decoration:none; font-size:13px;
-      text-transform:uppercase; letter-spacing:1.4px;
+
+    .navlinks{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
-    .nav-links{display:flex; gap:18px; align-items:center; flex-wrap:wrap}
-    .nav a:hover{color:var(--ink)}
+    .navlinks a{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1.6px;
+      color:var(--muted);
+      padding:6px 0;
+      border-bottom:1px solid transparent;
+    }
+    .navlinks a:hover{
+      color:var(--ink);
+      border-bottom-color:var(--accent);
+    }
     .btn{
-      display:inline-flex; align-items:center; gap:10px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
       padding:10px 14px;
       border:1px solid var(--line);
       background:transparent;
       color:var(--ink);
-      text-decoration:none;
       text-transform:uppercase;
+      letter-spacing:1.6px;
       font-size:12px;
-      letter-spacing:1.4px;
     }
-    .btn:hover{border-color:rgba(0,180,216,.55)}
+    .btn:hover{
+      border-color:rgba(245,164,0,.55);
+    }
     .btn.primary{
-      border-color:rgba(0,180,216,.55);
-      box-shadow: inset 0 0 0 1px rgba(0,180,216,.18);
+      border-color:rgba(245,164,0,.75);
     }
 
     /* Hero */
     .hero{
-      padding:38px 0 22px;
       border-bottom:1px solid var(--line);
+      padding:34px 0 28px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    .hero-left{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(15,18,24,.85), rgba(15,18,24,.55));
+      padding:22px;
     }
     .kicker{
-      display:inline-flex; gap:10px; align-items:center;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
       color:var(--muted);
       font-size:12px;
       text-transform:uppercase;
-      letter-spacing:1.6px;
+      letter-spacing:1.8px;
       margin-bottom:14px;
     }
-    .kicker .bar{
-      width:42px; height:1px; background:rgba(0,180,216,.7);
-    }
+    .kicker .bar{width:44px; height:1px; background:rgba(245,164,0,.75)}
     h1{
-      margin:0 0 14px;
-      font-size:42px;
-      line-height:1.05;
-      letter-spacing:.4px;
+      margin:0 0 12px;
       text-transform:uppercase;
+      letter-spacing:.8px;
+      font-size:38px;
+      line-height:1.05;
     }
     .sub{
-      margin:0 0 20px;
+      margin:0 0 18px;
       color:var(--muted);
-      font-size:16px;
-      max-width:780px;
-      line-height:1.55;
+      font-size:15px;
+      line-height:1.65;
+      max-width:64ch;
     }
-    .hero-cta{display:flex; gap:12px; flex-wrap:wrap}
+    .hero-actions{display:flex; gap:12px; flex-wrap:wrap}
 
-    /* Grid sections */
-    .section{
-      padding:28px 0;
-      border-bottom:1px solid var(--line);
+    .hero-right{
+      border:1px solid var(--line);
+      overflow:hidden;
+      background:var(--panel);
+      position:relative;
+      min-height:260px;
     }
+    .hero-right img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter:saturate(1.05) contrast(1.05);
+      opacity:.88;
+    }
+    .hero-right .overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, rgba(10,12,16,.88), rgba(10,12,16,.35));
+    }
+    .hero-right .stamp{
+      position:absolute;
+      left:16px;
+      bottom:16px;
+      border:1px solid var(--line);
+      background:rgba(10,12,16,.72);
+      padding:10px 12px;
+      max-width:360px;
+    }
+    .stamp .t{
+      margin:0 0 6px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1.7px;
+      color:var(--muted);
+    }
+    .stamp .b{
+      margin:0;
+      font-size:13px;
+      line-height:1.55;
+      color:var(--ink);
+    }
+
+    /* Sections */
+    section{padding:26px 0; border-bottom:1px solid var(--line)}
     .section-head{
-      display:flex; justify-content:space-between; align-items:flex-end; gap:18px; flex-wrap:wrap;
-      margin-bottom:18px;
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      align-items:flex-end;
+      flex-wrap:wrap;
+      margin-bottom:14px;
     }
     .section-title{
       margin:0;
-      font-size:14px;
-      color:var(--muted);
+      font-size:12px;
       text-transform:uppercase;
-      letter-spacing:1.8px;
+      letter-spacing:1.9px;
+      color:var(--muted);
     }
     .section-note{
       margin:0;
       color:var(--muted);
       font-size:13px;
-      max-width:520px;
-      line-height:1.55;
+      line-height:1.6;
+      max-width:70ch;
     }
 
     .grid{
@@ -137,20 +232,17 @@
       gap:12px;
     }
     .card{
-      grid-column: span 6;
-      background:linear-gradient(180deg, rgba(11,18,36,.82), rgba(11,18,36,.60));
       border:1px solid var(--line);
-      padding:16px 16px 14px;
-      min-height:150px;
+      background:linear-gradient(180deg, rgba(15,18,24,.85), rgba(15,18,24,.55));
+      padding:16px;
+      grid-column: span 4;
+      min-height:120px;
     }
-    .card.small{grid-column: span 4}
-    .card.full{grid-column: 1 / -1}
     .card h3{
-      margin:0 0 10px;
+      margin:0 0 8px;
       font-size:12px;
       text-transform:uppercase;
-      letter-spacing:1.6px;
-      color:var(--ink);
+      letter-spacing:1.7px;
     }
     .card p{
       margin:0;
@@ -158,434 +250,411 @@
       font-size:14px;
       line-height:1.6;
     }
-    .list{
-      margin:10px 0 0;
-      padding:0;
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+
+    /* Form */
+    .form-wrap{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(15,18,24,.9), rgba(15,18,24,.65));
+      padding:18px;
+    }
+    form{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+    label{
+      display:block;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:1.6px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+    input, select, textarea{
+      width:100%;
+      padding:12px 12px;
+      background:rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      color:var(--ink);
+      outline:none;
+      font-size:14px;
+      border-radius:0; /* SIN bordes redondos */
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color:rgba(245,164,0,.65);
+    }
+    textarea{min-height:96px; grid-column:1/-1; resize:vertical}
+    .full{grid-column:1/-1}
+    .form-actions{
+      grid-column:1/-1;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:6px;
+    }
+    .fine{
+      color:rgba(255,255,255,.55);
+      font-size:12px;
+      line-height:1.55;
+      margin:0;
+    }
+    .submit{
+      padding:12px 16px;
+      border:1px solid rgba(245,164,0,.75);
+      background:transparent;
+      color:var(--ink);
+      text-transform:uppercase;
+      letter-spacing:1.8px;
+      font-size:12px;
+      cursor:pointer;
+      border-radius:0; /* SIN bordes redondos */
+    }
+    .submit:hover{
+      border-color:rgba(245,164,0,1);
+    }
+
+    /* Gallery */
+    .gallery{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:12px;
+    }
+    .imgbox{
+      border:1px solid var(--line);
+      overflow:hidden;
+      background:#0b0d12;
+      min-height:220px;
+      position:relative;
+    }
+    .imgbox img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      opacity:.9;
+    }
+    .caption{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      padding:10px 12px;
+      background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.75));
+      border-top:1px solid rgba(255,255,255,.08);
+      font-size:12px;
+      color:rgba(255,255,255,.70);
+      text-transform:uppercase;
+      letter-spacing:1.6px;
+    }
+
+    /* FAQ */
+    details{
+      border:1px solid var(--line);
+      padding:14px;
+      background:linear-gradient(180deg, rgba(15,18,24,.85), rgba(15,18,24,.55));
+    }
+    details + details{margin-top:10px}
+    summary{
+      cursor:pointer;
       list-style:none;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1.7px;
+    }
+    summary::-webkit-details-marker{display:none}
+    details p{
+      margin:10px 0 0;
       color:var(--muted);
       font-size:14px;
       line-height:1.6;
     }
-    .list li{
-      padding:8px 0;
-      border-top:1px solid var(--line);
-    }
-    .list li:first-child{border-top:0; padding-top:0}
-    .tag{
-      display:inline-flex;
-      font-family:var(--mono);
-      font-size:12px;
-      color:rgba(0,180,216,.95);
-      letter-spacing:.2px;
-    }
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:9px 12px;
-      border:1px solid var(--line);
-      background:transparent;
-      color:var(--muted);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:1.4px;
-      text-decoration:none;
-    }
-    .pill:hover{border-color:rgba(0,180,216,.55); color:var(--ink)}
-    .pill .sq{width:8px; height:8px; background:rgba(0,180,216,.85)}
-    .pill-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
 
-    /* Table */
-    .table{
-      width:100%;
-      border-collapse:collapse;
-      border:1px solid var(--line);
-      font-size:13px;
-      color:var(--muted);
-    }
-    .table th, .table td{
-      padding:12px 12px;
-      border-top:1px solid var(--line);
-      vertical-align:top;
-      text-align:left;
-    }
-    .table th{
-      color:var(--ink);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:1.6px;
-      background:rgba(11,18,36,.85);
-      border-top:0;
-    }
-    .mono{font-family:var(--mono); color:var(--ink)}
-    .accent{color:var(--accent)}
-    .muted{color:var(--muted)}
-
-    /* Footer */
-    .footer{
-      padding:26px 0 0;
-      color:var(--muted);
+    footer{
+      padding:18px 0 40px;
+      color:rgba(255,255,255,.52);
       font-size:12px;
       line-height:1.6;
     }
-    .footer .line{height:1px; background:var(--line); margin:18px 0 14px}
-    .footer strong{color:var(--ink)}
-    .nowrap{white-space:nowrap}
 
-    /* Responsive */
-    @media (max-width: 920px){
-      h1{font-size:34px}
-      .card{grid-column: 1 / -1}
-      .card.small{grid-column: 1 / -1}
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      h1{font-size:32px}
+      .card{grid-column:1/-1}
+      .split{grid-template-columns:1fr}
+      form{grid-template-columns:1fr}
+      .gallery{grid-template-columns:1fr}
     }
   </style>
 </head>
-<body>
 
-  <header class="nav">
-    <div class="nav-inner">
-      <div class="brand">
-        <span class="mark"></span>
-        <span>ADVENCY</span>
-        <span class="muted" style="font-weight:600; letter-spacing:1.2px; text-transform:uppercase;">Auto OS</span>
+<body>
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <div class="logo">
+          <!-- LOGO ARRIBA -->
+          <img src="homepower-logo.png" alt="Home Power Sun Energy" />
+        </div>
+
+        <nav class="navlinks" aria-label="Navegación">
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#beneficios">Beneficios</a>
+          <a href="#fotos">Fotos</a>
+          <a href="#faq">FAQ</a>
+          <a class="btn primary" href="#precalifica">Precalificar</a>
+        </nav>
       </div>
-      <nav class="nav-links">
-        <a href="#overview">Overview</a>
-        <a href="#funnel">Funnel</a>
-        <a href="#rules">Reglas</a>
-        <a href="#metrics">KPIs</a>
-        <a href="#pricing">Precios</a>
-        <a class="btn primary" href="#start">Implementar</a>
-      </nav>
     </div>
   </header>
 
-  <main class="wrap">
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-left">
+            <div class="kicker"><span class="bar"></span><span>Puerto Rico • Energía Solar Residencial</span></div>
+            <h1>Precalificación solar<br><span style="color:var(--accent)">rápida y clara</span></h1>
+            <p class="sub">
+              Completa una evaluación corta para saber si tu hogar es buen candidato.
+              Te orientamos con base en tu factura LUMA y tu consumo, sin compromisos.
+            </p>
 
-    <section class="hero" id="start">
-      <div class="kicker"><span class="bar"></span><span>Sistema de Leads + Diagnóstico + Atribución</span></div>
-      <h1>Compra Inteligente PR<br><span class="accent">para vendedores</span></h1>
-      <p class="sub">
-        Un activo de marca personal que atrae clientes, los auto-precalifica con micro-módulos,
-        los clasifica (A/B/C) y entrega leads listos al vendedor — sin hablar de pagos y sin que tú seteés.
-        Tú controlas el sistema, el vendedor agenda y cierra.
-      </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#precalifica">Comenzar precalificación</a>
+              <a class="btn" href="#como-funciona">Ver cómo funciona</a>
+            </div>
+          </div>
 
-      <div class="hero-cta">
-        <a class="btn primary" href="#funnel">Ver Funnel</a>
-        <a class="btn" href="#pricing">Ver Modelo de $</a>
-      </div>
-    </section>
-
-    <!-- OVERVIEW -->
-    <section class="section" id="overview">
-      <div class="section-head">
-        <h2 class="section-title">Qué es Advency Auto OS</h2>
-        <p class="section-note">
-          Posicionamiento: <span class="mono">“Yo te asesoro para comprar bien”</span>. No vendes carros; produces intención,
-          disciplina y atribución para monetizar el sistema con vendedores.
-        </p>
-      </div>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Tu rol (Ricardo / Advency)</h3>
-          <p>
-            Marca personal + campañas + diagnóstico + clasificación A/B/C + entrega al vendedor + tracking.
-          </p>
-          <ul class="list">
-            <li><span class="tag">#1</span> Ads + Creativos (batch 2 días/semana)</li>
-            <li><span class="tag">#2</span> Diagnóstico guiado (módulos cortos)</li>
-            <li><span class="tag">#3</span> Atribución + reportes + cobro quincenal</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Rol del vendedor (setter/closer)</h3>
-          <p>
-            Responde rápido, agenda, lleva al dealer, cierra, y registra todo en CRM.
-          </p>
-          <ul class="list">
-            <li><span class="tag">SLA</span> Respuesta &lt; 5–10 min</li>
-            <li><span class="tag">CRM</span> Si no está en CRM, no cuenta</li>
-            <li><span class="tag">FOCUS</span> Trabaja primero los leads A, luego B</li>
-          </ul>
-        </div>
-
-        <div class="card small">
-          <h3>Por qué funciona (PR)</h3>
-          <p>
-            Confianza + claridad + “vendedor verificado” + velocidad. Menos curiosos, más intención.
-          </p>
-          <div class="pill-row">
-            <a class="pill" href="#rules"><span class="sq"></span>Disciplina</a>
-            <a class="pill" href="#metrics"><span class="sq"></span>KPIs</a>
-            <a class="pill" href="#pricing"><span class="sq"></span>Monetización</a>
+          <div class="hero-right" aria-label="Imagen principal">
+            <!-- FOTO 1 (techo con placas / amanecer) -->
+            <img src="hero-solar-roof.jpg" alt="Paneles solares en techo" />
+            <div class="overlay"></div>
+            <div class="stamp">
+              <p class="t">Orientación en minutos</p>
+              <p class="b">Envíanos tu info básica y te contacta un consultor para confirmar elegibilidad.</p>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="card small">
-          <h3>Métrica objetivo</h3>
-          <p>
-            <span class="mono accent">6+ ventas/mes</span> atribuibles por vendedor (mín. $850 por venta).
-            Tu modelo se alinea a resultados.
+    <!-- COMO FUNCIONA -->
+    <section id="como-funciona">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Cómo funciona</h2>
+          <p class="section-note">
+            Funnel simple: precalificación → revisión de factura → llamada breve → evaluación final.
           </p>
         </div>
 
-        <div class="card small">
-          <h3>Regla de oro</h3>
-          <p>
-            No se habla de pagos en frío. Se vende “diagnóstico”, “aprobación”, “trade-in” y “compra inteligente”.
-          </p>
+        <div class="grid">
+          <div class="card">
+            <h3>1) Precalifica</h3>
+            <p>Te pedimos datos mínimos para entender tu caso y tu consumo LUMA.</p>
+          </div>
+          <div class="card">
+            <h3>2) Verificación</h3>
+            <p>Confirmamos elegibilidad, consumo y condiciones básicas del techo/propiedad.</p>
+          </div>
+          <div class="card">
+            <h3>3) Propuesta</h3>
+            <p>Si cualificas, coordinamos evaluación y te presentamos opciones claras.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- FUNNEL -->
-    <section class="section" id="funnel">
-      <div class="section-head">
-        <h2 class="section-title">Funnel — Diagnóstico en 3 pasos</h2>
-        <p class="section-note">
-          Objetivo: aumentar intención y show rate antes de entregar el lead al vendedor.
-        </p>
-      </div>
-
-      <div class="grid">
-        <div class="card full">
-          <h3>Flujo</h3>
-          <table class="table" aria-label="Funnel">
-            <thead>
-              <tr>
-                <th>Etapa</th>
-                <th>Qué ve el cliente</th>
-                <th>Qué produce</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="mono">01. Anuncio (tú)</td>
-                <td>“¿Vas a comprar carro en PR? Haz el diagnóstico gratis.”</td>
-                <td>Tráfico segmentado (no pagos). Retarget listo.</td>
-              </tr>
-              <tr>
-                <td class="mono">02. Micro-módulos</td>
-                <td>3 videos de 60–90s: aprobación, documentos, trade-in.</td>
-                <td>Pre-frame (menos dudas, más claridad).</td>
-              </tr>
-              <tr>
-                <td class="mono">03. Precalificación</td>
-                <td>7 preguntas rápidas (intención, tipo, crédito, trade-in).</td>
-                <td>Score <span class="mono">A/B/C</span> + Lead ID.</td>
-              </tr>
-              <tr>
-                <td class="mono">04. Resultado + CTA</td>
-                <td>Plan de acción + “Agenda / WhatsApp”.</td>
-                <td>Acción (agenda / respuesta) = intención real.</td>
-              </tr>
-              <tr>
-                <td class="mono">05. Entrega al vendedor</td>
-                <td>Automático: lead + score + script.</td>
-                <td>Speed-to-lead + medición + atribución.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card">
-          <h3>Score A/B/C (simple)</h3>
-          <ul class="list">
-            <li><span class="mono">A (HOT)</span> compra 0–7 días + responde rápido + perfil consistente</li>
-            <li><span class="mono">B (WARM)</span> 2–4 semanas o dudas normales → nurture corto</li>
-            <li><span class="mono">C (NURTURE)</span> 1–3 meses / “no sé” → nurture automático</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Automations (sin tú setear)</h3>
-          <ul class="list">
-            <li><span class="tag">INMEDIATO</span> “Recibido ✅ te escribe el vendedor ahora.”</li>
-            <li><span class="tag">2H</span> Si no agenda: “HOY o MAÑANA?”</li>
-            <li><span class="tag">DÍA CITA</span> Confirmación + recordatorio</li>
-            <li><span class="tag">7/14/30</span> Reactivación de indecisos</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- RULES -->
-    <section class="section" id="rules">
-      <div class="section-head">
-        <h2 class="section-title">Reglas del juego (SLA + Atribución)</h2>
-        <p class="section-note">
-          Esto evita que quemen leads y te permite cobrar el performance sin peleas.
-        </p>
-      </div>
-
-      <div class="grid">
-        <div class="card">
-          <h3>SLA del vendedor (obligatorio)</h3>
-          <ul class="list">
-            <li><span class="mono">Tiempo de respuesta:</span> &lt; 5–10 min</li>
-            <li><span class="mono">Intentos en 24h:</span> 5 toques (WhatsApp/SMS/llamada)</li>
-            <li><span class="mono">CRM:</span> registrar etapa (Contacted / Scheduled / Showed / Sold)</li>
-            <li><span class="mono">Si falla:</span> se pausa campaña o baja prioridad de leads</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Definición de “venta atribuible”</h3>
-          <ul class="list">
-            <li>Entró por tu link/UTM/QR (Lead ID)</li>
-            <li>Está en CRM antes de la visita/test drive</li>
-            <li>Hay evidencia de contacto (log WhatsApp/SMS/llamada)</li>
-            <li><span class="mono">Cobro:</span> quincenal (recomendado)</li>
-          </ul>
-        </div>
-
-        <div class="card small">
-          <h3>Exclusividad (max)</h3>
-          <p>1 vendedor por dealer o por zona. Sube valor y reduce conflictos.</p>
-        </div>
-
-        <div class="card small">
-          <h3>Intención mínima</h3>
-          <p>Al final del diagnóstico: ventana de compra + confirmación de disponibilidad para responder.</p>
-        </div>
-
-        <div class="card small">
-          <h3>Mensaje estándar (al lead)</h3>
-          <p class="mono">
-            “Recibido ✅ Para avanzar rápido: ¿compras esta semana? (Sí/No)”
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- METRICS -->
-    <section class="section" id="metrics">
-      <div class="section-head">
-        <h2 class="section-title">KPIs (lo que se mide)</h2>
-        <p class="section-note">
-          Si controlas estos números, el sistema imprime. Si no, es “leads por leads”.
-        </p>
-      </div>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Tablero semanal (mínimo)</h3>
-          <ul class="list">
-            <li>Leads recibidos</li>
-            <li>Contact rate (contactados / leads)</li>
-            <li>Citas agendadas</li>
-            <li>Show rate (shows / citas)</li>
-            <li>Ventas atribuibles</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Retargeting (donde salen cierres)</h3>
-          <ul class="list">
-            <li>Vieron 50%+ de tu video</li>
-            <li>Entraron al diagnóstico y no terminaron</li>
-            <li>Terminaron pero no agendaron</li>
-            <li>No-show: recordatorio + re-agendar</li>
-          </ul>
-        </div>
-
-        <div class="card small">
-          <h3>Contenido (batch)</h3>
-          <p>2 días/semana: 10–15 piezas por dealer (walkarounds + checklists + prueba social).</p>
-        </div>
-
-        <div class="card small">
-          <h3>Regla de crecimiento</h3>
-          <p>Duplicar creativos ganadores, matar lo flojo rápido. 80/20.</p>
-        </div>
-
-        <div class="card small">
-          <h3>Sin hablar de pagos</h3>
-          <p>Aprobación, documentos, trade-in, compra inteligente, vendedor verificado.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRICING -->
-    <section class="section" id="pricing">
-      <div class="section-head">
-        <h2 class="section-title">Modelo de $$ (tu estructura)</h2>
-        <p class="section-note">
-          Setup + base mensual + performance. Ads budget lo paga el vendedor aparte.
-        </p>
-      </div>
-
-      <div class="grid">
-        <div class="card full">
-          <h3>Oferta base</h3>
-          <table class="table" aria-label="Pricing">
-            <thead>
-              <tr>
-                <th>Componente</th>
-                <th>Precio</th>
-                <th>Incluye</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="mono">Setup (one-time)</td>
-                <td class="mono">$500</td>
-                <td>Diagnóstico + módulos + form + tracking + entrega automática al vendedor</td>
-              </tr>
-              <tr>
-                <td class="mono">Base mensual</td>
-                <td class="mono">$199/mo</td>
-                <td>Mantenimiento + optimización + reportes + retargeting básico</td>
-              </tr>
-              <tr>
-                <td class="mono">Performance</td>
-                <td class="mono">10%</td>
-                <td>10% del paycheck atribuible a leads Advency (pago quincenal)</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <p style="margin:12px 0 0; color:var(--muted); font-size:13px; line-height:1.6;">
-            <span class="mono">Ejemplo (mínimo):</span> 6 ventas/mes atribuibles × $850/venta = paycheck $5,100 → 10% = $510.
-            Total Advency = $199 + $510 = <span class="mono accent">$709/mes</span> por vendedor.
+    <!-- BENEFICIOS -->
+    <section id="beneficios">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Beneficios clave</h2>
+          <p class="section-note">
+            Minimalista y directo: lo que el cliente realmente quiere saber antes de dar el paso.
           </p>
         </div>
 
-        <div class="card">
-          <h3>Checklist de implementación (7 días)</h3>
-          <ul class="list">
-            <li>D1: define nicho (marca/dealer) + exclusividad</li>
-            <li>D2: graba 10 piezas (batch)</li>
-            <li>D3: monta diagnóstico + form + score</li>
-            <li>D4: conecta automations + notificaciones</li>
-            <li>D5: lanza ads + retarget</li>
-            <li>D6–7: optimiza + tablero semanal</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Scripts (mínimo) para el vendedor</h3>
-          <ul class="list">
-            <li><span class="mono">1)</span> “Vi tu diagnóstico. ¿Compras esta semana?”</li>
-            <li><span class="mono">2)</span> “Tengo dos horarios: hoy o mañana. ¿Cuál te cuadra?”</li>
-            <li><span class="mono">3)</span> “Para acelerar: licencia + evidencia + info del trade-in.”</li>
-          </ul>
+        <div class="grid">
+          <div class="card">
+            <h3>Protección ante subidas</h3>
+            <p>Reduce exposición a aumentos y variaciones del costo de energía.</p>
+          </div>
+          <div class="card">
+            <h3>Proceso guiado</h3>
+            <p>Te orientamos paso a paso con documentación y verificación simple.</p>
+          </div>
+          <div class="card">
+            <h3>Energía + respaldo</h3>
+            <p>Opciones con baterías y configuraciones según tu consumo y necesidades.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <footer class="footer">
-      <div class="line"></div>
-      <p>
-        <strong>Nota operativa:</strong> este sistema vive o muere por <span class="mono">speed-to-lead</span> y registro en CRM.
-        Si el vendedor no cumple SLA, se queman leads y se distorsiona atribución.
-      </p>
-      <p class="muted">
-        ADVENCY • Auto OS • Puerto Rico • <span class="nowrap">Minimal Agency Layout</span>
-      </p>
+    <!-- FOTOS -->
+    <section id="fotos">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Visual</h2>
+          <p class="section-note">Usando tus fotos. Cambia los <span class="mono">src</span> si tus nombres son distintos.</p>
+        </div>
+
+        <div class="gallery">
+          <div class="imgbox">
+            <!-- FOTO 2 (casa de noche con solar) -->
+            <img src="solar-night-house.jpg" alt="Casa con paneles solares de noche" />
+            <div class="caption">Solar residencial</div>
+          </div>
+          <div class="imgbox">
+            <!-- FOTO 3 (opcional: otra foto / puedes duplicar) -->
+            <img src="hero-solar-roof.jpg" alt="Paneles solares en techo" />
+            <div class="caption">Energía limpia</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRECALIFICA -->
+    <section id="precalifica">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Precalifica ahora</h2>
+          <p class="section-note">
+            Completa este formulario. Luego te contactamos para confirmar detalles.
+            (Puedes conectar esto a tu CRM/HighLevel/Zapier.)
+          </p>
+        </div>
+
+        <div class="form-wrap">
+          <div class="split">
+            <div>
+              <p class="sub" style="margin:0;color:var(--muted)">
+                <span style="color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:1.4px;">Importante:</span>
+                Ten a la mano una foto de tu factura LUMA (o tu consumo mensual).
+              </p>
+            </div>
+            <div style="border-left:1px solid var(--line); padding-left:14px">
+              <p class="sub" style="margin:0;color:var(--muted)">
+                <span class="mono" style="color:var(--ink)">Tiempo estimado:</span> 60–90 segundos.<br>
+                <span class="mono" style="color:var(--ink)">Sin compromiso.</span>
+              </p>
+            </div>
+          </div>
+
+          <form id="leadForm">
+            <div class="full">
+              <label for="name">Nombre completo</label>
+              <input id="name" name="name" required placeholder="Ej. Ricardo Ortiz" />
+            </div>
+
+            <div>
+              <label for="phone">Teléfono</label>
+              <input id="phone" name="phone" required placeholder="787-000-0000" />
+            </div>
+
+            <div>
+              <label for="town">Municipio</label>
+              <input id="town" name="town" required placeholder="Ej. Ponce" />
+            </div>
+
+            <div>
+              <label for="bill">Factura LUMA mensual (aprox.)</label>
+              <select id="bill" name="bill" required>
+                <option value="" selected disabled>Selecciona</option>
+                <option>$100–$149</option>
+                <option>$150–$199</option>
+                <option>$200–$249</option>
+                <option>$250–$299</option>
+                <option>$300+</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="home">Tipo de propiedad</label>
+              <select id="home" name="home" required>
+                <option value="" selected disabled>Selecciona</option>
+                <option>Casa (techo propio)</option>
+                <option>Casa alquilada</option>
+                <option>Apartamento/Condominio</option>
+                <option>Otro</option>
+              </select>
+            </div>
+
+            <div class="full">
+              <label for="notes">Notas (opcional)</label>
+              <textarea id="notes" name="notes" placeholder="Ej. Tengo batería / mi techo es plano / quiero evaluación..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button class="submit" type="submit">Enviar precalificación</button>
+              <p class="fine">
+                Al enviar, aceptas ser contactado por Home Power Sun Energy para evaluación solar. No compartimos tu información fuera del proceso.
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">FAQ</h2>
+          <p class="section-note">Respuestas rápidas a las dudas más comunes.</p>
+        </div>
+
+        <details>
+          <summary>¿Qué necesito para precalificar?</summary>
+          <p>Nombre, teléfono, municipio y un estimado de tu factura LUMA mensual. Si tienes factura a la mano, mejor.</p>
+        </details>
+
+        <details>
+          <summary>¿Esto me obliga a comprar?</summary>
+          <p>No. Es una precalificación y orientación. Si cualificas, se coordina una evaluación más detallada.</p>
+        </details>
+
+        <details>
+          <summary>¿Puedo incluir batería?</summary>
+          <p>Sí. Se evalúa según tu consumo, necesidades y configuración recomendada.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div style="border-top:1px solid var(--line); padding-top:16px">
+          <strong style="letter-spacing:1.6px; text-transform:uppercase;">Home Power Sun Energy</strong><br>
+          <span>Puerto Rico • Energía Solar Residencial</span>
+        </div>
+      </div>
     </footer>
-
   </main>
+
+  <script>
+    // ✅ Demo submit: aquí conectas a tu CRM.
+    // Reemplaza esto por:
+    // - fetch() a tu endpoint
+    // - integración con GoHighLevel / Zapier / Make
+    document.getElementById("leadForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+
+      // Ejemplo: guardar en consola
+      console.log("Lead enviado:", data);
+
+      // UX minimal
+      alert("✅ Recibido. Te contactaremos pronto para confirmar tu elegibilidad.");
+      e.target.reset();
+    });
+  </script>
 </body>
 </html>
