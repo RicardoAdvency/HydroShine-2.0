@@ -44,7 +44,7 @@
     }
 
     .logo{
-      height:32px;
+      height:40px; /* ✅ antes 32px: logo un poco más grande */
       width:auto;
       display:block;
       object-fit:contain;
@@ -180,10 +180,9 @@
       <!-- ✅ Logo: mismo folder que el HTML -->
       <img class="logo" src="Lightreach.png" alt="LightReach"
            onerror="this.style.display='none'; document.getElementById('status').textContent='No encuentro el logo: Lightreach.png (case-sensitive)'; document.getElementById('status').classList.add('bad');">
-      <div class="title">
-        EPC & Comisión
-        <span>Watts (410W) × EPC → Precio · Precio × % → Comisión</span>
-      </div>
+
+      <!-- ✅ Quitado el texto/encabezado que querías eliminar -->
+      <div class="title" style="display:none;"></div>
     </div>
 
     <div class="controls">
@@ -235,7 +234,7 @@
       <span>EPC: —</span>
     </div>
 
-    <div class="status" id="status">Listo.</div>
+    <div class="status" id="status">Listo. Presiona “Calcular”.</div>
   </div>
 
   <script>
@@ -339,13 +338,16 @@
       setStatus(true, "Cálculo listo.");
     }
 
-    $("calcBtn").addEventListener("click", calculate);
-    ["tableSelect","panels","pct"].forEach(id=>{
-      $(id).addEventListener("input", calculate);
-      $(id).addEventListener("change", calculate);
+    // ✅ SOLO calcula cuando le das click al botón
+    $("calcBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      calculate();
     });
 
-    calculate();
+    // ✅ NO auto-cálculo al escribir/cambiar
+    // ✅ NO calculate() al cargar
+
+    setStatus(true, "Listo. Presiona “Calcular”.");
   </script>
 </body>
 </html>
