@@ -7,29 +7,25 @@
 
   <style>
     :root{
-      --bg0:#070a0f;
-      --bg1:#0b1020;
+      --bg:#ffffff;
+      --card:#ffffff;
+      --soft:#f2f5fa;
 
-      --cardA: rgba(255,255,255,.045);
-      --cardB: rgba(255,255,255,.020);
+      --line:#cfd7e3;      /* más contraste */
+      --line2:#b9c5d6;     /* más contraste */
 
-      --lineA: rgba(255,255,255,.10);
-      --lineB: rgba(255,255,255,.06);
-
-      --text:#eef3fb;
-      --muted: rgba(238,243,251,.72);
-      --muted2: rgba(238,243,251,.52);
+      --text:#0a0f1a;      /* negro-azulado */
+      --muted:#2a3647;     /* gris oscuro */
+      --muted2:#47576e;    /* gris medio */
 
       --gold:#f5a400;
-      --teal:#7bb8bd;
+      --teal:#2b8a94;      /* teal más fuerte */
 
-      --ok:#36d399;
-      --bad:#ff5a6a;
+      --ok:#0b7a4b;
+      --bad:#b42318;
 
-      --shadow: 0 18px 50px rgba(0,0,0,.55);
-      --shadow2: 0 10px 30px rgba(0,0,0,.45);
-
-      --pad: 18px;
+      --shadow: 0 18px 45px rgba(10,15,26,.12);
+      --shadow2: 0 10px 28px rgba(10,15,26,.10);
     }
 
     *{ box-sizing:border-box; }
@@ -38,10 +34,7 @@
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color:var(--text);
-      background:
-        radial-gradient(900px 600px at 15% 10%, rgba(123,184,189,.14), transparent 60%),
-        radial-gradient(900px 700px at 85% 0%, rgba(245,164,0,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+      background: linear-gradient(180deg, #ffffff, #f6f8fc);
       letter-spacing:.2px;
     }
 
@@ -51,15 +44,15 @@
       padding: 28px 18px 40px;
     }
 
-    /* Top header */
+    /* Header */
     .top{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:16px;
       padding: 16px 18px;
-      background: linear-gradient(180deg, var(--cardA), var(--cardB));
-      border:1px solid var(--lineB);
+      background: #ffffff;
+      border:2px solid var(--line);
       box-shadow: var(--shadow2);
     }
 
@@ -67,31 +60,28 @@
       display:flex;
       align-items:center;
       gap:14px;
-      min-width: 280px;
     }
 
     .logoBox{
-      height:46px;
+      height:54px;
       display:flex;
       align-items:center;
       padding: 6px 10px;
-      background: rgba(0,0,0,.16);
-      border:1px solid var(--lineB);
+      background: var(--soft);
+      border:2px solid var(--line);
     }
 
     .logos img{
-      height:34px;
+      height:36px;
       width:auto;
       object-fit:contain;
-      filter: drop-shadow(0 6px 16px rgba(0,0,0,.45));
       display:block;
     }
 
     .divider{
-      width:1px;
-      height:38px;
-      background: rgba(255,255,255,.10);
-      margin: 0 2px;
+      width:2px;
+      height:40px;
+      background: var(--line2);
     }
 
     .brand{
@@ -101,23 +91,25 @@
     .brand .title{
       font-size:12px;
       text-transform:uppercase;
-      letter-spacing:2.6px;
+      letter-spacing:2.8px;
       color:var(--muted);
+      font-weight:800;
     }
     .brand .sub{
       margin-top:6px;
       font-size:12px;
       color:var(--muted2);
-      max-width: 420px;
+      max-width: 460px;
+      font-weight:600;
     }
 
-    /* Main card */
+    /* Card */
     .card{
       margin-top:18px;
-      background: linear-gradient(180deg, var(--cardA), var(--cardB));
-      border:1px solid var(--lineB);
+      background: var(--card);
+      border:2px solid var(--line);
       box-shadow: var(--shadow);
-      padding: var(--pad);
+      padding: 18px;
     }
 
     .grid{
@@ -131,22 +123,24 @@
       font-size:11px;
       color:var(--muted);
       text-transform:uppercase;
-      letter-spacing:2.2px;
+      letter-spacing:2.4px;
       margin-bottom:8px;
+      font-weight:900;
     }
 
     .input{
       width:100%;
       padding: 13px 12px;
-      background: rgba(0,0,0,.18);
+      background: #ffffff;
       color:var(--text);
-      border:1px solid var(--lineA);
+      border:2px solid var(--line2);
       outline:none;
       font-size:14px;
+      font-weight:700;
     }
     .input:focus{
-      border-color: rgba(245,164,0,.55);
-      box-shadow: 0 0 0 4px rgba(245,164,0,.10);
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(43,138,148,.18);
     }
 
     .row2{
@@ -166,21 +160,22 @@
     }
 
     .btn{
-      padding: 13px 16px;
-      background: linear-gradient(90deg, rgba(245,164,0,.95), rgba(123,184,189,.85));
-      color:#081018;
-      border:1px solid rgba(255,255,255,.12);
-      font-weight:800;
-      letter-spacing:1.1px;
+      padding: 13px 18px;
+      background: linear-gradient(90deg, rgba(245,164,0,1), rgba(43,138,148,1));
+      color:#0a0f1a;
+      border:2px solid var(--line2);
+      font-weight:1000;
+      letter-spacing:1.2px;
       cursor:pointer;
       text-transform:uppercase;
       font-size:12px;
     }
     .btn:active{ transform: translateY(1px); }
+
     .btn.secondary{
-      background: transparent;
+      background:#ffffff;
       color: var(--text);
-      border:1px solid var(--lineA);
+      border:2px solid var(--line2);
     }
 
     .hint{
@@ -188,9 +183,10 @@
       font-size:12px;
       color:var(--muted2);
       line-height:1.5;
-      border-left: 3px solid rgba(123,184,189,.45);
+      border-left: 4px solid var(--teal);
       padding-left: 10px;
-      max-width: 560px;
+      max-width: 640px;
+      font-weight:650;
     }
     .hint strong{ color: var(--text); }
 
@@ -203,34 +199,36 @@
     }
 
     .tile{
-      background: rgba(0,0,0,.18);
-      border:1px solid var(--lineB);
+      background: var(--soft);
+      border:2px solid var(--line);
       padding:12px;
-      min-height:86px;
+      min-height:88px;
     }
     .tile .k{
       font-size:10px;
       color:var(--muted);
       text-transform:uppercase;
-      letter-spacing:2.0px;
+      letter-spacing:2.2px;
       margin-bottom:8px;
+      font-weight:900;
     }
     .tile .v{
       font-size:18px;
-      font-weight:900;
+      font-weight:1000;
       letter-spacing:.3px;
+      color:var(--text);
     }
     .tile .v small{
       font-size:12px;
       color:var(--muted2);
-      font-weight:700;
+      font-weight:900;
     }
 
     .bar{
       margin-top:12px;
       padding:12px;
-      border:1px solid var(--lineB);
-      background: rgba(0,0,0,.16);
+      border:2px solid var(--line);
+      background: #ffffff;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -244,34 +242,36 @@
       gap:10px;
       font-size:13px;
       color:var(--muted);
+      font-weight:800;
     }
 
     .dot{
       width:10px; height:10px;
-      border-radius:0; /* no redondo */
+      border-radius:0;
       background: var(--ok);
-      box-shadow: 0 0 0 4px rgba(54,211,153,.12);
+      box-shadow: 0 0 0 4px rgba(11,122,75,.12);
     }
     .dot.bad{
       background: var(--bad);
-      box-shadow: 0 0 0 4px rgba(255,90,106,.12);
+      box-shadow: 0 0 0 4px rgba(180,35,24,.12);
     }
 
     .money{
       font-size:14px;
-      color:var(--muted2);
+      color:var(--muted);
+      font-weight:900;
     }
-
     .money strong{
       color: var(--text);
-      font-size: 16px;
+      font-size: 18px;
       letter-spacing: .2px;
+      font-weight:1000;
     }
 
     .footer{
       margin-top:12px;
       padding-top:12px;
-      border-top:1px solid var(--lineB);
+      border-top:2px solid var(--line);
       display:flex;
       justify-content:space-between;
       gap:12px;
@@ -279,6 +279,7 @@
       font-size:11px;
       color:var(--muted2);
       line-height:1.5;
+      font-weight:700;
     }
 
     @media (max-width: 900px){
@@ -286,7 +287,6 @@
       .results{ grid-template-columns: repeat(2, 1fr); }
       .brand{ text-align:left; }
       .top{ flex-direction:column; align-items:flex-start; }
-      .logos{ min-width: unset; }
     }
   </style>
 </head>
@@ -295,10 +295,214 @@
   <div class="wrap">
     <div class="top">
       <div class="logos">
-        <!-- ✅ RUTAS YA CORREGIDAS PARA TU REPO (assets/) -->
         <div class="logoBox"><img src="assets/homepower.png" alt="Home Power"></div>
         <div class="divider"></div>
         <div class="logoBox"><img src="assets/lightreach.png" alt="LightReach"></div>
       </div>
 
-     
+      <div class="brand">
+        <div class="title">Solar EPC & Commission</div>
+        <div class="sub">Watts (410W) × EPC → Precio · Precio × % → Comisión</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="grid">
+        <div>
+          <label>Tabla EPC (Batería)</label>
+          <select id="tableSelect" class="input">
+            <option value="TESLA_1PW3">Tesla · 1 PW3 Hybrid</option>
+            <option value="TESLA_2PW3">Tesla · 2 Baterías (PW3)</option>
+            <option value="ENPHASE_2x5P">Enphase · 2 - 5P DOM</option>
+            <option value="ENPHASE_3x5P">Enphase · 3 - 5P DOM</option>
+            <option value="ENPHASE_4x5P">Enphase · 4 - 5P DOM</option>
+          </select>
+        </div>
+
+        <div>
+          <label># Paneles</label>
+          <input id="panels" class="input" type="number" min="1" step="1" value="10" />
+        </div>
+
+        <div>
+          <label>% Contrato</label>
+          <select id="pct" class="input">
+            <option value="6">6%</option>
+            <option value="12">12%</option>
+            <option value="13">13%</option>
+            <option value="14">14%</option>
+            <option value="15">15%</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="buttons">
+          <button class="btn" id="calcBtn">Calcular</button>
+          <button class="btn secondary" id="resetBtn">Reset</button>
+        </div>
+
+        <div class="hint">
+          * Cálculo: <strong>Watts = 410 × Paneles</strong> · <strong>Precio = Watts × EPC</strong> · <strong>Comisión = Precio × %</strong>
+        </div>
+      </div>
+
+      <div class="results">
+        <div class="tile">
+          <div class="k">Watts Totales</div>
+          <div class="v" id="outWatts">—</div>
+        </div>
+        <div class="tile">
+          <div class="k">kW (referencia)</div>
+          <div class="v" id="outKW">—</div>
+        </div>
+        <div class="tile">
+          <div class="k">EPC</div>
+          <div class="v" id="outEPC">—</div>
+        </div>
+        <div class="tile">
+          <div class="k">Precio</div>
+          <div class="v" id="outPrice">—</div>
+        </div>
+      </div>
+
+      <div class="bar">
+        <div class="status">
+          <span class="dot" id="dot"></span>
+          <span id="statusText">Listo.</span>
+        </div>
+        <div class="money">Comisión: <strong id="outCommission">—</strong></div>
+      </div>
+
+      <div class="footer">
+        <div>EPC depende de la tabla seleccionada. Si el # de paneles no existe, te avisará.</div>
+        <div>Si quieres % custom (ej. 8.5%), lo convierto a input rápido.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WATTS_PER_PANEL = 410;
+
+    const EPC_TABLES = {
+      TESLA_1PW3: {
+        10: 5.15, 11: 5.15, 12: 4.94, 13: 4.75, 14: 4.58, 15: 4.43,
+        16: 4.31, 17: 4.19, 18: 4.09, 19: 4.00, 20: 3.92, 21: 3.85,
+        22: 3.79, 23: 3.73, 24: 3.67, 25: 3.62, 26: 3.57, 27: 3.53,
+        28: 3.49, 29: 3.45, 30: 3.42, 31: 3.38, 32: 3.35, 33: 3.32
+      },
+      TESLA_2PW3: {
+        22: 5.01, 23: 4.89, 24: 4.79, 25: 4.69, 26: 4.60, 27: 4.52,
+        28: 4.45, 29: 4.38, 30: 4.31, 31: 4.25, 32: 4.19, 33: 4.14,
+        34: 4.09, 35: 4.04, 36: 3.99, 37: 3.95, 38: 3.91, 39: 3.87,
+        40: 3.83, 41: 3.80, 42: 3.76, 43: 3.73, 44: 3.70, 45: 3.67,
+        46: 3.65, 47: 3.62, 48: 3.59, 49: 3.57, 50: 3.55, 51: 3.52,
+        52: 3.50, 53: 3.48, 54: 3.46, 55: 3.44, 56: 3.42, 57: 3.41,
+        58: 3.39, 59: 3.37, 60: 3.36, 61: 3.34, 62: 3.32, 63: 3.31,
+        64: 3.30, 65: 3.28, 66: 3.27
+      },
+      ENPHASE_2x5P: { 10: 4.96, 11: 4.84, 12: 4.64, 13: 4.46, 14: 4.32, 15: 4.19 },
+      ENPHASE_3x5P: {
+        13: 4.75, 14: 4.56, 15: 4.43, 16: 4.31, 17: 4.19, 18: 4.09,
+        19: 4.00, 20: 3.92, 21: 3.85, 22: 3.79, 23: 3.73, 24: 3.67,
+        25: 3.62, 26: 3.57, 27: 3.53, 28: 3.49, 29: 3.45, 30: 3.42,
+        31: 3.38, 32: 3.35, 33: 3.32, 34: 3.30, 35: 3.27, 36: 3.25,
+        37: 3.22, 38: 3.20, 39: 3.18, 40: 3.16
+      },
+      ENPHASE_4x5P: {
+        22: 4.28, 23: 4.20, 24: 4.13, 25: 4.06, 26: 3.99, 27: 3.94,
+        28: 3.88, 29: 3.83, 30: 3.78, 31: 3.74, 32: 3.70, 33: 3.66,
+        34: 3.62, 35: 3.58, 36: 3.55, 37: 3.52, 38: 3.49, 39: 3.46,
+        40: 3.44, 41: 3.41, 42: 3.39, 43: 3.36, 44: 3.34, 45: 3.32,
+        46: 3.30, 47: 3.28, 48: 3.26, 49: 3.25, 50: 3.23, 51: 3.21,
+        52: 3.20, 53: 3.18, 54: 3.17, 55: 3.15, 56: 3.14, 57: 3.13,
+        58: 3.11, 59: 3.10, 60: 3.09, 61: 3.08, 62: 3.07, 63: 3.06,
+        64: 3.05
+      }
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    const money = (n) => {
+      if (!isFinite(n)) return "—";
+      return new Intl.NumberFormat("en-US", { style:"currency", currency:"USD", maximumFractionDigits:2 }).format(n);
+    };
+
+    const num = (n, d=2) => {
+      if (!isFinite(n)) return "—";
+      return new Intl.NumberFormat("en-US", { maximumFractionDigits:d }).format(n);
+    };
+
+    function setStatus(ok, msg){
+      $("dot").classList.toggle("bad", !ok);
+      $("statusText").textContent = msg;
+    }
+
+    function clearOutputs(){
+      $("outWatts").textContent = "—";
+      $("outKW").textContent = "—";
+      $("outEPC").textContent = "—";
+      $("outPrice").textContent = "—";
+      $("outCommission").textContent = "—";
+    }
+
+    function getEPC(tableKey, panels){
+      return (EPC_TABLES[tableKey] || {})[panels];
+    }
+
+    function calculate(){
+      const tableKey = $("tableSelect").value;
+      const panels = parseInt($("panels").value || "0", 10);
+      const pct = parseFloat($("pct").value || "0");
+
+      if (!panels || panels <= 0){
+        setStatus(false, "Pon una cantidad válida de paneles.");
+        clearOutputs();
+        return;
+      }
+
+      const epc = getEPC(tableKey, panels);
+      const watts = WATTS_PER_PANEL * panels;
+      const kw = watts / 1000;
+
+      $("outWatts").textContent = num(watts, 0);
+      $("outKW").textContent = num(kw, 2);
+
+      if (!epc){
+        $("outEPC").textContent = "—";
+        $("outPrice").textContent = "—";
+        $("outCommission").textContent = "—";
+        setStatus(false, `Ese # de paneles (${panels}) no existe en la tabla seleccionada.`);
+        return;
+      }
+
+      const price = watts * epc;
+      const commission = price * (pct / 100);
+
+      $("outEPC").textContent = `$${num(epc, 2)} / W`;
+      $("outPrice").textContent = money(price);
+      $("outCommission").textContent = money(commission);
+
+      setStatus(true, "Cálculo listo.");
+    }
+
+    function resetAll(){
+      $("tableSelect").value = "TESLA_1PW3";
+      $("panels").value = 10;
+      $("pct").value = 6;
+      clearOutputs();
+      setStatus(true, "Listo.");
+      calculate();
+    }
+
+    $("calcBtn").addEventListener("click", calculate);
+    $("resetBtn").addEventListener("click", resetAll);
+    ["tableSelect","panels","pct"].forEach(id=>{
+      $(id).addEventListener("input", calculate);
+      $(id).addEventListener("change", calculate);
+    });
+
+    calculate();
+  </script>
+</body>
+</html>
