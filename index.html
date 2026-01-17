@@ -8,17 +8,15 @@
   <style>
     :root{
       --bg:#ffffff;
-      --text:#0b1220;       /* navy casi negro */
+      --text:#0b1220;
       --muted:#5b6b83;
       --line:#e6ecf3;
       --soft:#f7f9fc;
 
-      /* acentos industria */
-      --gold:#f5a400;       /* Home Power */
-      --teal:#2b8a94;       /* LightReach */
+      --teal:#2b8a94;     /* acento industria */
       --navy:#0b1b3a;
 
-      --ok:#128a55;
+      --ok:#16a34a;       /* ✅ verde comisión */
       --bad:#b42318;
     }
 
@@ -38,7 +36,6 @@
       padding: 26px 16px 42px;
     }
 
-    /* Header: clean */
     .top{
       display:flex;
       align-items:center;
@@ -53,19 +50,14 @@
       display:flex;
       align-items:center;
       gap:12px;
+      min-height:40px;
     }
 
     .logos img{
-      height:32px;
+      height:34px;
       width:auto;
       object-fit:contain;
       display:block;
-    }
-
-    .sep{
-      width:1px;
-      height:34px;
-      background: var(--line);
     }
 
     .heading{
@@ -88,7 +80,6 @@
       font-weight:600;
     }
 
-    /* Main */
     .card{
       margin-top:14px;
       border: 1px solid var(--line);
@@ -96,10 +87,9 @@
       padding: 16px;
     }
 
-    /* Accent line (subtle but premium) */
     .accent{
       height:3px;
-      background: linear-gradient(90deg, var(--gold), var(--teal));
+      background: var(--teal);
       margin: -16px -16px 16px -16px;
     }
 
@@ -179,7 +169,6 @@
       font-weight:900;
     }
 
-    /* Results */
     .results{
       margin-top:14px;
       display:grid;
@@ -209,7 +198,6 @@
       color: var(--text);
     }
 
-    /* Commission strip: simple + llamativo */
     .bar{
       margin-top:12px;
       display:flex;
@@ -233,10 +221,9 @@
 
     .dot{
       width:10px; height:10px;
-      border-radius:0; /* sin redondeo */
+      border-radius:0;
       background: var(--ok);
     }
-
     .dot.bad{ background: var(--bad); }
 
     .commission{
@@ -244,7 +231,6 @@
       align-items:baseline;
       gap:10px;
       font-weight:900;
-      color: var(--navy);
     }
 
     .commission span{
@@ -255,11 +241,13 @@
       font-weight:800;
     }
 
+    /* ✅ Comisión verde */
     .commission strong{
       font-size:20px;
       letter-spacing:.2px;
       padding-left:12px;
-      border-left:3px solid var(--gold); /* pop sin ruido */
+      border-left:3px solid var(--ok);
+      color: var(--ok);
     }
 
     .note{
@@ -281,10 +269,12 @@
   <div class="wrap">
     <div class="top">
       <div class="logos">
-        <img src="assets/lightreach.png" alt="LightReach">
-        <div class="sep"></div>
-        <img src="assets/homepower.png" alt="Home Power">
+        <!-- ✅ IMPORTANTE: el nombre debe ser EXACTO (mayúsculas/ minúsculas) -->
+        <!-- Si está en la raíz: -->
+        <img src="Lightreach.png" alt="LightReach"
+             onerror="this.style.display='none'; document.getElementById('statusText').textContent='No encuentro el logo. Revisa el path: Lightreach.png (case-sensitive)'; document.getElementById('dot').classList.add('bad');">
       </div>
+
       <div class="heading">
         <div class="title">EPC & Comisión</div>
         <div class="sub">Watts (410W) × EPC → Precio · Precio × % → Comisión</div>
@@ -366,7 +356,7 @@
       </div>
 
       <div class="note">
-        EPC depende de la tabla seleccionada. Si el # de paneles no existe en esa tabla, saldrá el aviso.
+        Si el logo no aparece: revisa que el archivo se llame EXACTO <b>Lightreach.png</b> (mayúsculas importan) y esté en el mismo folder que <b>index.html</b>.
       </div>
     </div>
   </div>
@@ -374,7 +364,6 @@
   <script>
     const WATTS_PER_PANEL = 410;
 
-    // EPC TABLES (paneles -> EPC)
     const EPC_TABLES = {
       TESLA_1PW3: {
         10: 5.15, 11: 5.15, 12: 4.94, 13: 4.75, 14: 4.58, 15: 4.43,
@@ -382,7 +371,6 @@
         22: 3.79, 23: 3.73, 24: 3.67, 25: 3.62, 26: 3.57, 27: 3.53,
         28: 3.49, 29: 3.45, 30: 3.42, 31: 3.38, 32: 3.35, 33: 3.32
       },
-
       TESLA_2PW3: {
         22: 5.01, 23: 4.89, 24: 4.79, 25: 4.69, 26: 4.60, 27: 4.52,
         28: 4.45, 29: 4.38, 30: 4.31, 31: 4.25, 32: 4.19, 33: 4.14,
@@ -393,9 +381,7 @@
         58: 3.39, 59: 3.37, 60: 3.36, 61: 3.34, 62: 3.32, 63: 3.31,
         64: 3.30, 65: 3.28, 66: 3.27
       },
-
       ENPHASE_2x5P: { 10: 4.96, 11: 4.84, 12: 4.64, 13: 4.46, 14: 4.32, 15: 4.19 },
-
       ENPHASE_3x5P: {
         13: 4.75, 14: 4.56, 15: 4.43, 16: 4.31, 17: 4.19, 18: 4.09,
         19: 4.00, 20: 3.92, 21: 3.85, 22: 3.79, 23: 3.73, 24: 3.67,
@@ -403,7 +389,6 @@
         31: 3.38, 32: 3.35, 33: 3.32, 34: 3.30, 35: 3.27, 36: 3.25,
         37: 3.22, 38: 3.20, 39: 3.18, 40: 3.16
       },
-
       ENPHASE_4x5P: {
         22: 4.28, 23: 4.20, 24: 4.13, 25: 4.06, 26: 3.99, 27: 3.94,
         28: 3.88, 29: 3.83, 30: 3.78, 31: 3.74, 32: 3.70, 33: 3.66,
@@ -433,10 +418,6 @@
       $("statusText").textContent = msg;
     }
 
-    function getEPC(tableKey, panels){
-      return (EPC_TABLES[tableKey] || {})[panels];
-    }
-
     function calculate(){
       const tableKey = $("tableSelect").value;
       const panels = parseInt($("panels").value || "0", 10);
@@ -452,7 +433,7 @@
         return;
       }
 
-      const epc = getEPC(tableKey, panels);
+      const epc = (EPC_TABLES[tableKey] || {})[panels];
       const watts = WATTS_PER_PANEL * panels;
       const kw = watts / 1000;
 
