@@ -3,264 +3,173 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Calculadora EPC & Comisión</title>
+  <title>EPC & Comisión</title>
 
   <style>
     :root{
-      --bg:#ffffff;
+      --bg:#fff;
       --text:#0b1220;
       --muted:#5b6b83;
       --line:#e6ecf3;
-      --soft:#f7f9fc;
 
-      --teal:#2b8a94;     /* acento industria */
+      --teal:#2b8a94;
       --navy:#0b1b3a;
 
-      --ok:#16a34a;       /* ✅ verde comisión */
-      --bad:#b42318;
+      --green:#16a34a;
+      --red:#b42318;
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: var(--bg);
-      color: var(--text);
-      letter-spacing:.2px;
+      background:var(--bg);
+      color:var(--text);
     }
 
     .wrap{
       max-width: 980px;
       margin: 0 auto;
-      padding: 26px 16px 42px;
+      padding: 22px 16px 40px;
     }
 
+    /* Header */
     .top{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:14px;
-      padding: 14px 14px;
-      border: 1px solid var(--line);
-      background: #fff;
+      gap:16px;
+      padding: 12px 0;
+      border-bottom:1px solid var(--line);
     }
 
-    .logos{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-height:40px;
-    }
-
-    .logos img{
-      height:34px;
+    .logo{
+      height:32px;
       width:auto;
-      object-fit:contain;
       display:block;
+      object-fit:contain;
     }
 
-    .heading{
+    .title{
       text-align:right;
-      line-height:1.2;
-    }
-
-    .heading .title{
       font-weight:900;
-      letter-spacing:1.8px;
+      letter-spacing:2px;
       text-transform:uppercase;
       font-size:12px;
-      color: var(--navy);
+      color:var(--navy);
+      line-height:1.2;
     }
-
-    .heading .sub{
+    .title span{
+      display:block;
       margin-top:6px;
       font-size:12px;
-      color: var(--muted);
+      color:var(--muted);
+      letter-spacing:0;
+      text-transform:none;
       font-weight:600;
     }
 
-    .card{
-      margin-top:14px;
-      border: 1px solid var(--line);
-      background: #fff;
-      padding: 16px;
-    }
-
-    .accent{
-      height:3px;
-      background: var(--teal);
-      margin: -16px -16px 16px -16px;
-    }
-
-    .grid{
+    /* Inputs */
+    .controls{
+      margin-top:18px;
       display:grid;
-      grid-template-columns: 1.2fr .8fr .6fr;
-      gap:12px;
+      grid-template-columns: 1.3fr .7fr .6fr auto;
+      gap:10px;
+      align-items:end;
     }
 
     label{
       display:block;
       font-size:11px;
       text-transform:uppercase;
-      letter-spacing:1.6px;
-      color: var(--muted);
+      letter-spacing:1.4px;
+      color:var(--muted);
       margin-bottom:8px;
       font-weight:800;
     }
 
-    .input{
+    select,input{
       width:100%;
       padding: 12px 12px;
       border:1px solid var(--line);
       background:#fff;
-      color: var(--text);
+      color:var(--text);
+      outline:none;
       font-size:14px;
       font-weight:700;
-      outline:none;
     }
 
-    .input:focus{
+    select:focus,input:focus{
       border-color: rgba(43,138,148,.55);
       box-shadow: 0 0 0 4px rgba(43,138,148,.10);
     }
 
-    .actions{
-      margin-top:12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .btns{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
     .btn{
-      padding: 12px 16px;
-      border: 1px solid var(--line);
+      height:42px;
+      padding: 0 14px;
+      border:1px solid var(--line);
       background: var(--navy);
       color:#fff;
       font-weight:900;
-      letter-spacing:1.2px;
+      letter-spacing:1px;
       text-transform:uppercase;
       font-size:12px;
       cursor:pointer;
-    }
-
-    .btn.secondary{
-      background:#fff;
-      color: var(--navy);
-    }
-
-    .formula{
-      font-size:12px;
-      color: var(--muted);
-      font-weight:600;
       white-space:nowrap;
     }
 
-    .formula b{
-      color: var(--text);
-      font-weight:900;
-    }
-
+    /* Results (super simple) */
     .results{
-      margin-top:14px;
+      margin-top:18px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
       display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:10px;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+      align-items:start;
     }
 
-    .tile{
-      border:1px solid var(--line);
-      background: var(--soft);
-      padding: 12px;
-      min-height:84px;
-    }
-
-    .tile .k{
-      font-size:10px;
+    .big{
+      font-size:11px;
       text-transform:uppercase;
       letter-spacing:1.6px;
-      color: var(--muted);
-      font-weight:800;
+      color:var(--muted);
+      font-weight:900;
       margin-bottom:8px;
     }
 
-    .tile .v{
-      font-size:18px;
+    .value{
+      font-size:34px;
       font-weight:1000;
-      color: var(--text);
+      letter-spacing:.2px;
+      color:var(--text);
     }
 
-    .bar{
-      margin-top:12px;
+    .value.green{ color: var(--green); }
+
+    .meta{
+      margin-top:14px;
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      gap:18px;
       flex-wrap:wrap;
-      padding: 12px;
-      border:1px solid var(--line);
-      background:#fff;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
     }
 
     .status{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color: var(--muted);
-      font-weight:700;
-      font-size:13px;
-    }
-
-    .dot{
-      width:10px; height:10px;
-      border-radius:0;
-      background: var(--ok);
-    }
-    .dot.bad{ background: var(--bad); }
-
-    .commission{
-      display:flex;
-      align-items:baseline;
-      gap:10px;
-      font-weight:900;
-    }
-
-    .commission span{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:1.4px;
-      color: var(--muted);
-      font-weight:800;
-    }
-
-    /* ✅ Comisión verde */
-    .commission strong{
-      font-size:20px;
-      letter-spacing:.2px;
-      padding-left:12px;
-      border-left:3px solid var(--ok);
-      color: var(--ok);
-    }
-
-    .note{
       margin-top:10px;
-      font-size:11px;
-      color: var(--muted);
-      font-weight:600;
+      font-size:12px;
+      font-weight:700;
+      color:var(--muted);
     }
+    .status.bad{ color: var(--red); }
 
     @media (max-width: 900px){
-      .grid{ grid-template-columns: 1fr; }
-      .results{ grid-template-columns: repeat(2, 1fr); }
-      .heading{ text-align:left; }
+      .controls{ grid-template-columns: 1fr; }
+      .btn{ width:100%; }
+      .results{ grid-template-columns: 1fr; }
+      .title{ text-align:left; }
     }
   </style>
 </head>
@@ -268,97 +177,65 @@
 <body>
   <div class="wrap">
     <div class="top">
-      <div class="logos">
-        <!-- ✅ IMPORTANTE: el nombre debe ser EXACTO (mayúsculas/ minúsculas) -->
-        <!-- Si está en la raíz: -->
-        <img src="Lightreach.png" alt="LightReach"
-             onerror="this.style.display='none'; document.getElementById('statusText').textContent='No encuentro el logo. Revisa el path: Lightreach.png (case-sensitive)'; document.getElementById('dot').classList.add('bad');">
-      </div>
-
-      <div class="heading">
-        <div class="title">EPC & Comisión</div>
-        <div class="sub">Watts (410W) × EPC → Precio · Precio × % → Comisión</div>
+      <!-- ✅ Logo: mismo folder que el HTML -->
+      <img class="logo" src="Lightreach.png" alt="LightReach"
+           onerror="this.style.display='none'; document.getElementById('status').textContent='No encuentro el logo: Lightreach.png (case-sensitive)'; document.getElementById('status').classList.add('bad');">
+      <div class="title">
+        EPC & Comisión
+        <span>Watts (410W) × EPC → Precio · Precio × % → Comisión</span>
       </div>
     </div>
 
-    <div class="card">
-      <div class="accent"></div>
-
-      <div class="grid">
-        <div>
-          <label>Tabla EPC (Batería)</label>
-          <select id="tableSelect" class="input">
-            <option value="TESLA_1PW3">Tesla · 1 PW3 Hybrid</option>
-            <option value="TESLA_2PW3">Tesla · 2 Baterías (PW3)</option>
-            <option value="ENPHASE_2x5P">Enphase · 2 - 5P DOM</option>
-            <option value="ENPHASE_3x5P">Enphase · 3 - 5P DOM</option>
-            <option value="ENPHASE_4x5P">Enphase · 4 - 5P DOM</option>
-          </select>
-        </div>
-
-        <div>
-          <label># Paneles</label>
-          <input id="panels" class="input" type="number" min="1" step="1" value="10" />
-        </div>
-
-        <div>
-          <label>% Contrato</label>
-          <select id="pct" class="input">
-            <option value="6">6%</option>
-            <option value="12">12%</option>
-            <option value="13">13%</option>
-            <option value="14">14%</option>
-            <option value="15">15%</option>
-          </select>
-        </div>
+    <div class="controls">
+      <div>
+        <label>Tabla EPC</label>
+        <select id="tableSelect">
+          <option value="TESLA_1PW3">Tesla · 1 PW3 Hybrid</option>
+          <option value="TESLA_2PW3">Tesla · 2 Baterías (PW3)</option>
+          <option value="ENPHASE_2x5P">Enphase · 2 - 5P DOM</option>
+          <option value="ENPHASE_3x5P">Enphase · 3 - 5P DOM</option>
+          <option value="ENPHASE_4x5P">Enphase · 4 - 5P DOM</option>
+        </select>
       </div>
 
-      <div class="actions">
-        <div class="btns">
-          <button class="btn" id="calcBtn">Calcular</button>
-          <button class="btn secondary" id="resetBtn">Reset</button>
-        </div>
-
-        <div class="formula">
-          <b>Watts</b> = 410 × Paneles · <b>Precio</b> = Watts × EPC · <b>Comisión</b> = Precio × %
-        </div>
+      <div>
+        <label># Paneles</label>
+        <input id="panels" type="number" min="1" step="1" value="10" />
       </div>
 
-      <div class="results">
-        <div class="tile">
-          <div class="k">Watts Totales</div>
-          <div class="v" id="outWatts">—</div>
-        </div>
-        <div class="tile">
-          <div class="k">kW (Referencia)</div>
-          <div class="v" id="outKW">—</div>
-        </div>
-        <div class="tile">
-          <div class="k">EPC</div>
-          <div class="v" id="outEPC">—</div>
-        </div>
-        <div class="tile">
-          <div class="k">Precio</div>
-          <div class="v" id="outPrice">—</div>
-        </div>
+      <div>
+        <label>% Contrato</label>
+        <select id="pct">
+          <option value="6">6%</option>
+          <option value="12">12%</option>
+          <option value="13">13%</option>
+          <option value="14">14%</option>
+          <option value="15">15%</option>
+        </select>
       </div>
 
-      <div class="bar">
-        <div class="status">
-          <span class="dot" id="dot"></span>
-          <span id="statusText">Listo.</span>
-        </div>
+      <button class="btn" id="calcBtn">Calcular</button>
+    </div>
 
-        <div class="commission">
-          <span>Comisión</span>
-          <strong id="outCommission">—</strong>
-        </div>
+    <div class="results">
+      <div>
+        <div class="big">Precio</div>
+        <div class="value" id="outPrice">—</div>
       </div>
 
-      <div class="note">
-        Si el logo no aparece: revisa que el archivo se llame EXACTO <b>Lightreach.png</b> (mayúsculas importan) y esté en el mismo folder que <b>index.html</b>.
+      <div>
+        <div class="big">Comisión</div>
+        <div class="value green" id="outCommission">—</div>
       </div>
     </div>
+
+    <div class="meta" id="outMeta">
+      <span>Watts: —</span>
+      <span>kW: —</span>
+      <span>EPC: —</span>
+    </div>
+
+    <div class="status" id="status">Listo.</div>
   </div>
 
   <script>
@@ -371,6 +248,7 @@
         22: 3.79, 23: 3.73, 24: 3.67, 25: 3.62, 26: 3.57, 27: 3.53,
         28: 3.49, 29: 3.45, 30: 3.42, 31: 3.38, 32: 3.35, 33: 3.32
       },
+
       TESLA_2PW3: {
         22: 5.01, 23: 4.89, 24: 4.79, 25: 4.69, 26: 4.60, 27: 4.52,
         28: 4.45, 29: 4.38, 30: 4.31, 31: 4.25, 32: 4.19, 33: 4.14,
@@ -381,7 +259,9 @@
         58: 3.39, 59: 3.37, 60: 3.36, 61: 3.34, 62: 3.32, 63: 3.31,
         64: 3.30, 65: 3.28, 66: 3.27
       },
+
       ENPHASE_2x5P: { 10: 4.96, 11: 4.84, 12: 4.64, 13: 4.46, 14: 4.32, 15: 4.19 },
+
       ENPHASE_3x5P: {
         13: 4.75, 14: 4.56, 15: 4.43, 16: 4.31, 17: 4.19, 18: 4.09,
         19: 4.00, 20: 3.92, 21: 3.85, 22: 3.79, 23: 3.73, 24: 3.67,
@@ -389,6 +269,7 @@
         31: 3.38, 32: 3.35, 33: 3.32, 34: 3.30, 35: 3.27, 36: 3.25,
         37: 3.22, 38: 3.20, 39: 3.18, 40: 3.16
       },
+
       ENPHASE_4x5P: {
         22: 4.28, 23: 4.20, 24: 4.13, 25: 4.06, 26: 3.99, 27: 3.94,
         28: 3.88, 29: 3.83, 30: 3.78, 31: 3.74, 32: 3.70, 33: 3.66,
@@ -405,7 +286,9 @@
 
     const money = (n) => {
       if (!isFinite(n)) return "—";
-      return new Intl.NumberFormat("en-US", { style:"currency", currency:"USD", maximumFractionDigits:2 }).format(n);
+      return new Intl.NumberFormat("en-US", {
+        style:"currency", currency:"USD", maximumFractionDigits:2
+      }).format(n);
     };
 
     const num = (n, d=2) => {
@@ -414,8 +297,9 @@
     };
 
     function setStatus(ok, msg){
-      $("dot").classList.toggle("bad", !ok);
-      $("statusText").textContent = msg;
+      const el = $("status");
+      el.textContent = msg;
+      el.classList.toggle("bad", !ok);
     }
 
     function calculate(){
@@ -424,12 +308,10 @@
       const pct = parseFloat($("pct").value || "0");
 
       if (!panels || panels <= 0){
-        setStatus(false, "Pon una cantidad válida de paneles.");
-        $("outWatts").textContent = "—";
-        $("outKW").textContent = "—";
-        $("outEPC").textContent = "—";
         $("outPrice").textContent = "—";
         $("outCommission").textContent = "—";
+        $("outMeta").innerHTML = `<span>Watts: —</span><span>kW: —</span><span>EPC: —</span>`;
+        setStatus(false, "Pon una cantidad válida de paneles.");
         return;
       }
 
@@ -437,13 +319,11 @@
       const watts = WATTS_PER_PANEL * panels;
       const kw = watts / 1000;
 
-      $("outWatts").textContent = num(watts, 0);
-      $("outKW").textContent = num(kw, 2);
-
       if (!epc){
-        $("outEPC").textContent = "—";
         $("outPrice").textContent = "—";
         $("outCommission").textContent = "—";
+        $("outMeta").innerHTML =
+          `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: —</span>`;
         setStatus(false, `Ese # de paneles (${panels}) no existe en la tabla seleccionada.`);
         return;
       }
@@ -451,22 +331,15 @@
       const price = watts * epc;
       const commission = price * (pct / 100);
 
-      $("outEPC").textContent = `$${num(epc, 2)} / W`;
       $("outPrice").textContent = money(price);
       $("outCommission").textContent = money(commission);
+      $("outMeta").innerHTML =
+        `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: $${num(epc,2)}/W</span>`;
 
       setStatus(true, "Cálculo listo.");
     }
 
-    function resetAll(){
-      $("tableSelect").value = "TESLA_1PW3";
-      $("panels").value = 10;
-      $("pct").value = 6;
-      calculate();
-    }
-
     $("calcBtn").addEventListener("click", calculate);
-    $("resetBtn").addEventListener("click", resetAll);
     ["tableSelect","panels","pct"].forEach(id=>{
       $(id).addEventListener("input", calculate);
       $(id).addEventListener("change", calculate);
