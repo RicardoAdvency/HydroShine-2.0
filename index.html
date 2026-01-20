@@ -66,55 +66,9 @@
       object-fit:contain;
     }
 
-    /* ✅ mini bar pro (discreta) */
-    .miniBar{
-      margin-top:10px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:800;
-    }
-    .miniLeft{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .miniLink{
-      color:var(--navy);
-      text-decoration:none;
-      border-bottom:2px solid var(--orange);
-      padding-bottom:2px;
-      font-weight:900;
-      letter-spacing:.3px;
-      cursor:pointer;
-    }
-    .miniLink.muted{
-      color:var(--muted);
-      border-bottom-color: rgba(245,158,11,.35);
-      font-weight:900;
-    }
-    .miniRight{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      white-space:nowrap;
-    }
-    .pill{
-      border:1px solid var(--line);
-      padding: 6px 10px;
-      background:#fff;
-      color:var(--muted);
-      font-weight:900;
-    }
-    .pill strong{ color: var(--navy); }
-
     /* Inputs */
     .controls{
-      margin-top:14px;
+      margin-top:18px;
       display:grid;
       grid-template-columns: 1.3fr .7fr .6fr auto;
       gap:10px;
@@ -151,7 +105,7 @@
     .btn{
       height:42px;
       padding: 0 14px;
-      border:1px solid rgba(245,158,11,.35);
+      border:1px solid rgba(245,158,11,.35); /* borde naranja sutil */
       background: var(--navy);
       color:#fff;
       font-weight:900;
@@ -240,8 +194,6 @@
       .controls{ grid-template-columns: 1fr; }
       .btn{ width:100%; }
       .results{ grid-template-columns: 1fr; }
-      .miniBar{ flex-direction:column; align-items:flex-start; }
-      .miniRight{ width:100%; justify-content:space-between; }
     }
 
     /* Acceso */
@@ -268,26 +220,6 @@
     }
 
     .hidden{ display:none !important; }
-
-    /* ✅ Toast minimal */
-    .toast{
-      position:fixed;
-      left:16px;
-      bottom:16px;
-      background:#fff;
-      border:1px solid var(--line);
-      box-shadow: 0 12px 30px rgba(0,0,0,.08);
-      padding: 10px 12px;
-      font-size:12px;
-      font-weight:900;
-      color:var(--navy);
-      display:none;
-      max-width: 340px;
-    }
-    .toast strong{
-      border-bottom:2px solid var(--orange);
-      padding-bottom:1px;
-    }
   </style>
 </head>
 
@@ -298,7 +230,7 @@
            onerror="this.style.display='none'; document.getElementById('status').textContent='No encuentro el logo: Lightreach.png (case-sensitive)'; document.getElementById('status').classList.add('bad');">
     </div>
 
-    <!-- ✅ ACCESO (sesión temporal 10 min) -->
+    <!-- ✅ ACCESO (sesión temporal 10 min, sin contador visible) -->
     <div id="gate" class="gate">
       <div class="gateTitle">Acceso</div>
       <div class="helper">Escribe tu nombre para entrar a la calculadora.</div>
@@ -312,22 +244,8 @@
       <div class="status" id="gateStatus">Listo.</div>
     </div>
 
-    <!-- ✅ APP -->
+    <!-- ✅ CALCULADORA -->
     <div id="app" class="hidden">
-
-      <!-- ✅ mini bar pro (discreta) -->
-      <div class="miniBar">
-        <div class="miniLeft">
-          <a class="miniLink" href="#" id="copyLink">Copiar</a>
-          <a class="miniLink muted" href="#" id="clearLink">Limpiar</a>
-          <a class="miniLink muted" href="#" id="logoutLink">Salir</a>
-        </div>
-
-        <div class="miniRight">
-          <div class="pill">Sesión: <strong id="sessionCountdown">10:00</strong></div>
-        </div>
-      </div>
-
       <div class="controls">
         <div>
           <label>Tabla EPC</label>
@@ -383,20 +301,9 @@
     </div>
   </div>
 
-  <div class="toast" id="toast"><strong>OK</strong></div>
-
   <script>
     const WATTS_PER_PANEL = 410;
-
-    // ✅ sesión
-    const SESSION_MS = 10 * 60 * 1000; // 10 min
-    const LS_NAME = "lr_name";
-    const LS_TS   = "lr_ts";
-
-    // ✅ preferencias (no nombre)
-    const PREF_TABLE = "lr_pref_table";
-    const PREF_PANELS = "lr_pref_panels";
-    const PREF_PCT = "lr_pref_pct";
+    const SESSION_MS = 10 * 60 * 1000; // ✅ 10 minutos
 
     const EPC_TABLES = {
       TESLA_1PW3: {
@@ -460,52 +367,32 @@
       el.classList.toggle("bad", !ok);
     }
 
-    let toastTimer = null;
-    function toast(msg){
-      const el = $("toast");
-      el.innerHTML = `<strong>OK</strong> ${msg}`;
-      el.style.display = "block";
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=>{ el.style.display="none"; }, 2200);
-    }
-
-    /* ====== Sesión ====== */
+    /* ====== sesión temporal (silenciosa) ====== */
     function saveSession(name){
       try{
-        localStorage.setItem(LS_NAME, name);
-        localStorage.setItem(LS_TS, String(Date.now()));
+        localStorage.setItem("lr_name", name);
+        localStorage.setItem("lr_ts", String(Date.now()));
       }catch(_){}
     }
+
     function clearSession(){
       try{
-        localStorage.removeItem(LS_NAME);
-        localStorage.removeItem(LS_TS);
+        localStorage.removeItem("lr_name");
+        localStorage.removeItem("lr_ts");
       }catch(_){}
     }
-    function sessionInfo(){
+
+    function sessionValid(){
       try{
-        const name = (localStorage.getItem(LS_NAME) || "").trim();
-        const ts = parseInt(localStorage.getItem(LS_TS) || "0", 10);
-        return { name, ts };
+        const name = (localStorage.getItem("lr_name") || "").trim();
+        const ts = parseInt(localStorage.getItem("lr_ts") || "0", 10);
+        if (!name || !ts) return false;
+        return (Date.now() - ts) <= SESSION_MS;
       }catch(_){
-        return { name:"", ts:0 };
+        return false;
       }
     }
-    function sessionRemainingMs(){
-      const { name, ts } = sessionInfo();
-      if (!name || !ts) return 0;
-      const left = SESSION_MS - (Date.now() - ts);
-      return Math.max(0, left);
-    }
-    function sessionValid(){
-      return sessionRemainingMs() > 0;
-    }
-    function formatMMSS(ms){
-      const s = Math.ceil(ms/1000);
-      const m = Math.floor(s/60);
-      const r = s % 60;
-      return `${String(m).padStart(2,"0")}:${String(r).padStart(2,"0")}`;
-    }
+
     function openGate(msg="Listo."){
       $("app").classList.add("hidden");
       $("gate").classList.remove("hidden");
@@ -513,6 +400,7 @@
       $("enterBtn").disabled = true;
       $("gateStatus").textContent = msg;
     }
+
     function openApp(){
       $("gate").classList.add("hidden");
       $("app").classList.remove("hidden");
@@ -520,14 +408,16 @@
       setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
     }
 
-    /* ====== Gate ====== */
+    /* ====== gate ====== */
     function gateReady(){
       const name = ($("gateName").value || "").trim();
       return name.length >= 2;
     }
+
     function updateGate(){
       $("enterBtn").disabled = !gateReady();
     }
+
     function enterApp(){
       const name = ($("gateName").value || "").trim();
       if (!name){
@@ -536,40 +426,12 @@
       }
       saveSession(name);
       openApp();
-      toast("Sesión iniciada.");
     }
 
     $("gateName").addEventListener("input", updateGate);
     $("enterBtn").addEventListener("click", (e)=>{ e.preventDefault(); enterApp(); });
 
-    /* ====== Preferencias (no nombre) ====== */
-    function savePrefs(){
-      try{
-        localStorage.setItem(PREF_TABLE, $("tableSelect").value);
-        localStorage.setItem(PREF_PANELS, String($("panels").value || ""));
-        localStorage.setItem(PREF_PCT, String($("pct").value || ""));
-      }catch(_){}
-    }
-    function loadPrefs(){
-      try{
-        const t = localStorage.getItem(PREF_TABLE);
-        const p = localStorage.getItem(PREF_PANELS);
-        const pct = localStorage.getItem(PREF_PCT);
-
-        if (t && EPC_TABLES[t]) $("tableSelect").value = t;
-        if (p && String(parseInt(p,10)) === String(p)) $("panels").value = p;
-        if (pct && ["6","10","12","13","14","15"].includes(pct)) $("pct").value = pct;
-      }catch(_){}
-    }
-
-    /* ====== Calc helpers ====== */
-    function getRangeForTable(tableKey){
-      const table = EPC_TABLES[tableKey] || {};
-      const keys = Object.keys(table).map(k => parseInt(k,10)).filter(n => Number.isFinite(n)).sort((a,b)=>a-b);
-      if (!keys.length) return null;
-      return { min: keys[0], max: keys[keys.length - 1] };
-    }
-
+    /* ====== calc ====== */
     function isReady(){
       const panels = parseInt($("panels").value || "0", 10);
       const pct = $("pct").value;
@@ -585,20 +447,21 @@
       $("calcBtn").disabled = !isReady();
     }
 
-    function resetOutputs(){
-      $("outPrice").textContent = "—";
-      $("outCommission").textContent = "—";
-      $("outMeta").innerHTML = `<span>Watts: —</span><span>kW: —</span><span>EPC: —</span>`;
-    }
-
     function calculate(){
       const tableKey = $("tableSelect").value;
       const panels = parseInt($("panels").value || "0", 10);
       const pct = parseFloat($("pct").value || "0");
 
       if (!panels || panels <= 0){
-        resetOutputs();
+        $("outPrice").textContent = "—";
+        $("outCommission").textContent = "—";
+        $("outMeta").innerHTML = `<span>Watts: —</span><span>kW: —</span><span>EPC: —</span>`;
         setStatus(false, "Pon una cantidad válida de paneles.");
+        return;
+      }
+
+      if (!$("pct").value){
+        setStatus(false, "Selecciona el % de contrato para calcular.");
         return;
       }
 
@@ -607,12 +470,11 @@
       const kw = watts / 1000;
 
       if (!epc){
-        resetOutputs();
-        const range = getRangeForTable(tableKey);
-        const hint = range ? ` Rango válido: ${range.min}–${range.max}.` : "";
+        $("outPrice").textContent = "—";
+        $("outCommission").textContent = "—";
         $("outMeta").innerHTML =
           `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: —</span>`;
-        setStatus(false, `Ese # de paneles (${panels}) no existe en la tabla seleccionada.${hint}`);
+        setStatus(false, `Ese # de paneles (${panels}) no existe en la tabla seleccionada.`);
         return;
       }
 
@@ -625,9 +487,9 @@
         `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: $${num(epc,2)}/W</span>`;
 
       setStatus(true, "Cálculo listo.");
-      savePrefs();
     }
 
+    // ✅ SOLO calcula cuando le das click
     $("calcBtn").addEventListener("click", (e) => {
       e.preventDefault();
       if (!isReady()){
@@ -637,76 +499,14 @@
       calculate();
     });
 
+    // ✅ habilitar botón cuando todo esté listo
     ["input","change"].forEach(evt=>{
-      $("panels").addEventListener(evt, () => { updateButton(); savePrefs(); });
-      $("pct").addEventListener(evt, () => { updateButton(); savePrefs(); });
-      $("tableSelect").addEventListener(evt, () => { updateButton(); savePrefs(); });
+      $("panels").addEventListener(evt, updateButton);
+      $("pct").addEventListener(evt, updateButton);
+      $("tableSelect").addEventListener(evt, updateButton);
     });
 
-    /* ====== Copiar / Limpiar / Salir ====== */
-    async function copyText(text){
-      try{
-        await navigator.clipboard.writeText(text);
-        return true;
-      }catch(_){
-        try{
-          const ta = document.createElement("textarea");
-          ta.value = text;
-          ta.style.position = "fixed";
-          ta.style.left = "-9999px";
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-          return true;
-        }catch(__){
-          return false;
-        }
-      }
-    }
-
-    $("copyLink").addEventListener("click", async (e)=>{
-      e.preventDefault();
-      const tableName = $("tableSelect").selectedOptions[0]?.textContent || $("tableSelect").value;
-      const panels = parseInt($("panels").value || "0", 10);
-      const pct = $("pct").value || "—";
-      const epc = (EPC_TABLES[$("tableSelect").value] || {})[panels];
-      const watts = panels ? WATTS_PER_PANEL * panels : NaN;
-      const kw = panels ? watts / 1000 : NaN;
-
-      const msg =
-`EPC & Comisión
-Tabla: ${tableName}
-Paneles: ${panels || "—"}
-Watts: ${panels ? num(watts,0) : "—"} | kW: ${panels ? num(kw,2) : "—"}
-EPC: ${epc ? `$${num(epc,2)}/W` : "—"}
-% Contrato: ${pct}
-Precio: ${$("outPrice").textContent}
-Comisión: ${$("outCommission").textContent}`;
-
-      const ok = await copyText(msg);
-      if (ok){ toast("Copiado para WhatsApp."); }
-      setStatus(ok, ok ? "Copiado. Pégalo en WhatsApp." : "No pude copiar (bloqueado por el navegador).");
-    });
-
-    $("clearLink").addEventListener("click", (e)=>{
-      e.preventDefault();
-      $("pct").value = "";
-      resetOutputs();
-      updateButton();
-      setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
-      toast("Limpio.");
-      savePrefs();
-    });
-
-    $("logoutLink").addEventListener("click", (e)=>{
-      e.preventDefault();
-      clearSession();
-      openGate("Saliste. Escribe tu nombre para entrar.");
-      toast("Sesión cerrada.");
-    });
-
-    /* ====== Enter key ====== */
+    // ✅ ENTER: login o calcular
     document.addEventListener("keydown", (e)=>{
       if (e.key !== "Enter") return;
 
@@ -722,33 +522,25 @@ Comisión: ${$("outCommission").textContent}`;
       calculate();
     });
 
-    /* ====== Timer + Expiración ====== */
-    function tickSession(){
-      const left = sessionRemainingMs();
-      $("sessionCountdown").textContent = formatMMSS(left);
-
-      if (!$("app").classList.contains("hidden") && left <= 0){
-        clearSession();
-        openGate("Sesión expirada. Escribe tu nombre otra vez.");
-        toast("Sesión expirada.");
-      }
-    }
-
-    /* ====== Boot ====== */
+    /* ====== BOOT + EXPIRACIÓN SILENCIOSA ====== */
     (function boot(){
-      loadPrefs();
-      resetOutputs();
-      updateButton();
-
-      if (sessionValid()){
-        openApp();
-      }else{
+      if (!sessionValid()){
         clearSession();
         openGate("Listo.");
+      }else{
+        openApp();
       }
 
-      tickSession();
-      setInterval(tickSession, 1000);
+      // ✅ chequeo silencioso cada 10s
+      setInterval(()=>{
+        if (!$("app").classList.contains("hidden") && !sessionValid()){
+          clearSession();
+          openGate("Sesión expirada. Escribe tu nombre otra vez.");
+        }
+      }, 10000);
+
+      setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
+      updateButton();
     })();
   </script>
 </body>
