@@ -44,7 +44,7 @@
     }
 
     .logo{
-      height:40px; /* ✅ antes 32px: logo un poco más grande */
+      height:40px;
       width:auto;
       display:block;
       object-fit:contain;
@@ -118,6 +118,12 @@
       white-space:nowrap;
     }
 
+    /* ✅ estado "pro" sin cambiar estética */
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
     /* Results (super simple) */
     .results{
       margin-top:18px;
@@ -177,11 +183,9 @@
 <body>
   <div class="wrap">
     <div class="top">
-      <!-- ✅ Logo: mismo folder que el HTML -->
       <img class="logo" src="Lightreach.png" alt="LightReach"
            onerror="this.style.display='none'; document.getElementById('status').textContent='No encuentro el logo: Lightreach.png (case-sensitive)'; document.getElementById('status').classList.add('bad');">
 
-      <!-- ✅ Quitado el texto/encabezado que querías eliminar -->
       <div class="title" style="display:none;"></div>
     </div>
 
@@ -205,7 +209,8 @@
       <div>
         <label>% Contrato</label>
         <select id="pct">
-          <option value="6">6%</option>
+          <!-- ✅ ya no hay 6% y obliga a escoger -->
+          <option value="" selected disabled>Selecciona…</option>
           <option value="12">12%</option>
           <option value="13">13%</option>
           <option value="14">14%</option>
@@ -213,7 +218,7 @@
         </select>
       </div>
 
-      <button class="btn" id="calcBtn">Calcular</button>
+      <button class="btn" id="calcBtn" disabled>Calcular</button>
     </div>
 
     <div class="results">
@@ -234,7 +239,7 @@
       <span>EPC: —</span>
     </div>
 
-    <div class="status" id="status">Listo. Presiona “Calcular”.</div>
+    <div class="status" id="status">Listo. Selecciona tu % y presiona “Calcular”.</div>
   </div>
 
   <script>
@@ -301,6 +306,22 @@
       el.classList.toggle("bad", !ok);
     }
 
+    // ✅ "pro": botón solo se activa si está todo listo
+    function isReady(){
+      const panels = parseInt($("panels").value || "0", 10);
+      const pct = $("pct").value; // string
+      const tableKey = $("tableSelect").value;
+
+      if (!tableKey) return false;
+      if (!panels || panels <= 0) return false;
+      if (!pct) return false; // obliga seleccionar %
+      return true;
+    }
+
+    function updateButton(){
+      $("calcBtn").disabled = !isReady();
+    }
+
     function calculate(){
       const tableKey = $("tableSelect").value;
       const panels = parseInt($("panels").value || "0", 10);
@@ -311,6 +332,11 @@
         $("outCommission").textContent = "—";
         $("outMeta").innerHTML = `<span>Watts: —</span><span>kW: —</span><span>EPC: —</span>`;
         setStatus(false, "Pon una cantidad válida de paneles.");
+        return;
+      }
+
+      if (!$("pct").value){
+        setStatus(false, "Selecciona el % de contrato para calcular.");
         return;
       }
 
@@ -336,18 +362,52 @@
         `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: $${num(epc,2)}/W</span>`;
 
       setStatus(true, "Cálculo listo.");
+
+      // ✅ opcional: UX pro (recuerda últimas selecciones)
+      try{
+        localStorage.setItem("lr_table", tableKey);
+        localStorage.setItem("lr_pct", String($("pct").value));
+      }catch(_){}
     }
 
     // ✅ SOLO calcula cuando le das click al botón
     $("calcBtn").addEventListener("click", (e) => {
       e.preventDefault();
+      if (!isReady()){
+        setStatus(false, "Completa paneles y selecciona el % antes de calcular.");
+        return;
+      }
       calculate();
     });
 
-    // ✅ NO auto-cálculo al escribir/cambiar
-    // ✅ NO calculate() al cargar
+    // ✅ "pro": Enter para calcular (si está listo)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter"){
+        if (!isReady()){
+          setStatus(false, "Completa paneles y selecciona el % antes de calcular.");
+          return;
+        }
+        calculate();
+      }
+    });
 
-    setStatus(true, "Listo. Presiona “Calcular”.");
+    // ✅ actualizar botón sin auto-calcular
+    ["input","change"].forEach(evt=>{
+      $("panels").addEventListener(evt, updateButton);
+      $("pct").addEventListener(evt, updateButton);
+      $("tableSelect").addEventListener(evt, updateButton);
+    });
+
+    // ✅ opcional: cargar últimas selecciones (sin calcular)
+    try{
+      const savedTable = localStorage.getItem("lr_table");
+      const savedPct = localStorage.getItem("lr_pct");
+      if (savedTable && EPC_TABLES[savedTable]) $("tableSelect").value = savedTable;
+      if (savedPct && ["12","13","14","15"].includes(savedPct)) $("pct").value = savedPct;
+    }catch(_){}
+
+    updateButton();
+    setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
   </script>
 </body>
 </html>
