@@ -50,25 +50,6 @@
       object-fit:contain;
     }
 
-    .title{
-      text-align:right;
-      font-weight:900;
-      letter-spacing:2px;
-      text-transform:uppercase;
-      font-size:12px;
-      color:var(--navy);
-      line-height:1.2;
-    }
-    .title span{
-      display:block;
-      margin-top:6px;
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:0;
-      text-transform:none;
-      font-weight:600;
-    }
-
     /* Inputs */
     .controls{
       margin-top:18px;
@@ -118,13 +99,12 @@
       white-space:nowrap;
     }
 
-    /* ✅ estado "pro" sin cambiar estética */
     .btn:disabled{
       opacity:.55;
       cursor:not-allowed;
     }
 
-    /* Results (super simple) */
+    /* Results */
     .results{
       margin-top:18px;
       padding-top:18px;
@@ -175,8 +155,33 @@
       .controls{ grid-template-columns: 1fr; }
       .btn{ width:100%; }
       .results{ grid-template-columns: 1fr; }
-      .title{ text-align:left; }
     }
+
+    /* ✅ Acceso (super simple) */
+    .gate{
+      margin-top:18px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      display:grid;
+      gap:12px;
+      max-width:520px;
+    }
+    .gateTitle{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:1.6px;
+      color:var(--muted);
+      font-weight:900;
+    }
+    .helper{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:700;
+      margin-top:-6px;
+    }
+
+    /* ✅ Ocultar/mostrar secciones */
+    .hidden{ display:none !important; }
   </style>
 </head>
 
@@ -185,61 +190,78 @@
     <div class="top">
       <img class="logo" src="Lightreach.png" alt="LightReach"
            onerror="this.style.display='none'; document.getElementById('status').textContent='No encuentro el logo: Lightreach.png (case-sensitive)'; document.getElementById('status').classList.add('bad');">
-
-      <div class="title" style="display:none;"></div>
     </div>
 
-    <div class="controls">
-      <div>
-        <label>Tabla EPC</label>
-        <select id="tableSelect">
-          <option value="TESLA_1PW3">Tesla · 1 PW3 Hybrid</option>
-          <option value="TESLA_2PW3">Tesla · 2 Baterías (PW3)</option>
-          <option value="ENPHASE_2x5P">Enphase · 2 - 5P DOM</option>
-          <option value="ENPHASE_3x5P">Enphase · 3 - 5P DOM</option>
-          <option value="ENPHASE_4x5P">Enphase · 4 - 5P DOM</option>
-        </select>
-      </div>
+    <!-- ✅ ACCESO SIMPLE -->
+    <div id="gate" class="gate">
+      <div class="gateTitle">Acceso</div>
+      <div class="helper">Escribe tu nombre para entrar a la calculadora.</div>
 
       <div>
-        <label># Paneles</label>
-        <input id="panels" type="number" min="1" step="1" value="10" />
+        <label>Nombre</label>
+        <input id="gateName" type="text" autocomplete="name" placeholder="Ej. Carlos Rivera" />
       </div>
 
-      <div>
-        <label>% Contrato</label>
-        <select id="pct">
-          <!-- ✅ ya no hay 6% y obliga a escoger -->
-          <option value="" selected disabled>Selecciona…</option>
-          <option value="12">12%</option>
-          <option value="13">13%</option>
-          <option value="14">14%</option>
-          <option value="15">15%</option>
-        </select>
-      </div>
-
-      <button class="btn" id="calcBtn" disabled>Calcular</button>
+      <button class="btn" id="enterBtn" disabled>Entrar</button>
+      <div class="status" id="gateStatus">Listo.</div>
     </div>
 
-    <div class="results">
-      <div>
-        <div class="big">Precio</div>
-        <div class="value" id="outPrice">—</div>
+    <!-- ✅ CALCULADORA (igualita) -->
+    <div id="app" class="hidden">
+
+      <div class="controls">
+        <div>
+          <label>Tabla EPC</label>
+          <select id="tableSelect">
+            <option value="TESLA_1PW3">Tesla · 1 PW3 Hybrid</option>
+            <option value="TESLA_2PW3">Tesla · 2 Baterías (PW3)</option>
+            <option value="ENPHASE_2x5P">Enphase · 2 - 5P DOM</option>
+            <option value="ENPHASE_3x5P">Enphase · 3 - 5P DOM</option>
+            <option value="ENPHASE_4x5P">Enphase · 4 - 5P DOM</option>
+          </select>
+        </div>
+
+        <div>
+          <label># Paneles</label>
+          <input id="panels" type="number" min="1" step="1" value="10" />
+        </div>
+
+        <div>
+          <label>% Contrato</label>
+          <select id="pct">
+            <option value="" selected disabled>Selecciona…</option>
+            <option value="6">6%</option>
+            <option value="10">10%</option>
+            <option value="12">12%</option>
+            <option value="13">13%</option>
+            <option value="14">14%</option>
+            <option value="15">15%</option>
+          </select>
+        </div>
+
+        <button class="btn" id="calcBtn" disabled>Calcular</button>
       </div>
 
-      <div>
-        <div class="big">Comisión</div>
-        <div class="value green" id="outCommission">—</div>
+      <div class="results">
+        <div>
+          <div class="big">Precio</div>
+          <div class="value" id="outPrice">—</div>
+        </div>
+
+        <div>
+          <div class="big">Comisión</div>
+          <div class="value green" id="outCommission">—</div>
+        </div>
       </div>
-    </div>
 
-    <div class="meta" id="outMeta">
-      <span>Watts: —</span>
-      <span>kW: —</span>
-      <span>EPC: —</span>
-    </div>
+      <div class="meta" id="outMeta">
+        <span>Watts: —</span>
+        <span>kW: —</span>
+        <span>EPC: —</span>
+      </div>
 
-    <div class="status" id="status">Listo. Selecciona tu % y presiona “Calcular”.</div>
+      <div class="status" id="status">Listo. Selecciona tu % y presiona “Calcular”.</div>
+    </div>
   </div>
 
   <script>
@@ -302,19 +324,53 @@
 
     function setStatus(ok, msg){
       const el = $("status");
+      if (!el) return;
       el.textContent = msg;
       el.classList.toggle("bad", !ok);
     }
 
-    // ✅ "pro": botón solo se activa si está todo listo
+    /* ====== ACCESO SIMPLE ====== */
+    function gateReady(){
+      const name = ($("gateName").value || "").trim();
+      return name.length >= 2;
+    }
+
+    function updateGate(){
+      $("enterBtn").disabled = !gateReady();
+    }
+
+    function enterApp(){
+      const name = ($("gateName").value || "").trim();
+      if (!name){
+        $("gateStatus").textContent = "Escribe tu nombre.";
+        return;
+      }
+      try{ localStorage.setItem("lr_name", name); }catch(_){}
+      $("gate").classList.add("hidden");
+      $("app").classList.remove("hidden");
+      setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
+      updateButton();
+    }
+
+    $("gateName").addEventListener("input", updateGate);
+    $("enterBtn").addEventListener("click", (e)=>{ e.preventDefault(); enterApp(); });
+    document.addEventListener("keydown", (e)=>{
+      if (e.key === "Enter" && !$("app").classList.contains("hidden") === false){
+        if ($("gate") && !$("gate").classList.contains("hidden")){
+          if (gateReady()) enterApp();
+        }
+      }
+    });
+
+    /* ====== CALCULADORA ====== */
     function isReady(){
       const panels = parseInt($("panels").value || "0", 10);
-      const pct = $("pct").value; // string
+      const pct = $("pct").value;
       const tableKey = $("tableSelect").value;
 
       if (!tableKey) return false;
       if (!panels || panels <= 0) return false;
-      if (!pct) return false; // obliga seleccionar %
+      if (!pct) return false;
       return true;
     }
 
@@ -362,15 +418,8 @@
         `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: $${num(epc,2)}/W</span>`;
 
       setStatus(true, "Cálculo listo.");
-
-      // ✅ opcional: UX pro (recuerda últimas selecciones)
-      try{
-        localStorage.setItem("lr_table", tableKey);
-        localStorage.setItem("lr_pct", String($("pct").value));
-      }catch(_){}
     }
 
-    // ✅ SOLO calcula cuando le das click al botón
     $("calcBtn").addEventListener("click", (e) => {
       e.preventDefault();
       if (!isReady()){
@@ -380,9 +429,9 @@
       calculate();
     });
 
-    // ✅ "pro": Enter para calcular (si está listo)
     document.addEventListener("keydown", (e) => {
       if (e.key === "Enter"){
+        if ($("app").classList.contains("hidden")) return;
         if (!isReady()){
           setStatus(false, "Completa paneles y selecciona el % antes de calcular.");
           return;
@@ -391,23 +440,30 @@
       }
     });
 
-    // ✅ actualizar botón sin auto-calcular
     ["input","change"].forEach(evt=>{
       $("panels").addEventListener(evt, updateButton);
       $("pct").addEventListener(evt, updateButton);
       $("tableSelect").addEventListener(evt, updateButton);
     });
 
-    // ✅ opcional: cargar últimas selecciones (sin calcular)
-    try{
-      const savedTable = localStorage.getItem("lr_table");
-      const savedPct = localStorage.getItem("lr_pct");
-      if (savedTable && EPC_TABLES[savedTable]) $("tableSelect").value = savedTable;
-      if (savedPct && ["12","13","14","15"].includes(savedPct)) $("pct").value = savedPct;
-    }catch(_){}
-
-    updateButton();
-    setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
+    /* ====== AUTO: si ya puso nombre antes, entra directo ====== */
+    (function boot(){
+      try{
+        const savedName = localStorage.getItem("lr_name");
+        if (savedName && savedName.trim().length >= 2){
+          $("gate").classList.add("hidden");
+          $("app").classList.remove("hidden");
+          updateButton();
+          setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
+        }else{
+          updateGate();
+          $("gateStatus").textContent = "Listo.";
+        }
+      }catch(_){
+        updateGate();
+        $("gateStatus").textContent = "Listo.";
+      }
+    })();
   </script>
 </body>
 </html>
