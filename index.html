@@ -15,13 +15,12 @@
       --teal:#2b8a94;
       --navy:#0b1b3a;
 
-      /* ✅ toque solar (acentos) */
-      --solar:#F59E0B;     /* ámbar */
-      --solar2:#FDBA74;    /* melocotón suave */
-      --solarSoft: rgba(245,158,11,.14);
-
       --green:#16a34a;
       --red:#b42318;
+
+      /* ✅ solo detalles anaranjados */
+      --orange:#F59E0B;
+      --orangeSoft: rgba(245,158,11,.14);
     }
 
     *{box-sizing:border-box}
@@ -45,19 +44,19 @@
       align-items:center;
       justify-content:space-between;
       gap:16px;
-      padding: 12px 0 16px;
+      padding: 12px 0 14px;
       border-bottom:1px solid var(--line);
     }
 
-    /* ✅ línea solar sutil (no cambia layout) */
+    /* ✅ línea naranja sutil */
     .top:after{
       content:"";
       position:absolute;
       left:0; right:0;
       bottom:-1px;
-      height:3px;
-      background: linear-gradient(90deg, var(--navy), var(--teal), var(--solar));
-      opacity:.95;
+      height:2px;
+      background: var(--orange);
+      opacity:.9;
     }
 
     .logo{
@@ -67,9 +66,59 @@
       object-fit:contain;
     }
 
+    /* ✅ mini toolbar (acciones) */
+    .tools{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .toolBtn{
+      height:36px;
+      padding: 0 12px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      font-weight:900;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      font-size:11px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    /* ✅ sutil borde naranja */
+    .toolBtn.primary{
+      border-color: rgba(245,158,11,.45);
+      box-shadow: 0 0 0 4px transparent;
+    }
+    .toolBtn:hover{
+      box-shadow: 0 0 0 4px var(--orangeSoft);
+    }
+
+    /* ✅ switch simple */
+    .switch{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 0 10px;
+      height:36px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      font-weight:900;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      font-size:11px;
+      user-select:none;
+    }
+    .switch input{ width:auto; }
+
     /* Inputs */
     .controls{
-      margin-top:18px;
+      margin-top:14px;
       display:grid;
       grid-template-columns: 1.3fr .7fr .6fr auto;
       gap:10px;
@@ -86,18 +135,6 @@
       font-weight:900;
     }
 
-    /* ✅ mini acento solar al lado del label */
-    label:before{
-      content:"";
-      display:inline-block;
-      width:10px;
-      height:10px;
-      margin-right:8px;
-      transform: translateY(1px);
-      background: linear-gradient(135deg, var(--solar), var(--teal));
-      border:1px solid rgba(0,0,0,.06);
-    }
-
     select,input{
       width:100%;
       padding: 12px 12px;
@@ -109,15 +146,16 @@
       font-weight:800;
     }
 
+    /* ✅ focus con toque naranja */
     select:focus,input:focus{
-      border-color: rgba(43,138,148,.55);
-      box-shadow: 0 0 0 4px rgba(43,138,148,.10), 0 0 0 8px var(--solarSoft);
+      border-color: rgba(43,138,148,.45);
+      box-shadow: 0 0 0 4px rgba(43,138,148,.10), 0 0 0 8px var(--orangeSoft);
     }
 
     .btn{
       height:42px;
       padding: 0 14px;
-      border:1px solid rgba(0,0,0,.06);
+      border:1px solid rgba(245,158,11,.35);
       background: var(--navy);
       color:#fff;
       font-weight:900;
@@ -126,13 +164,11 @@
       font-size:12px;
       cursor:pointer;
       white-space:nowrap;
-      transition: transform .06s ease, box-shadow .18s ease, background .18s ease;
+      transition: transform .06s ease, box-shadow .15s ease;
     }
 
-    /* ✅ hover solar leve */
     .btn:hover{
-      background: linear-gradient(90deg, var(--navy), rgba(11,27,58,.92), rgba(245,158,11,.22));
-      box-shadow: 0 10px 26px rgba(11,27,58,.10);
+      box-shadow: 0 10px 22px rgba(11,27,58,.10), 0 0 0 4px var(--orangeSoft);
       transform: translateY(-1px);
     }
 
@@ -141,14 +177,13 @@
       cursor:not-allowed;
       transform:none;
       box-shadow:none;
-      background: var(--navy);
     }
 
     /* Results */
     .results{
       margin-top:18px;
       padding-top:18px;
-      border-top:1px solid rgba(230,236,243,.9);
+      border-top:1px solid var(--line);
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:18px;
@@ -162,16 +197,20 @@
       color:var(--muted);
       font-weight:1000;
       margin-bottom:8px;
+      position:relative;
+      padding-bottom:8px;
     }
 
-    /* ✅ acento solar sutil en títulos */
+    /* ✅ barrita naranja */
     .big:after{
       content:"";
-      display:block;
-      width:48px;
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:44px;
       height:2px;
-      margin-top:8px;
-      background: linear-gradient(90deg, var(--solar), rgba(245,158,11,0));
+      background: var(--orange);
+      opacity:.9;
     }
 
     .value{
@@ -180,7 +219,6 @@
       letter-spacing:.2px;
       color:var(--text);
     }
-
     .value.green{ color: var(--green); }
 
     .meta{
@@ -200,6 +238,23 @@
       color:var(--muted);
     }
     .status.bad{ color: var(--red); }
+
+    /* ✅ Desglose */
+    .breakdown{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+      display:none;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+      line-height:1.7;
+    }
+    .breakdown strong{ color: var(--navy); }
+
+    /* ✅ Modo presentación: solo agranda números */
+    .present .value{ font-size:46px; }
+    .present .big{ font-size:12px; }
 
     @media (max-width: 900px){
       .controls{ grid-template-columns: 1fr; }
@@ -235,13 +290,13 @@
 </head>
 
 <body>
-  <div class="wrap">
+  <div class="wrap" id="wrap">
     <div class="top">
       <img class="logo" src="Lightreach.png" alt="LightReach"
            onerror="this.style.display='none'; document.getElementById('status').textContent='No encuentro el logo: Lightreach.png (case-sensitive)'; document.getElementById('status').classList.add('bad');">
     </div>
 
-    <!-- ✅ ACCESO (reset automático al abrir/refrescar) -->
+    <!-- ✅ ACCESO (se guarda por 10 min) -->
     <div id="gate" class="gate">
       <div class="gateTitle">Acceso</div>
       <div class="helper">Escribe tu nombre para entrar a la calculadora.</div>
@@ -257,6 +312,18 @@
 
     <!-- ✅ CALCULADORA -->
     <div id="app" class="hidden">
+      <!-- ✅ acciones pro -->
+      <div class="tools">
+        <button class="toolBtn primary" id="toggleBreakdownBtn" type="button">Ver desglose</button>
+        <button class="toolBtn primary" id="copyBtn" type="button">Copiar resultado</button>
+        <button class="toolBtn" id="clearBtn" type="button">Limpiar</button>
+
+        <label class="switch" title="Agrandar números para mostrar en persona">
+          <input id="presentToggle" type="checkbox" />
+          Modo presentación
+        </label>
+      </div>
+
       <div class="controls">
         <div>
           <label>Tabla EPC</label>
@@ -308,12 +375,27 @@
         <span>EPC: —</span>
       </div>
 
+      <!-- ✅ desglose -->
+      <div class="breakdown" id="breakdown">
+        <div><strong>Watts:</strong> <span id="bdWatts">—</span> (410 × paneles)</div>
+        <div><strong>kW:</strong> <span id="bdKw">—</span></div>
+        <div><strong>Precio:</strong> <span id="bdPrice">—</span> (<span id="bdWatts2">—</span> × <span id="bdEpc">—</span>)</div>
+        <div><strong>Comisión:</strong> <span id="bdComm">—</span> (<span id="bdPrice2">—</span> × <span id="bdPct">—</span>)</div>
+      </div>
+
       <div class="status" id="status">Listo. Selecciona tu % y presiona “Calcular”.</div>
     </div>
   </div>
 
   <script>
     const WATTS_PER_PANEL = 410;
+    const SESSION_MS = 10 * 60 * 1000; // ✅ 10 minutos
+
+    // ✅ preferencias (no nombre)
+    const PREF_TABLE = "lr_pref_table";
+    const PREF_PANELS = "lr_pref_panels";
+    const PREF_PCT = "lr_pref_pct";
+    const PREF_PRESENT = "lr_pref_present";
 
     const EPC_TABLES = {
       TESLA_1PW3: {
@@ -376,48 +458,95 @@
       el.textContent = msg;
       el.classList.toggle("bad", !ok);
     }
+    function setGateStatus(msg){ $("gateStatus").textContent = msg; }
 
-    /* ====== ACCESO (RESET AUTOMÁTICO) ====== */
+    /* ====== ACCESO (TEMPORAL 10 MIN) ====== */
     function gateReady(){
       const name = ($("gateName").value || "").trim();
       return name.length >= 2;
     }
+    function updateGate(){ $("enterBtn").disabled = !gateReady(); }
 
-    function updateGate(){
-      $("enterBtn").disabled = !gateReady();
+    function openGate(msg="Listo."){
+      $("app").classList.add("hidden");
+      $("gate").classList.remove("hidden");
+      $("gateName").value = "";
+      updateGate();
+      setGateStatus(msg);
+    }
+
+    function openApp(){
+      $("gate").classList.add("hidden");
+      $("app").classList.remove("hidden");
+      updateButton();
+      setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
+    }
+
+    function saveSession(name){
+      try{
+        localStorage.setItem("lr_name", name);
+        localStorage.setItem("lr_ts", String(Date.now()));
+      }catch(_){}
+    }
+    function clearSession(){
+      try{
+        localStorage.removeItem("lr_name");
+        localStorage.removeItem("lr_ts");
+      }catch(_){}
+    }
+    function sessionValid(){
+      try{
+        const name = (localStorage.getItem("lr_name") || "").trim();
+        const ts = parseInt(localStorage.getItem("lr_ts") || "0", 10);
+        if (!name || !ts) return false;
+        return (Date.now() - ts) <= SESSION_MS;
+      }catch(_){
+        return false;
+      }
     }
 
     function enterApp(){
       const name = ($("gateName").value || "").trim();
       if (!name){
-        $("gateStatus").textContent = "Escribe tu nombre.";
+        setGateStatus("Escribe tu nombre.");
         return;
       }
-      // ✅ no guardamos nombre -> siempre pide nombre al abrir/refrescar
-      $("gate").classList.add("hidden");
-      $("app").classList.remove("hidden");
-      setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
-      updateButton();
+      saveSession(name);
+      openApp();
     }
 
     $("gateName").addEventListener("input", updateGate);
     $("enterBtn").addEventListener("click", (e)=>{ e.preventDefault(); enterApp(); });
 
-    document.addEventListener("keydown", (e)=>{
-      if (e.key === "Enter"){
-        if (!$("gate").classList.contains("hidden")){
-          if (gateReady()) enterApp();
-        }else{
-          if (!isReady()){
-            setStatus(false, "Completa paneles y selecciona el % antes de calcular.");
-            return;
-          }
-          calculate();
-        }
-      }
-    });
+    /* ====== Preferencias (Tabla + Paneles + %) ====== */
+    function savePrefs(){
+      try{
+        localStorage.setItem(PREF_TABLE, $("tableSelect").value);
+        localStorage.setItem(PREF_PANELS, String($("panels").value || ""));
+        localStorage.setItem(PREF_PCT, String($("pct").value || ""));
+      }catch(_){}
+    }
+    function loadPrefs(){
+      try{
+        const t = localStorage.getItem(PREF_TABLE);
+        const p = localStorage.getItem(PREF_PANELS);
+        const pct = localStorage.getItem(PREF_PCT);
+
+        if (t && EPC_TABLES[t]) $("tableSelect").value = t;
+        if (p && String(parseInt(p,10)) === String(p)) $("panels").value = p;
+
+        if (pct && ["6","10","12","13","14","15"].includes(pct)) $("pct").value = pct;
+      }catch(_){}
+    }
 
     /* ====== CALCULADORA ====== */
+    function getRangeForTable(tableKey){
+      const table = EPC_TABLES[tableKey] || {};
+      const keys = Object.keys(table).map(k => parseInt(k,10)).filter(n => Number.isFinite(n)).sort((a,b)=>a-b);
+      if (!keys.length) return null;
+      return { min: keys[0], max: keys[keys.length - 1] };
+    }
+
     function isReady(){
       const panels = parseInt($("panels").value || "0", 10);
       const pct = $("pct").value;
@@ -433,15 +562,44 @@
       $("calcBtn").disabled = !isReady();
     }
 
+    function resetOutputs(){
+      $("outPrice").textContent = "—";
+      $("outCommission").textContent = "—";
+      $("outMeta").innerHTML = `<span>Watts: —</span><span>kW: —</span><span>EPC: —</span>`;
+      updateBreakdown(null);
+    }
+
+    function updateBreakdown(data){
+      const bd = $("breakdown");
+      if (!data){
+        $("bdWatts").textContent = "—";
+        $("bdKw").textContent = "—";
+        $("bdPrice").textContent = "—";
+        $("bdComm").textContent = "—";
+        $("bdWatts2").textContent = "—";
+        $("bdEpc").textContent = "—";
+        $("bdPrice2").textContent = "—";
+        $("bdPct").textContent = "—";
+        return;
+      }
+
+      $("bdWatts").textContent = `${num(data.watts,0)} W`;
+      $("bdKw").textContent = `${num(data.kw,2)} kW`;
+      $("bdWatts2").textContent = `${num(data.watts,0)} W`;
+      $("bdEpc").textContent = `$${num(data.epc,2)}/W`;
+      $("bdPrice").textContent = money(data.price);
+      $("bdPrice2").textContent = money(data.price);
+      $("bdPct").textContent = `${num(data.pct,0)}%`;
+      $("bdComm").textContent = money(data.commission);
+    }
+
     function calculate(){
       const tableKey = $("tableSelect").value;
       const panels = parseInt($("panels").value || "0", 10);
       const pct = parseFloat($("pct").value || "0");
 
       if (!panels || panels <= 0){
-        $("outPrice").textContent = "—";
-        $("outCommission").textContent = "—";
-        $("outMeta").innerHTML = `<span>Watts: —</span><span>kW: —</span><span>EPC: —</span>`;
+        resetOutputs();
         setStatus(false, "Pon una cantidad válida de paneles.");
         return;
       }
@@ -451,16 +609,18 @@
         return;
       }
 
-      const epc = (EPC_TABLES[tableKey] || {})[panels];
+      const table = EPC_TABLES[tableKey] || {};
+      const epc = table[panels];
       const watts = WATTS_PER_PANEL * panels;
       const kw = watts / 1000;
 
       if (!epc){
-        $("outPrice").textContent = "—";
-        $("outCommission").textContent = "—";
+        resetOutputs();
+        const range = getRangeForTable(tableKey);
+        const hint = range ? ` Rango válido: ${range.min}–${range.max}.` : "";
         $("outMeta").innerHTML =
           `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: —</span>`;
-        setStatus(false, `Ese # de paneles (${panels}) no existe en la tabla seleccionada.`);
+        setStatus(false, `Ese # de paneles (${panels}) no existe en la tabla seleccionada.${hint}`);
         return;
       }
 
@@ -472,7 +632,10 @@
       $("outMeta").innerHTML =
         `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: $${num(epc,2)}/W</span>`;
 
+      updateBreakdown({ watts, kw, epc, price, pct, commission });
+
       setStatus(true, "Cálculo listo.");
+      savePrefs();
     }
 
     $("calcBtn").addEventListener("click", (e) => {
@@ -485,19 +648,133 @@
     });
 
     ["input","change"].forEach(evt=>{
-      $("panels").addEventListener(evt, updateButton);
-      $("pct").addEventListener(evt, updateButton);
-      $("tableSelect").addEventListener(evt, updateButton);
+      $("panels").addEventListener(evt, () => { updateButton(); savePrefs(); });
+      $("pct").addEventListener(evt, () => { updateButton(); savePrefs(); });
+      $("tableSelect").addEventListener(evt, () => { updateButton(); savePrefs(); });
     });
 
-    /* ====== BOOT: siempre empieza en acceso ====== */
-    (function boot(){
-      $("app").classList.add("hidden");
-      $("gate").classList.remove("hidden");
-      $("gateName").value = "";
-      updateGate();
-      $("gateStatus").textContent = "Listo.";
+    /* ====== (1) Ver desglose ====== */
+    let breakdownOn = false;
+    $("toggleBreakdownBtn").addEventListener("click", ()=>{
+      breakdownOn = !breakdownOn;
+      $("breakdown").style.display = breakdownOn ? "block" : "none";
+      $("toggleBreakdownBtn").textContent = breakdownOn ? "Ocultar desglose" : "Ver desglose";
+    });
+
+    /* ====== (2) Copiar resultado ====== */
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        return true;
+      }catch(_){
+        // fallback
+        try{
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          return true;
+        }catch(__){
+          return false;
+        }
+      }
+    }
+
+    $("copyBtn").addEventListener("click", async ()=>{
+      const tableKey = $("tableSelect").value;
+      const panels = parseInt($("panels").value || "0", 10);
+      const pct = $("pct").value;
+
+      const priceText = $("outPrice").textContent;
+      const commText = $("outCommission").textContent;
+
+      const range = getRangeForTable(tableKey);
+      const rangeText = range ? `${range.min}-${range.max}` : "—";
+
+      const msg =
+`EPC & Comisión
+Tabla: ${$("tableSelect").selectedOptions[0]?.textContent || tableKey}
+Paneles: ${panels || "—"} (rango ${rangeText})
+% Contrato: ${pct || "—"}
+Precio: ${priceText}
+Comisión: ${commText}`;
+
+      const ok = await copyText(msg);
+      setStatus(ok, ok ? "Copiado. Pégalo en WhatsApp." : "No pude copiar (bloqueado por el navegador).");
+    });
+
+    /* ====== (3) Limpiar ====== */
+    $("clearBtn").addEventListener("click", ()=>{
+      $("panels").value = "10";
+      $("pct").value = "";
+      resetOutputs();
       updateButton();
+      setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
+      savePrefs();
+    });
+
+    /* ====== (6) Modo presentación ====== */
+    function setPresent(on){
+      $("wrap").classList.toggle("present", !!on);
+      try{ localStorage.setItem(PREF_PRESENT, on ? "1" : "0"); }catch(_){}
+    }
+    $("presentToggle").addEventListener("change", (e)=>{
+      setPresent(e.target.checked);
+    });
+
+    /* ====== ENTER KEY ====== */
+    document.addEventListener("keydown", (e)=>{
+      if (e.key !== "Enter") return;
+
+      // si está en acceso
+      if (!$("gate").classList.contains("hidden")){
+        if (gateReady()) enterApp();
+        return;
+      }
+
+      // si está en calculadora
+      if (!isReady()){
+        setStatus(false, "Completa paneles y selecciona el % antes de calcular.");
+        return;
+      }
+      calculate();
+    });
+
+    /* ====== BOOT + reset por 10 min ====== */
+    (function boot(){
+      // cargar prefs (antes de mostrar)
+      loadPrefs();
+      updateButton();
+      resetOutputs();
+
+      // present mode persist
+      try{
+        const p = localStorage.getItem(PREF_PRESENT);
+        if (p === "1"){
+          $("presentToggle").checked = true;
+          setPresent(true);
+        }
+      }catch(_){}
+
+      // acceso temporal
+      if (!sessionValid()){
+        clearSession();
+        openGate("Listo.");
+      }else{
+        openApp();
+      }
+
+      // chequeo de expiración si dejan la página abierta
+      setInterval(()=>{
+        if (!$("app").classList.contains("hidden") && !sessionValid()){
+          clearSession();
+          openGate("Sesión expirada. Escribe tu nombre otra vez.");
+        }
+      }, 10000);
     })();
   </script>
 </body>
