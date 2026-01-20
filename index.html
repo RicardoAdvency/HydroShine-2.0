@@ -1,3 +1,15 @@
+Dale. “Bien pro” sin convertirlo en un dashboard = misma calculadora, pero con detalles de producto real:
+
+✅ Barra mini (súper discreta) arriba: Copiar · Limpiar · Salir + timer de sesión (10:00 → 0)
+✅ Copiar resultado listo para pegar en WhatsApp
+✅ Limpiar (resetea resultados y % a “Selecciona…”)
+✅ Guardar preferencias (tabla, paneles, % — NO nombre)
+✅ Rango sugerido cuando el # de paneles no existe
+✅ Toast minimal (“Copiado”, “Sesión expirada”) sin cambiar layout
+✅ Mantiene tu estilo blanco + acentos naranjas sutiles + sesión 10 min
+
+Aquí el código completo:
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -18,7 +30,7 @@
       --green:#16a34a;
       --red:#b42318;
 
-      /* ✅ solo detalles anaranjados */
+      /* ✅ detalles anaranjados (sutiles) */
       --orange:#F59E0B;
       --orangeSoft: rgba(245,158,11,.14);
     }
@@ -66,55 +78,51 @@
       object-fit:contain;
     }
 
-    /* ✅ mini toolbar (acciones) */
-    .tools{
-      margin-top:14px;
+    /* ✅ mini bar pro (discreta) */
+    .miniBar{
+      margin-top:10px;
       display:flex;
-      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+    }
+    .miniLeft{
+      display:flex;
+      gap:14px;
       flex-wrap:wrap;
       align-items:center;
     }
-
-    .toolBtn{
-      height:36px;
-      padding: 0 12px;
-      border:1px solid var(--line);
-      background:#fff;
+    .miniLink{
       color:var(--navy);
+      text-decoration:none;
+      border-bottom:2px solid var(--orange);
+      padding-bottom:2px;
       font-weight:900;
-      letter-spacing:.8px;
-      text-transform:uppercase;
-      font-size:11px;
+      letter-spacing:.3px;
       cursor:pointer;
-      white-space:nowrap;
     }
-
-    /* ✅ sutil borde naranja */
-    .toolBtn.primary{
-      border-color: rgba(245,158,11,.45);
-      box-shadow: 0 0 0 4px transparent;
+    .miniLink.muted{
+      color:var(--muted);
+      border-bottom-color: rgba(245,158,11,.35);
+      font-weight:900;
     }
-    .toolBtn:hover{
-      box-shadow: 0 0 0 4px var(--orangeSoft);
-    }
-
-    /* ✅ switch simple */
-    .switch{
+    .miniRight{
       display:flex;
       align-items:center;
       gap:10px;
-      padding: 0 10px;
-      height:36px;
-      border:1px solid var(--line);
-      background:#fff;
-      color:var(--navy);
-      font-weight:900;
-      letter-spacing:.8px;
-      text-transform:uppercase;
-      font-size:11px;
-      user-select:none;
+      white-space:nowrap;
     }
-    .switch input{ width:auto; }
+    .pill{
+      border:1px solid var(--line);
+      padding: 6px 10px;
+      background:#fff;
+      color:var(--muted);
+      font-weight:900;
+    }
+    .pill strong{ color: var(--navy); }
 
     /* Inputs */
     .controls{
@@ -201,7 +209,7 @@
       padding-bottom:8px;
     }
 
-    /* ✅ barrita naranja */
+    /* ✅ barrita naranja debajo del título */
     .big:after{
       content:"";
       position:absolute;
@@ -219,6 +227,7 @@
       letter-spacing:.2px;
       color:var(--text);
     }
+
     .value.green{ color: var(--green); }
 
     .meta{
@@ -239,27 +248,12 @@
     }
     .status.bad{ color: var(--red); }
 
-    /* ✅ Desglose */
-    .breakdown{
-      margin-top:14px;
-      padding-top:14px;
-      border-top:1px solid var(--line);
-      display:none;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:800;
-      line-height:1.7;
-    }
-    .breakdown strong{ color: var(--navy); }
-
-    /* ✅ Modo presentación: solo agranda números */
-    .present .value{ font-size:46px; }
-    .present .big{ font-size:12px; }
-
     @media (max-width: 900px){
       .controls{ grid-template-columns: 1fr; }
       .btn{ width:100%; }
       .results{ grid-template-columns: 1fr; }
+      .miniBar{ flex-direction:column; align-items:flex-start; }
+      .miniRight{ width:100%; justify-content:space-between; }
     }
 
     /* Acceso */
@@ -286,17 +280,37 @@
     }
 
     .hidden{ display:none !important; }
+
+    /* ✅ Toast minimal */
+    .toast{
+      position:fixed;
+      left:16px;
+      bottom:16px;
+      background:#fff;
+      border:1px solid var(--line);
+      box-shadow: 0 12px 30px rgba(0,0,0,.08);
+      padding: 10px 12px;
+      font-size:12px;
+      font-weight:900;
+      color:var(--navy);
+      display:none;
+      max-width: 340px;
+    }
+    .toast strong{
+      border-bottom:2px solid var(--orange);
+      padding-bottom:1px;
+    }
   </style>
 </head>
 
 <body>
-  <div class="wrap" id="wrap">
+  <div class="wrap">
     <div class="top">
       <img class="logo" src="Lightreach.png" alt="LightReach"
            onerror="this.style.display='none'; document.getElementById('status').textContent='No encuentro el logo: Lightreach.png (case-sensitive)'; document.getElementById('status').classList.add('bad');">
     </div>
 
-    <!-- ✅ ACCESO (se guarda por 10 min) -->
+    <!-- ✅ ACCESO (sesión temporal 10 min) -->
     <div id="gate" class="gate">
       <div class="gateTitle">Acceso</div>
       <div class="helper">Escribe tu nombre para entrar a la calculadora.</div>
@@ -310,18 +324,20 @@
       <div class="status" id="gateStatus">Listo.</div>
     </div>
 
-    <!-- ✅ CALCULADORA -->
+    <!-- ✅ APP -->
     <div id="app" class="hidden">
-      <!-- ✅ acciones pro -->
-      <div class="tools">
-        <button class="toolBtn primary" id="toggleBreakdownBtn" type="button">Ver desglose</button>
-        <button class="toolBtn primary" id="copyBtn" type="button">Copiar resultado</button>
-        <button class="toolBtn" id="clearBtn" type="button">Limpiar</button>
 
-        <label class="switch" title="Agrandar números para mostrar en persona">
-          <input id="presentToggle" type="checkbox" />
-          Modo presentación
-        </label>
+      <!-- ✅ mini bar pro (discreta) -->
+      <div class="miniBar">
+        <div class="miniLeft">
+          <a class="miniLink" href="#" id="copyLink">Copiar</a>
+          <a class="miniLink muted" href="#" id="clearLink">Limpiar</a>
+          <a class="miniLink muted" href="#" id="logoutLink">Salir</a>
+        </div>
+
+        <div class="miniRight">
+          <div class="pill">Sesión: <strong id="sessionCountdown">10:00</strong></div>
+        </div>
       </div>
 
       <div class="controls">
@@ -375,27 +391,24 @@
         <span>EPC: —</span>
       </div>
 
-      <!-- ✅ desglose -->
-      <div class="breakdown" id="breakdown">
-        <div><strong>Watts:</strong> <span id="bdWatts">—</span> (410 × paneles)</div>
-        <div><strong>kW:</strong> <span id="bdKw">—</span></div>
-        <div><strong>Precio:</strong> <span id="bdPrice">—</span> (<span id="bdWatts2">—</span> × <span id="bdEpc">—</span>)</div>
-        <div><strong>Comisión:</strong> <span id="bdComm">—</span> (<span id="bdPrice2">—</span> × <span id="bdPct">—</span>)</div>
-      </div>
-
       <div class="status" id="status">Listo. Selecciona tu % y presiona “Calcular”.</div>
     </div>
   </div>
 
+  <div class="toast" id="toast"><strong>OK</strong></div>
+
   <script>
     const WATTS_PER_PANEL = 410;
-    const SESSION_MS = 10 * 60 * 1000; // ✅ 10 minutos
+
+    // ✅ sesión
+    const SESSION_MS = 10 * 60 * 1000; // 10 min
+    const LS_NAME = "lr_name";
+    const LS_TS   = "lr_ts";
 
     // ✅ preferencias (no nombre)
     const PREF_TABLE = "lr_pref_table";
     const PREF_PANELS = "lr_pref_panels";
     const PREF_PCT = "lr_pref_pct";
-    const PREF_PRESENT = "lr_pref_present";
 
     const EPC_TABLES = {
       TESLA_1PW3: {
@@ -458,23 +471,60 @@
       el.textContent = msg;
       el.classList.toggle("bad", !ok);
     }
-    function setGateStatus(msg){ $("gateStatus").textContent = msg; }
 
-    /* ====== ACCESO (TEMPORAL 10 MIN) ====== */
-    function gateReady(){
-      const name = ($("gateName").value || "").trim();
-      return name.length >= 2;
+    let toastTimer = null;
+    function toast(msg){
+      const el = $("toast");
+      el.innerHTML = `<strong>OK</strong> ${msg}`;
+      el.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>{ el.style.display="none"; }, 2200);
     }
-    function updateGate(){ $("enterBtn").disabled = !gateReady(); }
 
+    /* ====== Sesión ====== */
+    function saveSession(name){
+      try{
+        localStorage.setItem(LS_NAME, name);
+        localStorage.setItem(LS_TS, String(Date.now()));
+      }catch(_){}
+    }
+    function clearSession(){
+      try{
+        localStorage.removeItem(LS_NAME);
+        localStorage.removeItem(LS_TS);
+      }catch(_){}
+    }
+    function sessionInfo(){
+      try{
+        const name = (localStorage.getItem(LS_NAME) || "").trim();
+        const ts = parseInt(localStorage.getItem(LS_TS) || "0", 10);
+        return { name, ts };
+      }catch(_){
+        return { name:"", ts:0 };
+      }
+    }
+    function sessionRemainingMs(){
+      const { name, ts } = sessionInfo();
+      if (!name || !ts) return 0;
+      const left = SESSION_MS - (Date.now() - ts);
+      return Math.max(0, left);
+    }
+    function sessionValid(){
+      return sessionRemainingMs() > 0;
+    }
+    function formatMMSS(ms){
+      const s = Math.ceil(ms/1000);
+      const m = Math.floor(s/60);
+      const r = s % 60;
+      return `${String(m).padStart(2,"0")}:${String(r).padStart(2,"0")}`;
+    }
     function openGate(msg="Listo."){
       $("app").classList.add("hidden");
       $("gate").classList.remove("hidden");
       $("gateName").value = "";
-      updateGate();
-      setGateStatus(msg);
+      $("enterBtn").disabled = true;
+      $("gateStatus").textContent = msg;
     }
-
     function openApp(){
       $("gate").classList.add("hidden");
       $("app").classList.remove("hidden");
@@ -482,43 +532,29 @@
       setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
     }
 
-    function saveSession(name){
-      try{
-        localStorage.setItem("lr_name", name);
-        localStorage.setItem("lr_ts", String(Date.now()));
-      }catch(_){}
+    /* ====== Gate ====== */
+    function gateReady(){
+      const name = ($("gateName").value || "").trim();
+      return name.length >= 2;
     }
-    function clearSession(){
-      try{
-        localStorage.removeItem("lr_name");
-        localStorage.removeItem("lr_ts");
-      }catch(_){}
+    function updateGate(){
+      $("enterBtn").disabled = !gateReady();
     }
-    function sessionValid(){
-      try{
-        const name = (localStorage.getItem("lr_name") || "").trim();
-        const ts = parseInt(localStorage.getItem("lr_ts") || "0", 10);
-        if (!name || !ts) return false;
-        return (Date.now() - ts) <= SESSION_MS;
-      }catch(_){
-        return false;
-      }
-    }
-
     function enterApp(){
       const name = ($("gateName").value || "").trim();
       if (!name){
-        setGateStatus("Escribe tu nombre.");
+        $("gateStatus").textContent = "Escribe tu nombre.";
         return;
       }
       saveSession(name);
       openApp();
+      toast("Sesión iniciada.");
     }
 
     $("gateName").addEventListener("input", updateGate);
     $("enterBtn").addEventListener("click", (e)=>{ e.preventDefault(); enterApp(); });
 
-    /* ====== Preferencias (Tabla + Paneles + %) ====== */
+    /* ====== Preferencias (no nombre) ====== */
     function savePrefs(){
       try{
         localStorage.setItem(PREF_TABLE, $("tableSelect").value);
@@ -534,12 +570,11 @@
 
         if (t && EPC_TABLES[t]) $("tableSelect").value = t;
         if (p && String(parseInt(p,10)) === String(p)) $("panels").value = p;
-
         if (pct && ["6","10","12","13","14","15"].includes(pct)) $("pct").value = pct;
       }catch(_){}
     }
 
-    /* ====== CALCULADORA ====== */
+    /* ====== Calc helpers ====== */
     function getRangeForTable(tableKey){
       const table = EPC_TABLES[tableKey] || {};
       const keys = Object.keys(table).map(k => parseInt(k,10)).filter(n => Number.isFinite(n)).sort((a,b)=>a-b);
@@ -566,31 +601,6 @@
       $("outPrice").textContent = "—";
       $("outCommission").textContent = "—";
       $("outMeta").innerHTML = `<span>Watts: —</span><span>kW: —</span><span>EPC: —</span>`;
-      updateBreakdown(null);
-    }
-
-    function updateBreakdown(data){
-      const bd = $("breakdown");
-      if (!data){
-        $("bdWatts").textContent = "—";
-        $("bdKw").textContent = "—";
-        $("bdPrice").textContent = "—";
-        $("bdComm").textContent = "—";
-        $("bdWatts2").textContent = "—";
-        $("bdEpc").textContent = "—";
-        $("bdPrice2").textContent = "—";
-        $("bdPct").textContent = "—";
-        return;
-      }
-
-      $("bdWatts").textContent = `${num(data.watts,0)} W`;
-      $("bdKw").textContent = `${num(data.kw,2)} kW`;
-      $("bdWatts2").textContent = `${num(data.watts,0)} W`;
-      $("bdEpc").textContent = `$${num(data.epc,2)}/W`;
-      $("bdPrice").textContent = money(data.price);
-      $("bdPrice2").textContent = money(data.price);
-      $("bdPct").textContent = `${num(data.pct,0)}%`;
-      $("bdComm").textContent = money(data.commission);
     }
 
     function calculate(){
@@ -604,13 +614,7 @@
         return;
       }
 
-      if (!$("pct").value){
-        setStatus(false, "Selecciona el % de contrato para calcular.");
-        return;
-      }
-
-      const table = EPC_TABLES[tableKey] || {};
-      const epc = table[panels];
+      const epc = (EPC_TABLES[tableKey] || {})[panels];
       const watts = WATTS_PER_PANEL * panels;
       const kw = watts / 1000;
 
@@ -632,8 +636,6 @@
       $("outMeta").innerHTML =
         `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: $${num(epc,2)}/W</span>`;
 
-      updateBreakdown({ watts, kw, epc, price, pct, commission });
-
       setStatus(true, "Cálculo listo.");
       savePrefs();
     }
@@ -653,21 +655,12 @@
       $("tableSelect").addEventListener(evt, () => { updateButton(); savePrefs(); });
     });
 
-    /* ====== (1) Ver desglose ====== */
-    let breakdownOn = false;
-    $("toggleBreakdownBtn").addEventListener("click", ()=>{
-      breakdownOn = !breakdownOn;
-      $("breakdown").style.display = breakdownOn ? "block" : "none";
-      $("toggleBreakdownBtn").textContent = breakdownOn ? "Ocultar desglose" : "Ver desglose";
-    });
-
-    /* ====== (2) Copiar resultado ====== */
+    /* ====== Copiar / Limpiar / Salir ====== */
     async function copyText(text){
       try{
         await navigator.clipboard.writeText(text);
         return true;
       }catch(_){
-        // fallback
         try{
           const ta = document.createElement("textarea");
           ta.value = text;
@@ -684,59 +677,56 @@
       }
     }
 
-    $("copyBtn").addEventListener("click", async ()=>{
-      const tableKey = $("tableSelect").value;
+    $("copyLink").addEventListener("click", async (e)=>{
+      e.preventDefault();
+      const tableName = $("tableSelect").selectedOptions[0]?.textContent || $("tableSelect").value;
       const panels = parseInt($("panels").value || "0", 10);
-      const pct = $("pct").value;
-
-      const priceText = $("outPrice").textContent;
-      const commText = $("outCommission").textContent;
-
-      const range = getRangeForTable(tableKey);
-      const rangeText = range ? `${range.min}-${range.max}` : "—";
+      const pct = $("pct").value || "—";
+      const epc = (EPC_TABLES[$("tableSelect").value] || {})[panels];
+      const watts = panels ? WATTS_PER_PANEL * panels : NaN;
+      const kw = panels ? watts / 1000 : NaN;
 
       const msg =
 `EPC & Comisión
-Tabla: ${$("tableSelect").selectedOptions[0]?.textContent || tableKey}
-Paneles: ${panels || "—"} (rango ${rangeText})
-% Contrato: ${pct || "—"}
-Precio: ${priceText}
-Comisión: ${commText}`;
+Tabla: ${tableName}
+Paneles: ${panels || "—"}
+Watts: ${panels ? num(watts,0) : "—"} | kW: ${panels ? num(kw,2) : "—"}
+EPC: ${epc ? `$${num(epc,2)}/W` : "—"}
+% Contrato: ${pct}
+Precio: ${$("outPrice").textContent}
+Comisión: ${$("outCommission").textContent}`;
 
       const ok = await copyText(msg);
+      if (ok){ toast("Copiado para WhatsApp."); }
       setStatus(ok, ok ? "Copiado. Pégalo en WhatsApp." : "No pude copiar (bloqueado por el navegador).");
     });
 
-    /* ====== (3) Limpiar ====== */
-    $("clearBtn").addEventListener("click", ()=>{
-      $("panels").value = "10";
+    $("clearLink").addEventListener("click", (e)=>{
+      e.preventDefault();
       $("pct").value = "";
       resetOutputs();
       updateButton();
       setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
+      toast("Limpio.");
       savePrefs();
     });
 
-    /* ====== (6) Modo presentación ====== */
-    function setPresent(on){
-      $("wrap").classList.toggle("present", !!on);
-      try{ localStorage.setItem(PREF_PRESENT, on ? "1" : "0"); }catch(_){}
-    }
-    $("presentToggle").addEventListener("change", (e)=>{
-      setPresent(e.target.checked);
+    $("logoutLink").addEventListener("click", (e)=>{
+      e.preventDefault();
+      clearSession();
+      openGate("Saliste. Escribe tu nombre para entrar.");
+      toast("Sesión cerrada.");
     });
 
-    /* ====== ENTER KEY ====== */
+    /* ====== Enter key ====== */
     document.addEventListener("keydown", (e)=>{
       if (e.key !== "Enter") return;
 
-      // si está en acceso
       if (!$("gate").classList.contains("hidden")){
         if (gateReady()) enterApp();
         return;
       }
 
-      // si está en calculadora
       if (!isReady()){
         setStatus(false, "Completa paneles y selecciona el % antes de calcular.");
         return;
@@ -744,38 +734,36 @@ Comisión: ${commText}`;
       calculate();
     });
 
-    /* ====== BOOT + reset por 10 min ====== */
+    /* ====== Timer + Expiración ====== */
+    function tickSession(){
+      const left = sessionRemainingMs();
+      $("sessionCountdown").textContent = formatMMSS(left);
+
+      if (!$("app").classList.contains("hidden") && left <= 0){
+        clearSession();
+        openGate("Sesión expirada. Escribe tu nombre otra vez.");
+        toast("Sesión expirada.");
+      }
+    }
+
+    /* ====== Boot ====== */
     (function boot(){
-      // cargar prefs (antes de mostrar)
       loadPrefs();
-      updateButton();
       resetOutputs();
+      updateButton();
 
-      // present mode persist
-      try{
-        const p = localStorage.getItem(PREF_PRESENT);
-        if (p === "1"){
-          $("presentToggle").checked = true;
-          setPresent(true);
-        }
-      }catch(_){}
-
-      // acceso temporal
-      if (!sessionValid()){
+      if (sessionValid()){
+        openApp();
+      }else{
         clearSession();
         openGate("Listo.");
-      }else{
-        openApp();
       }
 
-      // chequeo de expiración si dejan la página abierta
-      setInterval(()=>{
-        if (!$("app").classList.contains("hidden") && !sessionValid()){
-          clearSession();
-          openGate("Sesión expirada. Escribe tu nombre otra vez.");
-        }
-      }, 10000);
+      tickSession();
+      setInterval(tickSession, 1000);
     })();
   </script>
 </body>
 </html>
+
+Si quieres que quede nivel SaaS de verdad sin verse cargado, el siguiente paso pro sería: validar el # de paneles en vivo (cuando escriben 67, mostrar “rango válido: 22–66” debajo del input sin tocar el resto).
