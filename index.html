@@ -1,547 +1,573 @@
-<!doctype html>
+```html
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EPC & Comisión</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Comisiones</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <style>
-    :root{
-      --bg:#fff;
-      --text:#0b1220;
-      --muted:#5b6b83;
-      --line:#e6ecf3;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #ffffff;
+  color: #0b1b3a;
+  line-height: 1.6;
+}
 
-      --teal:#2b8a94;
-      --navy:#0b1b3a;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-      --green:#16a34a;
-      --red:#b42318;
+header {
+  text-align: center;
+  padding: 30px 0 20px;
+  border-bottom: 3px solid #F59E0B;
+  margin-bottom: 40px;
+}
 
-      /* ✅ detalles anaranjados (sutiles) */
-      --orange:#F59E0B;
-      --orangeSoft: rgba(245,158,11,.14);
-    }
+.logo-container {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background:var(--bg);
-      color:var(--text);
-    }
+.logo {
+  max-width: 250px;
+  max-height: 80px;
+  display: none;
+}
 
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 22px 16px 40px;
-    }
+.logo.loaded {
+  display: block;
+}
 
-    /* Header */
-    .top{
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding: 12px 0 14px;
-      border-bottom:1px solid var(--line);
-    }
+.gate-screen, .calculator-screen {
+  display: none;
+}
 
-    /* ✅ línea naranja sutil */
-    .top:after{
-      content:"";
-      position:absolute;
-      left:0; right:0;
-      bottom:-1px;
-      height:2px;
-      background: var(--orange);
-      opacity:.9;
-    }
+.gate-screen.active, .calculator-screen.active {
+  display: block;
+}
 
-    .logo{
-      height:40px;
-      width:auto;
-      display:block;
-      object-fit:contain;
-    }
+.card {
+  background: #ffffff;
+  border: 2px solid #e6ecf3;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(11, 27, 58, 0.08);
+}
 
-    /* Inputs */
-    .controls{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1.3fr .7fr .6fr auto;
-      gap:10px;
-      align-items:end;
-    }
+.card-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0b1b3a;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #F59E0B;
+}
 
-    label{
-      display:block;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:1.4px;
-      color:var(--muted);
-      margin-bottom:8px;
-      font-weight:900;
-    }
+.form-group {
+  margin-bottom: 25px;
+}
 
-    select,input{
-      width:100%;
-      padding: 12px 12px;
-      border:1px solid var(--line);
-      background:#fff;
-      color:var(--text);
-      outline:none;
-      font-size:14px;
-      font-weight:800;
-    }
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #0b1b3a;
+  margin-bottom: 8px;
+}
 
-    /* ✅ focus con toque naranja */
-    select:focus,input:focus{
-      border-color: rgba(43,138,148,.45);
-      box-shadow: 0 0 0 4px rgba(43,138,148,.10), 0 0 0 8px var(--orangeSoft);
-    }
+input, select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #e6ecf3;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #0b1b3a;
+  transition: all 0.3s ease;
+}
 
-    .btn{
-      height:42px;
-      padding: 0 14px;
-      border:1px solid rgba(245,158,11,.35); /* borde naranja sutil */
-      background: var(--navy);
-      color:#fff;
-      font-weight:900;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      font-size:12px;
-      cursor:pointer;
-      white-space:nowrap;
-      transition: transform .06s ease, box-shadow .15s ease;
-    }
+input:focus, select:focus {
+  outline: none;
+  border-color: #F59E0B;
+}
 
-    .btn:hover{
-      box-shadow: 0 10px 22px rgba(11,27,58,.10), 0 0 0 4px var(--orangeSoft);
-      transform: translateY(-1px);
-    }
+button {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  background: #0b1b3a;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(11, 27, 58, 0.2);
+}
 
-    .btn:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-      transform:none;
-      box-shadow:none;
-    }
+button:hover:not(:disabled) {
+  background: #162d5a;
+  box-shadow: 0 4px 12px rgba(11, 27, 58, 0.3);
+  transform: translateY(-1px);
+}
 
-    /* Results */
-    .results{
-      margin-top:18px;
-      padding-top:18px;
-      border-top:1px solid var(--line);
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:18px;
-      align-items:start;
-    }
+button:disabled {
+  background: #e6ecf3;
+  color: #a0a0a0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 
-    .big{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:1.6px;
-      color:var(--muted);
-      font-weight:1000;
-      margin-bottom:8px;
-      position:relative;
-      padding-bottom:8px;
-    }
+.results {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid #e6ecf3;
+  display: none;
+}
 
-    /* ✅ barrita naranja debajo del título */
-    .big:after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:0;
-      width:44px;
-      height:2px;
-      background: var(--orange);
-      opacity:.9;
-    }
+.results.visible {
+  display: block;
+}
 
-    .value{
-      font-size:34px;
-      font-weight:1000;
-      letter-spacing:.2px;
-      color:var(--text);
-    }
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #e6ecf3;
+}
 
-    .value.green{ color: var(--green); }
+.result-row:last-child {
+  border-bottom: none;
+}
 
-    .meta{
-      margin-top:14px;
-      display:flex;
-      gap:18px;
-      flex-wrap:wrap;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:800;
-    }
+.result-label {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #0b1b3a;
+}
 
-    .status{
-      margin-top:10px;
-      font-size:12px;
-      font-weight:800;
-      color:var(--muted);
-    }
-    .status.bad{ color: var(--red); }
+.result-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0b1b3a;
+}
 
-    @media (max-width: 900px){
-      .controls{ grid-template-columns: 1fr; }
-      .btn{ width:100%; }
-      .results{ grid-template-columns: 1fr; }
-    }
+.commission-highlight {
+  background: #16a34a;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
 
-    /* Acceso */
-    .gate{
-      margin-top:18px;
-      padding-top:18px;
-      border-top:1px solid var(--line);
-      display:grid;
-      gap:12px;
-      max-width:520px;
-    }
-    .gateTitle{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:1.6px;
-      color:var(--muted);
-      font-weight:1000;
-    }
-    .helper{
-      font-size:12px;
-      color:var(--muted);
-      font-weight:800;
-      margin-top:-6px;
-    }
+.commission-highlight .result-label {
+  color: #ffffff;
+  font-size: 16px;
+}
 
-    .hidden{ display:none !important; }
-  </style>
+.commission-highlight .result-value {
+  color: #ffffff;
+  font-size: 32px;
+}
+
+.status-message {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: none;
+}
+
+.status-message.visible {
+  display: block;
+}
+
+.status-message.error {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.status-message.info {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fde68a;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .card {
+    padding: 25px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+  }
+  
+  .result-value {
+    font-size: 18px;
+  }
+  
+  .commission-highlight .result-value {
+    font-size: 28px;
+  }
+}
+</style>
 </head>
-
 <body>
-  <div class="wrap">
-    <div class="top">
-      <img class="logo" src="Lightreach.png" alt="LightReach"
-           onerror="this.style.display='none'; document.getElementById('status').textContent='No encuentro el logo: Lightreach.png (case-sensitive)'; document.getElementById('status').classList.add('bad');">
+
+<div class="container">
+  <header>
+    <div class="logo-container">
+      <img id="logo" class="logo" alt="Logo">
     </div>
+  </header>
 
-    <!-- ✅ ACCESO (sesión temporal 10 min, sin contador visible) -->
-    <div id="gate" class="gate">
-      <div class="gateTitle">Acceso</div>
-      <div class="helper">Escribe tu nombre para entrar a la calculadora.</div>
-
-      <div>
-        <label>Nombre</label>
-        <input id="gateName" type="text" autocomplete="name" placeholder="Ej. Carlos Rivera" />
+  <div id="gateScreen" class="gate-screen active">
+    <div class="card">
+      <h1 class="card-title">Bienvenido</h1>
+      <div id="gateStatus" class="status-message"></div>
+      <div class="form-group">
+        <label for="userName">Nombre</label>
+        <input type="text" id="userName" placeholder="Escribe tu nombre">
       </div>
-
-      <button class="btn" id="enterBtn" disabled>Entrar</button>
-      <div class="status" id="gateStatus">Listo.</div>
-    </div>
-
-    <!-- ✅ CALCULADORA -->
-    <div id="app" class="hidden">
-      <div class="controls">
-        <div>
-          <label>Tabla EPC</label>
-          <select id="tableSelect">
-            <option value="TESLA_1PW3">Tesla · 1 PW3 Hybrid</option>
-            <option value="TESLA_2PW3">Tesla · 2 Baterías (PW3)</option>
-            <option value="ENPHASE_2x5P">Enphase · 2 - 5P DOM</option>
-            <option value="ENPHASE_3x5P">Enphase · 3 - 5P DOM</option>
-            <option value="ENPHASE_4x5P">Enphase · 4 - 5P DOM</option>
-          </select>
-        </div>
-
-        <div>
-          <label># Paneles</label>
-          <input id="panels" type="number" min="1" step="1" value="10" />
-        </div>
-
-        <div>
-          <label>% Contrato</label>
-          <select id="pct">
-            <option value="" selected disabled>Selecciona…</option>
-            <option value="6">6%</option>
-            <option value="10">10%</option>
-            <option value="12">12%</option>
-            <option value="13">13%</option>
-            <option value="14">14%</option>
-            <option value="15">15%</option>
-          </select>
-        </div>
-
-        <button class="btn" id="calcBtn" disabled>Calcular</button>
-      </div>
-
-      <div class="results">
-        <div>
-          <div class="big">Precio</div>
-          <div class="value" id="outPrice">—</div>
-        </div>
-
-        <div>
-          <div class="big">Comisión</div>
-          <div class="value green" id="outCommission">—</div>
-        </div>
-      </div>
-
-      <div class="meta" id="outMeta">
-        <span>Watts: —</span>
-        <span>kW: —</span>
-        <span>EPC: —</span>
-      </div>
-
-      <div class="status" id="status">Listo. Selecciona tu % y presiona “Calcular”.</div>
+      <button id="enterBtn" disabled>Entrar</button>
     </div>
   </div>
 
-  <script>
-    const WATTS_PER_PANEL = 410;
-    const SESSION_MS = 10 * 60 * 1000; // ✅ 10 minutos
+  <div id="calculatorScreen" class="calculator-screen">
+    <div class="card">
+      <h1 class="card-title">Calculadora de Comisiones</h1>
+      <div id="calcStatus" class="status-message"></div>
+      
+      <div class="form-group">
+        <label for="epcTable">Tabla EPC</label>
+        <select id="epcTable">
+          <option value="">Selecciona una opción</option>
+          <option value="TESLA_1PW3">Tesla · 1 PW3 Hybrid</option>
+          <option value="TESLA_2PW3">Tesla · 2 Baterías (PW3)</option>
+          <option value="ENPHASE_2x5P">Enphase · 2 - 5P DOM</option>
+          <option value="ENPHASE_3x5P">Enphase · 3 - 5P DOM</option>
+          <option value="ENPHASE_4x5P">Enphase · 4 - 5P DOM</option>
+        </select>
+      </div>
 
-    const EPC_TABLES = {
-      TESLA_1PW3: {
-        10: 5.15, 11: 5.15, 12: 4.94, 13: 4.75, 14: 4.58, 15: 4.43,
-        16: 4.31, 17: 4.19, 18: 4.09, 19: 4.00, 20: 3.92, 21: 3.85,
-        22: 3.79, 23: 3.73, 24: 3.67, 25: 3.62, 26: 3.57, 27: 3.53,
-        28: 3.49, 29: 3.45, 30: 3.42, 31: 3.38, 32: 3.35, 33: 3.32
-      },
+      <div class="form-group">
+        <label for="panelCount">Número de Paneles</label>
+        <input type="number" id="panelCount" min="1" step="1" placeholder="Ej: 20">
+      </div>
 
-      TESLA_2PW3: {
-        22: 5.01, 23: 4.89, 24: 4.79, 25: 4.69, 26: 4.60, 27: 4.52,
-        28: 4.45, 29: 4.38, 30: 4.31, 31: 4.25, 32: 4.19, 33: 4.14,
-        34: 4.09, 35: 4.04, 36: 3.99, 37: 3.95, 38: 3.91, 39: 3.87,
-        40: 3.83, 41: 3.80, 42: 3.76, 43: 3.73, 44: 3.70, 45: 3.67,
-        46: 3.65, 47: 3.62, 48: 3.59, 49: 3.57, 50: 3.55, 51: 3.52,
-        52: 3.50, 53: 3.48, 54: 3.46, 55: 3.44, 56: 3.42, 57: 3.41,
-        58: 3.39, 59: 3.37, 60: 3.36, 61: 3.34, 62: 3.32, 63: 3.31,
-        64: 3.30, 65: 3.28, 66: 3.27
-      },
+      <div class="form-group">
+        <label for="contractPercent">Porcentaje de Contrato</label>
+        <select id="contractPercent">
+          <option value="">Selecciona un porcentaje</option>
+          <option value="6">6%</option>
+          <option value="10">10%</option>
+          <option value="12">12%</option>
+          <option value="13">13%</option>
+          <option value="14">14%</option>
+          <option value="15">15%</option>
+        </select>
+      </div>
 
-      ENPHASE_2x5P: { 10: 4.96, 11: 4.84, 12: 4.64, 13: 4.46, 14: 4.32, 15: 4.19 },
+      <button id="calculateBtn" disabled>Calcular</button>
 
-      ENPHASE_3x5P: {
-        13: 4.75, 14: 4.56, 15: 4.43, 16: 4.31, 17: 4.19, 18: 4.09,
-        19: 4.00, 20: 3.92, 21: 3.85, 22: 3.79, 23: 3.73, 24: 3.67,
-        25: 3.62, 26: 3.57, 27: 3.53, 28: 3.49, 29: 3.45, 30: 3.42,
-        31: 3.38, 32: 3.35, 33: 3.32, 34: 3.30, 35: 3.27, 36: 3.25,
-        37: 3.22, 38: 3.20, 39: 3.18, 40: 3.16
-      },
+      <div id="results" class="results">
+        <div class="result-row">
+          <span class="result-label">Total Watts</span>
+          <span class="result-value" id="totalWatts">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">kW</span>
+          <span class="result-value" id="totalKw">-</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Precio</span>
+          <span class="result-value" id="totalPrice">-</span>
+        </div>
+        <div class="commission-highlight">
+          <div class="result-row">
+            <span class="result-label">Tu Comisión</span>
+            <span class="result-value" id="totalCommission">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-      ENPHASE_4x5P: {
-        22: 4.28, 23: 4.20, 24: 4.13, 25: 4.06, 26: 3.99, 27: 3.94,
-        28: 3.88, 29: 3.83, 30: 3.78, 31: 3.74, 32: 3.70, 33: 3.66,
-        34: 3.62, 35: 3.58, 36: 3.55, 37: 3.52, 38: 3.49, 39: 3.46,
-        40: 3.44, 41: 3.41, 42: 3.39, 43: 3.36, 44: 3.34, 45: 3.32,
-        46: 3.30, 47: 3.28, 48: 3.26, 49: 3.25, 50: 3.23, 51: 3.21,
-        52: 3.20, 53: 3.18, 54: 3.17, 55: 3.15, 56: 3.14, 57: 3.13,
-        58: 3.11, 59: 3.10, 60: 3.09, 61: 3.08, 62: 3.07, 63: 3.06,
-        64: 3.05
-      }
+<script>
+const EPC_TABLES = {
+  TESLA_1PW3: {
+    10:5.15, 11:5.15, 12:4.94, 13:4.75, 14:4.58, 15:4.43,
+    16:4.31, 17:4.19, 18:4.09, 19:4.00, 20:3.92,
+    21:3.85, 22:3.79, 23:3.73, 24:3.67, 25:3.62,
+    26:3.57, 27:3.53, 28:3.49, 29:3.45, 30:3.42,
+    31:3.38, 32:3.35, 33:3.32
+  },
+  TESLA_2PW3: {
+    22:5.01, 23:4.89, 24:4.79, 25:4.69, 26:4.60,
+    27:4.52, 28:4.45, 29:4.38, 30:4.31, 31:4.25,
+    32:4.19, 33:4.14, 34:4.09, 35:4.04, 36:3.99,
+    37:3.95, 38:3.91, 39:3.87, 40:3.83, 41:3.80,
+    42:3.76, 43:3.73, 44:3.70, 45:3.67, 46:3.65,
+    47:3.62, 48:3.59, 49:3.57, 50:3.55, 51:3.52,
+    52:3.50, 53:3.48, 54:3.46, 55:3.44, 56:3.42,
+    57:3.41, 58:3.39, 59:3.37, 60:3.36, 61:3.34,
+    62:3.32, 63:3.31, 64:3.30, 65:3.28, 66:3.27
+  },
+  ENPHASE_2x5P: {
+    10:4.96, 11:4.84, 12:4.64, 13:4.46, 14:4.32, 15:4.19
+  },
+  ENPHASE_3x5P: {
+    13:4.75, 14:4.56, 15:4.43, 16:4.31, 17:4.19,
+    18:4.09, 19:4.00, 20:3.92, 21:3.85, 22:3.79,
+    23:3.73, 24:3.67, 25:3.62, 26:3.57, 27:3.53,
+    28:3.49, 29:3.45, 30:3.42, 31:3.38, 32:3.35,
+    33:3.32, 34:3.30, 35:3.27, 36:3.25, 37:3.22,
+    38:3.20, 39:3.18, 40:3.16
+  },
+  ENPHASE_4x5P: {
+    22:4.28, 23:4.20, 24:4.13, 25:4.06, 26:3.99,
+    27:3.94, 28:3.88, 29:3.83, 30:3.78, 31:3.74,
+    32:3.70, 33:3.66, 34:3.62, 35:3.58, 36:3.55,
+    37:3.52, 38:3.49, 39:3.46, 40:3.44, 41:3.41,
+    42:3.39, 43:3.36, 44:3.34, 45:3.32, 46:3.30,
+    47:3.28, 48:3.26, 49:3.25, 50:3.23, 51:3.21,
+    52:3.20, 53:3.18, 54:3.17, 55:3.15, 56:3.14,
+    57:3.13, 58:3.11, 59:3.10, 60:3.09, 61:3.08,
+    62:3.07, 63:3.06, 64:3.05
+  }
+};
+
+const LOGOS = ['palmetto.png', 'Lightreach.png'];
+const SESSION_DURATION = 10 * 60 * 1000;
+
+let sessionCheckInterval = null;
+
+function loadLogo() {
+  const logoEl = document.getElementById('logo');
+  const statusEl = document.getElementById('gateStatus');
+  
+  let currentIndex = 0;
+  
+  function tryNextLogo() {
+    if (currentIndex >= LOGOS.length) {
+      showStatus(statusEl, 'No se encontró el logo', 'info');
+      return;
+    }
+    
+    const img = new Image();
+    img.onload = function() {
+      logoEl.src = LOGOS[currentIndex];
+      logoEl.classList.add('loaded');
     };
-
-    const $ = (id) => document.getElementById(id);
-
-    const money = (n) => {
-      if (!isFinite(n)) return "—";
-      return new Intl.NumberFormat("en-US", {
-        style:"currency", currency:"USD", maximumFractionDigits:2
-      }).format(n);
+    img.onerror = function() {
+      currentIndex++;
+      tryNextLogo();
     };
+    img.src = LOGOS[currentIndex];
+  }
+  
+  tryNextLogo();
+}
 
-    const num = (n, d=2) => {
-      if (!isFinite(n)) return "—";
-      return new Intl.NumberFormat("en-US", { maximumFractionDigits:d }).format(n);
+function showStatus(element, message, type) {
+  element.textContent = message;
+  element.className = 'status-message visible ' + type;
+}
+
+function hideStatus(element) {
+  element.className = 'status-message';
+}
+
+function checkSession() {
+  const session = localStorage.getItem('userSession');
+  if (!session) return false;
+  
+  try {
+    const data = JSON.parse(session);
+    const now = Date.now();
+    if (now - data.timestamp > SESSION_DURATION) {
+      clearSession();
+      return false;
+    }
+    return true;
+  } catch (e) {
+    clearSession();
+    return false;
+  }
+}
+
+function clearSession() {
+  localStorage.removeItem('userSession');
+  if (sessionCheckInterval) {
+    clearInterval(sessionCheckInterval);
+    sessionCheckInterval = null;
+  }
+}
+
+function startSessionCheck() {
+  if (sessionCheckInterval) {
+    clearInterval(sessionCheckInterval);
+  }
+  
+  sessionCheckInterval = setInterval(() => {
+    if (!checkSession()) {
+      showGateScreen();
+      const gateStatus = document.getElementById('gateStatus');
+      showStatus(gateStatus, 'Sesión expirada. Escribe tu nombre otra vez.', 'info');
+    }
+  }, 10000);
+}
+
+function showGateScreen() {
+  document.getElementById('gateScreen').classList.add('active');
+  document.getElementById('calculatorScreen').classList.remove('active');
+  document.getElementById('userName').value = '';
+  document.getElementById('enterBtn').disabled = true;
+  hideStatus(document.getElementById('gateStatus'));
+}
+
+function showCalculatorScreen() {
+  document.getElementById('gateScreen').classList.remove('active');
+  document.getElementById('calculatorScreen').classList.add('active');
+  startSessionCheck();
+}
+
+function validateGateInput() {
+  const name = document.getElementById('userName').value.trim();
+  document.getElementById('enterBtn').disabled = name.length < 2;
+}
+
+function handleGateSubmit() {
+  const name = document.getElementById('userName').value.trim();
+  if (name.length >= 2) {
+    const session = {
+      name: name,
+      timestamp: Date.now()
     };
+    localStorage.setItem('userSession', JSON.stringify(session));
+    showCalculatorScreen();
+  }
+}
 
-    function setStatus(ok, msg){
-      const el = $("status");
-      if (!el) return;
-      el.textContent = msg;
-      el.classList.toggle("bad", !ok);
+function validateCalculatorInputs() {
+  const epcTable = document.getElementById('epcTable').value;
+  const panelCount = document.getElementById('panelCount').value;
+  const contractPercent = document.getElementById('contractPercent').value;
+  
+  const isValid = epcTable !== '' && 
+                  panelCount !== '' && 
+                  parseInt(panelCount) >= 1 &&
+                  contractPercent !== '';
+  
+  document.getElementById('calculateBtn').disabled = !isValid;
+}
+
+function formatCurrency(value) {
+  return '$' + value.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function calculate() {
+  const epcTableKey = document.getElementById('epcTable').value;
+  const panelCount = parseInt(document.getElementById('panelCount').value);
+  const contractPercent = parseFloat(document.getElementById('contractPercent').value);
+  const statusEl = document.getElementById('calcStatus');
+  
+  hideStatus(statusEl);
+  
+  const epcTable = EPC_TABLES[epcTableKey];
+  if (!epcTable[panelCount]) {
+    showStatus(statusEl, `El número de paneles ${panelCount} no está disponible en la tabla EPC seleccionada.`, 'error');
+    document.getElementById('results').classList.remove('visible');
+    return;
+  }
+  
+  const epcValue = epcTable[panelCount];
+  const totalWatts = panelCount * 410;
+  const totalKw = totalWatts / 1000;
+  const price = totalWatts * epcValue;
+  const commission = price * (contractPercent / 100);
+  
+  document.getElementById('totalWatts').textContent = totalWatts.toLocaleString('en-US') + ' W';
+  document.getElementById('totalKw').textContent = totalKw.toFixed(2) + ' kW';
+  document.getElementById('totalPrice').textContent = formatCurrency(price);
+  document.getElementById('totalCommission').textContent = formatCurrency(commission);
+  
+  document.getElementById('results').classList.add('visible');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadLogo();
+  
+  if (checkSession()) {
+    showCalculatorScreen();
+  } else {
+    showGateScreen();
+  }
+  
+  document.getElementById('userName').addEventListener('input', validateGateInput);
+  document.getElementById('userName').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      handleGateSubmit();
     }
-
-    /* ====== sesión temporal (silenciosa) ====== */
-    function saveSession(name){
-      try{
-        localStorage.setItem("lr_name", name);
-        localStorage.setItem("lr_ts", String(Date.now()));
-      }catch(_){}
-    }
-
-    function clearSession(){
-      try{
-        localStorage.removeItem("lr_name");
-        localStorage.removeItem("lr_ts");
-      }catch(_){}
-    }
-
-    function sessionValid(){
-      try{
-        const name = (localStorage.getItem("lr_name") || "").trim();
-        const ts = parseInt(localStorage.getItem("lr_ts") || "0", 10);
-        if (!name || !ts) return false;
-        return (Date.now() - ts) <= SESSION_MS;
-      }catch(_){
-        return false;
-      }
-    }
-
-    function openGate(msg="Listo."){
-      $("app").classList.add("hidden");
-      $("gate").classList.remove("hidden");
-      $("gateName").value = "";
-      $("enterBtn").disabled = true;
-      $("gateStatus").textContent = msg;
-    }
-
-    function openApp(){
-      $("gate").classList.add("hidden");
-      $("app").classList.remove("hidden");
-      updateButton();
-      setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
-    }
-
-    /* ====== gate ====== */
-    function gateReady(){
-      const name = ($("gateName").value || "").trim();
-      return name.length >= 2;
-    }
-
-    function updateGate(){
-      $("enterBtn").disabled = !gateReady();
-    }
-
-    function enterApp(){
-      const name = ($("gateName").value || "").trim();
-      if (!name){
-        $("gateStatus").textContent = "Escribe tu nombre.";
-        return;
-      }
-      saveSession(name);
-      openApp();
-    }
-
-    $("gateName").addEventListener("input", updateGate);
-    $("enterBtn").addEventListener("click", (e)=>{ e.preventDefault(); enterApp(); });
-
-    /* ====== calc ====== */
-    function isReady(){
-      const panels = parseInt($("panels").value || "0", 10);
-      const pct = $("pct").value;
-      const tableKey = $("tableSelect").value;
-
-      if (!tableKey) return false;
-      if (!panels || panels <= 0) return false;
-      if (!pct) return false;
-      return true;
-    }
-
-    function updateButton(){
-      $("calcBtn").disabled = !isReady();
-    }
-
-    function calculate(){
-      const tableKey = $("tableSelect").value;
-      const panels = parseInt($("panels").value || "0", 10);
-      const pct = parseFloat($("pct").value || "0");
-
-      if (!panels || panels <= 0){
-        $("outPrice").textContent = "—";
-        $("outCommission").textContent = "—";
-        $("outMeta").innerHTML = `<span>Watts: —</span><span>kW: —</span><span>EPC: —</span>`;
-        setStatus(false, "Pon una cantidad válida de paneles.");
-        return;
-      }
-
-      if (!$("pct").value){
-        setStatus(false, "Selecciona el % de contrato para calcular.");
-        return;
-      }
-
-      const epc = (EPC_TABLES[tableKey] || {})[panels];
-      const watts = WATTS_PER_PANEL * panels;
-      const kw = watts / 1000;
-
-      if (!epc){
-        $("outPrice").textContent = "—";
-        $("outCommission").textContent = "—";
-        $("outMeta").innerHTML =
-          `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: —</span>`;
-        setStatus(false, `Ese # de paneles (${panels}) no existe en la tabla seleccionada.`);
-        return;
-      }
-
-      const price = watts * epc;
-      const commission = price * (pct / 100);
-
-      $("outPrice").textContent = money(price);
-      $("outCommission").textContent = money(commission);
-      $("outMeta").innerHTML =
-        `<span>Watts: ${num(watts,0)}</span><span>kW: ${num(kw,2)}</span><span>EPC: $${num(epc,2)}/W</span>`;
-
-      setStatus(true, "Cálculo listo.");
-    }
-
-    // ✅ SOLO calcula cuando le das click
-    $("calcBtn").addEventListener("click", (e) => {
-      e.preventDefault();
-      if (!isReady()){
-        setStatus(false, "Completa paneles y selecciona el % antes de calcular.");
-        return;
-      }
+  });
+  
+  document.getElementById('enterBtn').addEventListener('click', handleGateSubmit);
+  
+  document.getElementById('epcTable').addEventListener('change', validateCalculatorInputs);
+  document.getElementById('panelCount').addEventListener('input', validateCalculatorInputs);
+  document.getElementById('contractPercent').addEventListener('change', validateCalculatorInputs);
+  
+  document.getElementById('calculateBtn').addEventListener('click', calculate);
+  
+  document.getElementById('panelCount').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !document.getElementById('calculateBtn').disabled) {
       calculate();
-    });
-
-    // ✅ habilitar botón cuando todo esté listo
-    ["input","change"].forEach(evt=>{
-      $("panels").addEventListener(evt, updateButton);
-      $("pct").addEventListener(evt, updateButton);
-      $("tableSelect").addEventListener(evt, updateButton);
-    });
-
-    // ✅ ENTER: login o calcular
-    document.addEventListener("keydown", (e)=>{
-      if (e.key !== "Enter") return;
-
-      if (!$("gate").classList.contains("hidden")){
-        if (gateReady()) enterApp();
-        return;
-      }
-
-      if (!isReady()){
-        setStatus(false, "Completa paneles y selecciona el % antes de calcular.");
-        return;
-      }
+    }
+  });
+  
+  document.getElementById('epcTable').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !document.getElementById('calculateBtn').disabled) {
       calculate();
-    });
+    }
+  });
+  
+  document.getElementById('contractPercent').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !document.getElementById('calculateBtn').disabled) {
+      calculate();
+    }
+  });
+});
+</script>
 
-    /* ====== BOOT + EXPIRACIÓN SILENCIOSA ====== */
-    (function boot(){
-      if (!sessionValid()){
-        clearSession();
-        openGate("Listo.");
-      }else{
-        openApp();
-      }
-
-      // ✅ chequeo silencioso cada 10s
-      setInterval(()=>{
-        if (!$("app").classList.contains("hidden") && !sessionValid()){
-          clearSession();
-          openGate("Sesión expirada. Escribe tu nombre otra vez.");
-        }
-      }, 10000);
-
-      setStatus(true, "Listo. Selecciona tu % y presiona “Calcular”.");
-      updateButton();
-    })();
-  </script>
 </body>
 </html>
+```
