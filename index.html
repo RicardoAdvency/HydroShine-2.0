@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -435,7 +434,7 @@ function startSessionCheck() {
     clearInterval(sessionCheckInterval);
   }
   
-  sessionCheckInterval = setInterval(() => {
+  sessionCheckInterval = setInterval(function() {
     if (!checkSession()) {
       showGateScreen();
       const gateStatus = document.getElementById('gateStatus');
@@ -505,7 +504,7 @@ function calculate() {
   
   const epcTable = EPC_TABLES[epcTableKey];
   if (!epcTable[panelCount]) {
-    showStatus(statusEl, `El número de paneles ${panelCount} no está disponible en la tabla EPC seleccionada.`, 'error');
+    showStatus(statusEl, 'El número de paneles ' + panelCount + ' no está disponible en la tabla EPC seleccionada.', 'error');
     document.getElementById('results').classList.remove('visible');
     return;
   }
@@ -570,4 +569,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
-```
